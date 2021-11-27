@@ -3,6 +3,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   value?: string
   icon?: any
   validationMessage?: string
+  widthFull?: boolean
 }
 
 function Input({
@@ -14,7 +15,8 @@ function Input({
   onChange,
   icon,
   id,
-  validationMessage
+  validationMessage,
+  widthFull
 }: InputProps) {
   return (
     <>
@@ -23,7 +25,7 @@ function Input({
         className="text-primary font-primary font-semibold uppercase text-xs cursor-pointer"
       >
         {text}
-        <div className="flex items-center">
+        <div className="flex items-center relative">
           <input
             type={type}
             value={value}
@@ -31,21 +33,26 @@ function Input({
             placeholder={placeholder}
             required={required}
             id={id}
-            className="
-        font-primary text-primary text-base
-        rounded-sm shadow-lg
-        p-2
-        block
-        focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent focus:p-1
-        placeholder-text-xs
-        "
+            className={`
+              font-primary text-primary text-base
+              rounded-sm shadow-lg
+              p-2
+              block border border-primary
+              focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent focus:p-1
+              placeholder-text-xs
+              ${widthFull && 'w-full'}
+            `}
           />
-          <span className="text-lg relative right-6 opacity-60">{icon}</span>
+          <span className="text-lg absolute right-2 opacity-60 z-10">
+            {icon}
+          </span>
         </div>
       </label>
-      <span className="text-primary text-sm relative top-2">
-        {validationMessage}
-      </span>
+      {validationMessage && (
+        <span className="text-primary text-sm relative top-2">
+          {validationMessage}
+        </span>
+      )}
     </>
   )
 }

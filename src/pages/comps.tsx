@@ -8,7 +8,7 @@ interface FormData {
   password: string
 }
 
-function Home() {
+function Comps() {
   const [formData, setFormData] = useState<FormData>({
     name: '',
     password: ''
@@ -20,7 +20,7 @@ function Home() {
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { id, value } = e.target
-    setFormData({ ...formData, [id]: value });
+    setFormData({ ...formData, [id]: value })
     console.log(formData)
   }
 
@@ -62,9 +62,8 @@ function Home() {
         icon={<MdLockOutline />}
         id="password"
       />
-
     </main>
   )
 }
 
-export default Home
+export default Comps
