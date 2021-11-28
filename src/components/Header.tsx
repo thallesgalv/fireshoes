@@ -7,11 +7,14 @@ import {
   MdOutlineShoppingCart,
   MdSearch,
   MdMenu,
-  MdClose
+  MdClose,
+  MdPerson
 } from 'react-icons/md'
+import { useAuthContext } from '../contexts/AuthContext'
 
 function Header() {
   const { isMobile, menuActive, setMenuActive } = useGlobalContext()
+  const { user } = useAuthContext()
 
   function handleMenu() {
     isMobile && setMenuActive(!menuActive)
@@ -75,7 +78,16 @@ function Header() {
             <li className="md:hidden">
               <Link href="login">
                 <div onClick={handleMenu}>
-                  <Button primary text={`Fazer Login`} icon={<MdLogin />} />
+                  {user ? (
+                    <Button
+                      primary
+                      text={`${user?.name}`}
+                      icon={!user?.photo && <MdPerson />}
+                      userPhoto={`${user?.photo}`}
+                    />
+                  ) : (
+                    <Button primary text={`Fazer Login`} icon={<MdLogin />} />
+                  )}
                 </div>
               </Link>
             </li>
@@ -97,7 +109,16 @@ function Header() {
           <div className="hidden md:block">
             <Link href="login">
               <div>
-                <Button primary text={`Fazer Login`} icon={<MdLogin />} />
+                {user ? (
+                  <Button
+                    primary
+                    text={`${user?.name}`}
+                    icon={!user?.photo && <MdPerson />}
+                    userPhoto={`${user?.photo}`}
+                  />
+                ) : (
+                  <Button primary text={`Fazer Login`} icon={<MdLogin />} />
+                )}
               </div>
             </Link>
           </div>

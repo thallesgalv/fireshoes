@@ -9,10 +9,12 @@ import Button from '../components/Button'
 import Main from '../components/Main'
 import Modal from '../components/Modal'
 import { MdLockOutline } from 'react-icons/md'
+import { useAuthContext } from '../contexts/AuthContext'
 
 const Login: NextPage = () => {
   const [modalActive, setModalActive] = useState(false)
   const { isMobile } = useGlobalContext()
+  const { user, signInWithGoogle } = useAuthContext()
 
   return (
     <>
@@ -47,7 +49,12 @@ const Login: NextPage = () => {
             />
             <div className="flex justify-between flex-wrap">
               <Button primary text="Confirmar" />
-              <Button secondary text="Entrar com o Google" google />
+              <Button
+                secondary
+                text="Entrar com o Google"
+                google
+                onClick={signInWithGoogle}
+              />
               <p className="flex-grow mt-4 text-xs">
                 Esqueceu a senha? Clique{' '}
                 <span className="text-primary font-semibold cursor-pointer">

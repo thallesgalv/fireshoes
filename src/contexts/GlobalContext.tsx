@@ -7,15 +7,13 @@ interface GlobalContextProps {
   setMenuActive: (bool: boolean) => void
 }
 
-interface GlobalCOntextProviderProps {
+interface GlobalContextProviderProps {
   children: ReactNode
 }
 
-export const GlobalContext = createContext({} as GlobalContextProps)
+const GlobalContext = createContext({} as GlobalContextProps)
 
-export function GlobalContextProvider({
-  children
-}: GlobalCOntextProviderProps) {
+export function GlobalContextProvider({ children }: GlobalContextProviderProps) {
   const isMobile = useMedia('(max-width: 768px)')
   const [menuActive, setMenuActive] = useState(false)
 

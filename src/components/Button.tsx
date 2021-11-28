@@ -7,6 +7,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: any
   google?: boolean
   widthFull?: boolean
+  userPhoto?: string | null
 }
 
 function Button({
@@ -17,21 +18,19 @@ function Button({
   disabled,
   icon,
   google,
-  widthFull
+  widthFull,
+  userPhoto
 }: ButtonProps) {
   return (
     <button
       className={`
-        ${
-          primary &&
-          'bg-primary border-1 border-primary text-white'
-        }
-        ${
-          secondary &&
-          'bg-transparent text-primary'
-        }
+        ${primary && 'bg-primary border-1 border-primary text-white'}
+        ${secondary && 'bg-transparent text-primary'}
         ${disabled && 'pointer-events-none opacity-50'}
-        ${(icon || google) && 'flex justify-center items-center gap-1'}
+        ${
+          (icon || google || userPhoto) &&
+          'flex justify-center items-center gap-1'
+        }
         ${widthFull && 'w-full'}
         ring-2 ring-primary border-transparent
         font-semibold text-xs font-primary uppercase
@@ -42,6 +41,13 @@ function Button({
       onClick={onClick}
     >
       {google && <FaGoogle />}
+      {userPhoto && (
+        <img
+          src={userPhoto}
+          alt="Foto do usuário"
+          className="rounded-full h-8 w-8"
+        />
+      )}
       {text}
       <div className="text-lg">{icon}</div>
     </button>
