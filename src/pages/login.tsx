@@ -11,10 +11,32 @@ import Modal from '../components/Modal'
 import { MdLockOutline } from 'react-icons/md'
 import { useAuthContext } from '../contexts/AuthContext'
 
+interface CreatedUserProps {
+  name: string
+  email: string
+  cpf: string
+  birthDate: string
+  password: string
+}
+
+const mockup = {
+  name: 'Jose',
+  email: 'jose123@gmail.com',
+  cpf: '924.128.310-68',
+  birthDate: '06/12/1993',
+  password: 'qwerty'
+}
+
 const Login: NextPage = () => {
-  const [modalActive, setModalActive] = useState(false)
   const { isMobile } = useGlobalContext()
   const { user, signInWithGoogle } = useAuthContext()
+  const [modalActive, setModalActive] = useState(false)
+  const [createdUser, setCreatedUser] = useState<CreatedUserProps>(mockup)
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const { id, value } = e.target
+    setCreatedUser({ ...createdUser, [id]: value })
+  }
 
   return (
     <>
@@ -87,6 +109,8 @@ const Login: NextPage = () => {
             id="createUserName"
             required
             widthFull
+            value={createdUser.name}
+            onChange={handleChange}
           />
           <Input
             text="E-mail:"
@@ -94,6 +118,8 @@ const Login: NextPage = () => {
             id="createUserEmail"
             required
             widthFull
+            value={createdUser.email}
+            onChange={handleChange}
           />
           <Input
             text="CPF:"
@@ -102,6 +128,8 @@ const Login: NextPage = () => {
             placeholder="999.999.999-99"
             required
             widthFull
+            value={createdUser.cpf}
+            onChange={handleChange}
           />
           <Input
             text="Data de Nascimento:"
@@ -110,6 +138,8 @@ const Login: NextPage = () => {
             placeholder="DD/MM/AAAA"
             required
             widthFull
+            value={createdUser.birthDate}
+            onChange={handleChange}
           />
           <Input
             text="Senha:"
@@ -118,9 +148,16 @@ const Login: NextPage = () => {
             icon={<MdLockOutline />}
             required
             widthFull
+            value={createdUser.password}
+            onChange={handleChange}
           />
           <div className="flex justify-between flex-wrap gap-4 flex-1">
-            <Button secondary text="Criar conta agora" widthFull={isMobile} />
+            <Button
+              secondary
+              text="Criar conta agora"
+              widthFull={isMobile}
+              onClick={() => console.log(createdUser)}
+            />
             <Button primary text="Continuar cadastro" widthFull={isMobile} />
           </div>
         </form>
