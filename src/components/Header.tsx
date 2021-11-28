@@ -8,12 +8,10 @@ import {
   MdClose
 } from 'react-icons/md'
 import Link from 'next/link'
-import { useState } from 'react'
-import useMedia from '../hooks/useMedia'
+import { useGlobalContext } from '../contexts/GlobalContext'
 
 function Header() {
-  const [menuActive, setMenuActive] = useState(false)
-  const isMobile = useMedia('(max-width: 768px)')
+  const { isMobile, menuActive, setMenuActive } = useGlobalContext()
 
   function handleMenu() {
     isMobile && setMenuActive(!menuActive)
@@ -46,7 +44,7 @@ function Header() {
             className={`
             ${
               menuActive &&
-              'flex absolute top-16 left-0 h-screen w-screen gap-8 flex-col items-center pt-24 text-4xl bg-white'
+              'flex absolute z10 top-16 left-0 h-screen w-screen gap-8 flex-col items-center pt-24 text-4xl bg-white'
             }
             ${menuActive || 'hidden'}
             lg:flex gap-4
@@ -76,7 +74,7 @@ function Header() {
             </li>
             <li className="md:hidden">
               <Link href="login">
-                <div>
+                <div onClick={handleMenu}>
                   <Button primary text={`Fazer Login`} icon={<MdLogin />} />
                 </div>
               </Link>

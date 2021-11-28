@@ -1,5 +1,3 @@
-import { ReactNode } from 'react'
-
 interface HeadingProps {
   text: string
   center?: boolean

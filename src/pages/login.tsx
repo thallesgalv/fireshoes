@@ -20,6 +20,7 @@ const Login: NextPage = () => {
         <section>
           <Heading text="Login" center />
           <form
+            onSubmit={(e) => e.preventDefault()}
             className="m-auto flex flex-col gap-8"
             style={{ width: 'calc(min(90%, 20rem))' }}
           >
@@ -43,7 +44,7 @@ const Login: NextPage = () => {
             </div>
           </form>
         </section>
-        <section className="mt-16">
+        <section className="mt-14">
           <Heading text="Criar Conta" center />
           <div className="flex justify-center w-full mt-6">
             <Button primary text="Criar agora" />

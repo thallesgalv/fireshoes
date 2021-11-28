@@ -8,8 +8,6 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   google?: boolean
 }
 
-interface Icon {}
-
 function Button({
   text,
   primary,
