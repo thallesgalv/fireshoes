@@ -1,7 +1,8 @@
 import {
   GoogleAuthProvider,
   onAuthStateChanged,
-  signInWithPopup
+  signInWithPopup,
+  getAuth
 } from 'firebase/auth'
 import {
   createContext,
@@ -10,10 +11,13 @@ import {
   useState,
   useEffect
 } from 'react'
-import { auth } from '../services/firebase'
+
+import { app } from '../services/firebase'
+
+const auth = getAuth(app)
 
 interface AuthContextProps {
-  user: User
+  user: User | undefined
   signInWithGoogle: () => void
 }
 
@@ -30,7 +34,7 @@ interface AuthContextProviderProps {
 const AuthContext = createContext({} as AuthContextProps)
 
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
-  const [user, setUser] = useState({} as User)
+  const [user, setUser] = useState<User>()
 
   async function signInWithGoogle() {
     const provider = new GoogleAuthProvider()

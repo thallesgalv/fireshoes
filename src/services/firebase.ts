@@ -1,14 +1,12 @@
 import { initializeApp } from 'firebase/app'
-import { getAuth } from 'firebase/auth'
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyBIvZzB2x6g60F62hZVuDqQlQ-nCKtBELg',
-  authDomain: 'fireshoes-97b04.firebaseapp.com',
-  projectId: 'fireshoes-97b04',
-  storageBucket: 'fireshoes-97b04.appspot.com',
-  messagingSenderId: '151897863485',
-  appId: '1:151897863485:web:9b5bb62764831a3aa18154'
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGE_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
 }
 
-const app = initializeApp(firebaseConfig)
-export const auth = getAuth(app)
+export const app = initializeApp(firebaseConfig)
