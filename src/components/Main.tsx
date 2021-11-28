@@ -1,6 +1,5 @@
 import { ReactNode } from 'react'
 import { useGlobalContext } from '../contexts/GlobalContext'
-import useMedia from '../hooks/useMedia'
 
 interface MainProps {
   children: ReactNode

@@ -33,6 +33,7 @@ function Input({
             placeholder={placeholder}
             required={required}
             id={id}
+            name={id}
             className={`
               font-primary text-primary text-base
               rounded-sm shadow-lg

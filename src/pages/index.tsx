@@ -14,8 +14,13 @@ const Index: NextPage = () => {
       </Head>
       <Header />
       <Main>
-        <Heading text="Home" />
-        <p>Essa é a home</p>
+        <div
+          className="m-auto"
+          style={{ width: 'calc(min(90%, 20rem))' }}
+        >
+          <Heading text="Home" />
+          <p>Essa é a home</p>
+        </div>
       </Main>
     </>
   )

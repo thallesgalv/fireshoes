@@ -6,6 +6,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   secondary?: boolean
   icon?: any
   google?: boolean
+  widthFull?: boolean
 }
 
 function Button({
@@ -15,26 +16,27 @@ function Button({
   onClick,
   disabled,
   icon,
-  google
+  google,
+  widthFull
 }: ButtonProps) {
   return (
     <button
       className={`
         ${
           primary &&
-          'bg-primary border-1 border-primary text-white hover:bg-white hover:text-primary'
+          'bg-primary border-1 border-primary text-white'
         }
         ${
           secondary &&
-          'bg-transparent text-primary hover:bg-primary hover:text-white'
+          'bg-transparent text-primary'
         }
         ${disabled && 'pointer-events-none opacity-50'}
         ${(icon || google) && 'flex justify-center items-center gap-1'}
+        ${widthFull && 'w-full'}
         ring-2 ring-primary border-transparent
         font-semibold text-xs font-primary uppercase
         rounded-sm shadow-lg
         p-2
-        transition
       `}
       disabled={disabled}
       onClick={onClick}

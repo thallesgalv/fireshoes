@@ -1,13 +1,21 @@
 import type { NextPage } from 'next'
+import { useState } from 'react'
+import { useGlobalContext } from '../contexts/GlobalContext'
 import Head from 'next/head'
 import Header from '../components/Header'
 import Heading from '../components/Heading'
 import Input from '../components/Input'
 import Button from '../components/Button'
 import Main from '../components/Main'
+import Modal from '../components/Modal'
 import { MdLockOutline } from 'react-icons/md'
 
+
+
 const Login: NextPage = () => {
+  const [modalActive, setModalActive] = useState(false)
+  const { isMobile } = useGlobalContext()
+
   return (
     <>
       <Head>
@@ -21,15 +29,22 @@ const Login: NextPage = () => {
           <Heading text="Login" center />
           <form
             onSubmit={(e) => e.preventDefault()}
-            className="m-auto flex flex-col gap-8"
+            className="m-auto flex flex-col gap-6"
             style={{ width: 'calc(min(90%, 20rem))' }}
           >
-            <Input text="E-mail:" type="email" id="loginEmail" widthFull />
+            <Input
+              text="E-mail:"
+              type="email"
+              id="loginEmail"
+              required
+              widthFull
+            />
             <Input
               text="Senha:"
               type="password"
               id="loginPassword"
               icon={<MdLockOutline />}
+              required
               widthFull
             />
             <div className="flex justify-between flex-wrap">
@@ -46,11 +61,65 @@ const Login: NextPage = () => {
         </section>
         <section className="mt-14">
           <Heading text="Criar Conta" center />
-          <div className="flex justify-center w-full mt-6">
+          <div
+            className="flex justify-center w-full mt-6"
+            onClick={() => setModalActive(!modalActive)}
+          >
             <Button primary text="Criar agora" />
           </div>
         </section>
       </Main>
+
+      <Modal modalActive={modalActive} setModalActive={setModalActive}>
+        <form
+          onSubmit={(e) => e.preventDefault()}
+          className="m-auto flex flex-col gap-6"
+          style={{ width: 'calc(min(90%, 20rem))' }}
+        >
+          <Input
+            text="Nome completo:"
+            type="text"
+            id="createUserName"
+            required
+            widthFull
+          />
+          <Input
+            text="E-mail:"
+            type="email"
+            id="createUserEmail"
+            required
+            widthFull
+          />
+          <Input
+            text="CPF:"
+            type="text"
+            id="createUserCPF"
+            placeholder="999.999.999-99"
+            required
+            widthFull
+          />
+          <Input
+            text="Data de Nascimento:"
+            type="date"
+            id="createUserBirthDate"
+            placeholder="DD/MM/AAAA"
+            required
+            widthFull
+          />
+          <Input
+            text="Senha:"
+            type="password"
+            id="createUserPassword"
+            icon={<MdLockOutline />}
+            required
+            widthFull
+          />
+          <div className="flex justify-between flex-wrap gap-4 flex-1">
+            <Button secondary text="Criar conta agora" widthFull={isMobile} />
+            <Button primary text="Continuar cadastro" widthFull={isMobile} />
+          </div>
+        </form>
+      </Modal>
     </>
   )
 }

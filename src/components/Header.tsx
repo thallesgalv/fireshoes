@@ -1,3 +1,5 @@
+import { useGlobalContext } from '../contexts/GlobalContext'
+import Link from 'next/link'
 import Input from '../components/Input'
 import Button from '../components/Button'
 import {
@@ -7,8 +9,6 @@ import {
   MdMenu,
   MdClose
 } from 'react-icons/md'
-import Link from 'next/link'
-import { useGlobalContext } from '../contexts/GlobalContext'
 
 function Header() {
   const { isMobile, menuActive, setMenuActive } = useGlobalContext()
@@ -35,7 +35,7 @@ function Header() {
         </div>
         <div className="flex justify-center items-center">
           <Link href="/">
-            <a className="text-4xl" onClick={handleMenu}>
+            <a className="text-4xl" onClick={() => setMenuActive(false)}>
               🔥
             </a>
           </Link>
@@ -44,7 +44,7 @@ function Header() {
             className={`
             ${
               menuActive &&
-              'flex absolute z10 top-16 left-0 h-screen w-screen gap-8 flex-col items-center pt-24 text-4xl bg-white'
+              'flex absolute z10 top-16 left-0 h-screen w-screen gap-8 flex-col items-center pt-24 text-4xl bg-white animate-show'
             }
             ${menuActive || 'hidden'}
             lg:flex gap-4
