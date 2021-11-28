@@ -3,8 +3,10 @@ import Head from 'next/head'
 import Header from '../components/Header'
 import Heading from '../components/Heading'
 import Main from '../components/Main'
+import { useGlobalContext } from '../contexts/GlobalContext'
 
 const Index: NextPage = () => {
+  const { isMobile } = useGlobalContext()
   return (
     <>
       <Head>
@@ -14,13 +16,8 @@ const Index: NextPage = () => {
       </Head>
       <Header />
       <Main>
-        <div
-          className="m-auto"
-          style={{ width: 'calc(min(90%, 20rem))' }}
-        >
-          <Heading text="Home" />
-          <p>Essa é a home</p>
-        </div>
+        <Heading text="Home" center />
+        <p className="text-center">Essa é a home</p>
       </Main>
     </>
   )

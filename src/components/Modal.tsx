@@ -1,4 +1,5 @@
 import { ReactNode, useRef } from 'react'
+import { MdClose } from 'react-icons/md'
 
 interface ModalProps {
   children: ReactNode
@@ -23,9 +24,15 @@ function Modal({ children, modalActive, setModalActive }: ModalProps) {
       ref={modalContainer}
     >
       <div
-        className="bg-white p-8 m-auto rounded animate-show"
+        className="bg-white p-8 m-auto rounded relative animate-show"
         style={{ width: 'calc(min(90%, 30rem))' }}
       >
+        <div
+          className="text-primary text-3xl absolute right-0 top-0 m-2 cursor-pointer"
+          onClick={() => setModalActive(false)}
+        >
+          <MdClose />
+        </div>
         {children}
       </div>
     </div>

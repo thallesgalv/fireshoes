@@ -10,8 +10,6 @@ import Main from '../components/Main'
 import Modal from '../components/Modal'
 import { MdLockOutline } from 'react-icons/md'
 
-
-
 const Login: NextPage = () => {
   const [modalActive, setModalActive] = useState(false)
   const { isMobile } = useGlobalContext()
@@ -100,7 +98,7 @@ const Login: NextPage = () => {
           />
           <Input
             text="Data de Nascimento:"
-            type="date"
+            type="text"
             id="createUserBirthDate"
             placeholder="DD/MM/AAAA"
             required
