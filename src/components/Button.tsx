@@ -35,7 +35,7 @@ function Button({
         ring-2 ring-primary border-transparent
         font-semibold text-xs font-primary uppercase
         rounded-sm shadow-lg
-        p-2 max-h8
+        p-2 h8
       `}
       disabled={disabled}
       onClick={onClick}

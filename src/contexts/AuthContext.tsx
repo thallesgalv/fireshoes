@@ -20,8 +20,6 @@ import Router from 'next/router'
 import { auth } from '../services/firebase'
 import toast from 'react-hot-toast'
 
-
-
 interface AuthContextProps {
   currentUser: User | undefined
   setCurrentUser: (obj: User) => void
@@ -61,7 +59,7 @@ interface AuthContextProviderProps {
 export const AuthContext = createContext({} as AuthContextProps)
 
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
-  const [currentUser, setCurrentUser] = useState<User>({} as User)
+  const [currentUser, setCurrentUser] = useState({} as User)
   const [loginDataForm, setLoginDataForm] = useState({} as LoginDataFormProps)
   const [createUserDataForm, setCreateUserDataForm] = useState(
     {} as CreateUserDataFormProps
@@ -93,7 +91,8 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         name: displayName,
         photo: photoURL
       })
-      toast.success(`${currentUser.name}, você realizou login com sucesso`)
+      toast.success('Login realizado com sucesso')
+      Router.push('/')
     }
   }
 
@@ -109,13 +108,19 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         updateProfile(auth?.currentUser, {
           displayName: createUserDataForm.name
         })
+      }
+
+      if (result.user) {
+        const { uid } = result.user
         setCurrentUser({
           ...currentUser,
-          name: auth?.currentUser.displayName
+          id: uid,
+          name: createUserDataForm.name
         })
       }
 
-      toast.success(`${currentUser.name}, você criou uma conta com sucesso`)
+      toast.success(`Conta criada com sucesso`)
+      Router.push('/')
     } catch (error) {
       toast.error(`Erro ao criar a conta. ${error}`)
       console.log(error)
@@ -136,7 +141,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         name: displayName,
         photo: photoURL
       })
-      toast.success(`${currentUser.name}, você realizou login com sucesso`)
+      toast.success('Login realizado com sucesso')
       Router.push('/')
     } catch (error) {
       toast.error(`Erro ao realizar login. ${error}`)

@@ -1,12 +1,9 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-
+import packageInfo from '../../package.json'
 import Heading from '../components/Heading'
 
-import { useGlobalContext } from '../contexts/GlobalContext'
-
 const Index: NextPage = () => {
-  const { isMobile } = useGlobalContext()
   return (
     <>
       <Head>
@@ -16,7 +13,7 @@ const Index: NextPage = () => {
       </Head>
       <section>
         <Heading text="Home" center />
-        <p className="text-center">Essa é a home</p>
+        <p className="text-center">Versão {packageInfo.version}</p>
       </section>
     </>
   )
