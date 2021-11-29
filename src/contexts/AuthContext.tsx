@@ -17,9 +17,9 @@ import {
 } from 'react'
 import Router from 'next/router'
 
-import { app } from '../services/firebase'
+import { auth } from '../services/firebase'
 
-const auth = getAuth(app)
+
 
 interface AuthContextProps {
   currentUser: User | undefined
@@ -66,20 +66,20 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     {} as CreateUserDataFormProps
   )
 
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
-  //     if (user) {
-  //       const { uid, displayName, photoURL } = user
-  //       setCurrentUser({
-  //         id: uid,
-  //         name: displayName,
-  //         photo: photoURL
-  //       })
-  //     }
-  //   })
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const { uid, displayName, photoURL } = user
+        setCurrentUser({
+          id: uid,
+          name: displayName,
+          photo: photoURL
+        })
+      }
+    })
 
-  //   return () => unsubscribe()
-  // }, [])
+    return () => unsubscribe()
+  }, [])
 
   async function signInWithGoogle() {
     const provider = new GoogleAuthProvider()
