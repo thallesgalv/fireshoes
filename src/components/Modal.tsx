@@ -18,7 +18,7 @@ function Modal({ children, modalActive, setModalActive }: ModalProps) {
     <div
       className={`
           ${modalActive ? 'block' : 'hidden'}
-          w-screen h-screen bg-black bg-opacity-50 fixed top-0 grid place-items-center z-10
+          w-screen h-screen bg-black bg-opacity-50 fixed top-0 left-0 grid place-items-center z-10
         `}
       onClick={handleModal}
       ref={modalContainer}

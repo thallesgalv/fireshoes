@@ -13,7 +13,9 @@ interface GlobalContextProviderProps {
 
 export const GlobalContext = createContext({} as GlobalContextProps)
 
-export function GlobalContextProvider({ children }: GlobalContextProviderProps) {
+export function GlobalContextProvider({
+  children
+}: GlobalContextProviderProps) {
   const isMobile = useMedia('(max-width: 768px)')
   const [menuActive, setMenuActive] = useState(false)
 

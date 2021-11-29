@@ -66,6 +66,21 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     {} as CreateUserDataFormProps
   )
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const { uid, displayName, photoURL } = user
+        setCurrentUser({
+          id: uid,
+          name: displayName,
+          photo: photoURL
+        })
+      }
+    })
+
+    return () => unsubscribe()
+  }, [])
+
   async function signInWithGoogle() {
     const provider = new GoogleAuthProvider()
     const result = await signInWithPopup(auth, provider)
@@ -97,9 +112,6 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
           name: auth?.currentUser.displayName
         })
       }
-
-
-
     } catch (error) {
       console.log(error)
     }
@@ -130,21 +142,6 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     setCurrentUser({} as User)
     Router.push('/')
   }
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const { uid, displayName, photoURL } = user
-        setCurrentUser({
-          id: uid,
-          name: displayName,
-          photo: photoURL
-        })
-      }
-    })
-
-    return () => unsubscribe()
-  }, [])
 
   return (
     <AuthContext.Provider
