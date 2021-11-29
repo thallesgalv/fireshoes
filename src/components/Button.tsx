@@ -35,7 +35,7 @@ function Button({
         ring-2 ring-primary border-transparent
         font-semibold text-xs font-primary uppercase
         rounded-sm shadow-lg
-        p-2
+        p-2 max-h8
       `}
       disabled={disabled}
       onClick={onClick}
@@ -45,7 +45,7 @@ function Button({
         <img
           src={userPhoto}
           alt="Foto do usuário"
-          className="rounded-full h-8 w-8"
+          className="rounded-full h-5 w-5"
         />
       )}
       {text}

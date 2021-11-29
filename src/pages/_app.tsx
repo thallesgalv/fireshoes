@@ -7,6 +7,7 @@ import { AuthContextProvider } from '../contexts/AuthContext'
 import Header from '../components/Header'
 import Main from '../components/Main'
 import { ProductContextProvider } from '../contexts/ProductContext'
+import { Toaster } from 'react-hot-toast'
 
 function MyApp({ Component, pageProps }: AppProps) {
   showVersion()
@@ -17,6 +18,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Header />
           <Main>
             <Component {...pageProps} />
+            <Toaster position="bottom-center"/>
           </Main>
         </ProductContextProvider>
       </AuthContextProvider>

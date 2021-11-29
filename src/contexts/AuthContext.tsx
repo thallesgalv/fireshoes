@@ -18,6 +18,7 @@ import {
 import Router from 'next/router'
 
 import { auth } from '../services/firebase'
+import toast from 'react-hot-toast'
 
 
 
@@ -92,6 +93,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         name: displayName,
         photo: photoURL
       })
+      toast.success(`${currentUser.name}, você realizou login com sucesso`)
     }
   }
 
@@ -112,7 +114,10 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
           name: auth?.currentUser.displayName
         })
       }
+
+      toast.success(`${currentUser.name}, você criou uma conta com sucesso`)
     } catch (error) {
+      toast.error(`Erro ao criar a conta. ${error}`)
       console.log(error)
     }
     setCreateUserDataForm({} as CreateUserDataFormProps)
@@ -131,14 +136,17 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         name: displayName,
         photo: photoURL
       })
+      toast.success(`${currentUser.name}, você realizou login com sucesso`)
       Router.push('/')
     } catch (error) {
+      toast.error(`Erro ao realizar login. ${error}`)
       console.log(error)
     }
   }
 
   async function logout() {
     await signOut(auth)
+    toast.success('Logoff realizado com sucesso')
     setCurrentUser({} as User)
     Router.push('/')
   }
