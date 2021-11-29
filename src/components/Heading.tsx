@@ -9,7 +9,7 @@ function Heading({ text, center }: HeadingProps) {
       <h1
         className={`
         uppercase text-white font-semibold tracking-wider
-        sm:text-6xl text-5xl
+        sm:text-6xl text-4xl
         w-max relative my-4
         ${center && 'm-auto'}`}
         style={{

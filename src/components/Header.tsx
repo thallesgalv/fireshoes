@@ -11,14 +11,16 @@ import {
   MdPerson
 } from 'react-icons/md'
 import { useAuthContext } from '../contexts/AuthContext'
+import { useEffect } from 'react'
 
 function Header() {
   const { isMobile, menuActive, setMenuActive } = useGlobalContext()
-  const { user } = useAuthContext()
+  const { currentUser } = useAuthContext()
 
   function handleMenu() {
     isMobile && setMenuActive(!menuActive)
   }
+
 
   return (
     <header className="shadow-lg fixed w-full bg-white">
@@ -78,12 +80,12 @@ function Header() {
             <li className="md:hidden">
               <Link href="login">
                 <div onClick={handleMenu}>
-                  {user ? (
+                  {currentUser?.id ? (
                     <Button
                       primary
-                      text={`${user?.name}`}
-                      icon={!user?.photo && <MdPerson />}
-                      userPhoto={`${user?.photo}`}
+                      text={currentUser?.name}
+                      icon={!currentUser?.photo && <MdPerson />}
+                      userPhoto={currentUser?.photo}
                     />
                   ) : (
                     <Button primary text={`Fazer Login`} icon={<MdLogin />} />
@@ -102,19 +104,19 @@ function Header() {
           </div>
           <div className="flex text-primary cursor-pointer">
             <MdOutlineShoppingCart size={40} />
-            <span className="rounded-full h-5 w-5 flex justify-center items-center bg-yellow-400 text-sm overflow-hidden">
+            <span className="rounded-full h-5 w-5 flex justify-center items-center bg-yellow-400 text-xs overflow-hidden">
               99
             </span>
           </div>
           <div className="hidden md:block">
-            <Link href="login">
+            <Link href={currentUser?.id ? 'user' : 'login'}>
               <div>
-                {user ? (
+                {currentUser?.id ? (
                   <Button
                     primary
-                    text={`${user?.name}`}
-                    icon={!user?.photo && <MdPerson />}
-                    userPhoto={`${user?.photo}`}
+                    text={currentUser?.name}
+                    icon={!currentUser?.photo && <MdPerson />}
+                    userPhoto={currentUser?.photo}
                   />
                 ) : (
                   <Button primary text={`Fazer Login`} icon={<MdLogin />} />

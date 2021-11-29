@@ -1,7 +1,7 @@
 import { FaGoogle } from 'react-icons/fa'
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  text: string
+  text: string | null
   primary?: boolean
   secondary?: boolean
   icon?: any
