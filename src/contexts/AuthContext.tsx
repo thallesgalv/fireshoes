@@ -28,10 +28,13 @@ interface AuthContextProps {
   signUp: () => void
   login: () => void
   logout: () => void
+  forgotPassword: () => void
   loginDataForm: LoginDataFormProps
   setLoginDataForm: (obj: LoginDataFormProps) => void
   createUserDataForm: CreateUserDataFormProps
   setCreateUserDataForm: (obj: CreateUserDataFormProps) => void
+  recoverUserEmail: string
+  setRecoverUserEmail: (str: string) => void
 }
 
 export interface User {
@@ -65,6 +68,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [createUserDataForm, setCreateUserDataForm] = useState(
     {} as CreateUserDataFormProps
   )
+  const [recoverUserEmail, setRecoverUserEmail] = useState('')
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -86,12 +90,6 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     const result = await signInWithPopup(auth, provider)
 
     if (result.user) {
-      const { uid, displayName, photoURL } = result.user
-      setCurrentUser({
-        id: uid,
-        name: displayName,
-        photo: photoURL
-      })
       toast.success('Login realizado com sucesso')
       Router.push('/')
     }
@@ -99,7 +97,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   async function signUp() {
     try {
-      const result = await createUserWithEmailAndPassword(
+      await createUserWithEmailAndPassword(
         auth,
         createUserDataForm.email,
         createUserDataForm.password
@@ -111,39 +109,23 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         })
       }
 
-      if (result.user) {
-        const { uid } = result.user
-        setCurrentUser({
-          ...currentUser,
-          id: uid,
-          name: createUserDataForm.name
-        })
-      }
       toast.success(`Conta criada com sucesso`)
       setCreateUserDataForm({} as CreateUserDataFormProps)
     } catch (error: any) {
       toast.error(firebaseErrorHandler(error.code))
-      console.log(error.code)
     }
   }
 
   async function login() {
     try {
-      const result = await signInWithEmailAndPassword(
+      await signInWithEmailAndPassword(
         auth,
         loginDataForm.email,
         loginDataForm.password
       )
-      const { uid, displayName, photoURL } = result.user
-      setCurrentUser({
-        id: uid,
-        name: displayName,
-        photo: photoURL
-      })
       toast.success('Login realizado com sucesso')
     } catch (error: any) {
       toast.error(firebaseErrorHandler(error.code))
-      console.log(error.code)
     }
   }
 
@@ -154,9 +136,14 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     Router.push('/')
   }
 
-  // async function forgotPassword() {
-  //   sendPasswordResetEmail(auth, )
-  // }
+  async function forgotPassword() {
+    try {
+      await sendPasswordResetEmail(auth, recoverUserEmail)
+      toast.success('E-mail enviado com sucesso')
+    } catch (error: any) {
+      toast.error(firebaseErrorHandler(error.code))
+    }
+  }
 
   return (
     <AuthContext.Provider
@@ -167,10 +154,13 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         signUp,
         login,
         logout,
+        forgotPassword,
         loginDataForm,
         setLoginDataForm,
         createUserDataForm,
-        setCreateUserDataForm
+        setCreateUserDataForm,
+        recoverUserEmail,
+        setRecoverUserEmail
       }}
     >
       {children}

@@ -12,20 +12,24 @@ import Router from 'next/router'
 
 const Login: NextPage = () => {
   const { isMobile } = useGlobalContext()
-  const [modalActive, setModalActive] = useState(false)
-  const { currentUser, setCurrentUser } = useAuthContext()
+  const [createAccountModal, setCreateAccountModal] = useState(false)
+  const [forgotPasswordModal, setForgotPasswordModal] = useState(false)
 
   const {
+    currentUser,
+    signInWithGoogle,
+    signUp,
+    login,
+    forgotPassword,
     loginDataForm,
     setLoginDataForm,
     createUserDataForm,
     setCreateUserDataForm,
-    signUp,
-    login,
-    signInWithGoogle
+    setRecoverUserEmail
   } = useAuthContext()
 
   useEffect(() => {
+    if (currentUser?.name) setCreateAccountModal(false)
     if (currentUser?.id) Router.push('/')
   }, [currentUser])
 
@@ -80,7 +84,13 @@ const Login: NextPage = () => {
             />
             <p className="flex-grow mt-4 text-xs">
               Esqueceu a senha? Clique{' '}
-              <span className="text-primary font-semibold cursor-pointer">
+              <span
+                className="text-primary font-semibold cursor-pointer"
+                onClick={() => {
+                  setCreateAccountModal(false)
+                  setForgotPasswordModal(true)
+                }}
+              >
                 aqui
               </span>
             </p>
@@ -91,13 +101,19 @@ const Login: NextPage = () => {
         <Heading text="Criar Conta" center />
         <div
           className="flex justify-center w-full mt-6"
-          onClick={() => setModalActive(!modalActive)}
+          onClick={() => {
+            setForgotPasswordModal(false)
+            setCreateAccountModal(true)
+          }}
         >
           <Button primary text="Criar agora" />
         </div>
       </section>
 
-      <Modal modalActive={modalActive} setModalActive={setModalActive}>
+      <Modal
+        modalActive={createAccountModal}
+        setModalActive={setCreateAccountModal}
+      >
         <form
           onSubmit={(e) => e.preventDefault()}
           className="m-auto flex flex-col gap-6"
@@ -179,6 +195,37 @@ const Login: NextPage = () => {
               onClick={signUp}
             />
             <Button primary text="Continuar cadastro" widthFull={isMobile} />
+          </div>
+        </form>
+      </Modal>
+
+      <Modal
+        modalActive={forgotPasswordModal}
+        setModalActive={setForgotPasswordModal}
+      >
+        <form
+          onSubmit={(e) => e.preventDefault()}
+          className="m-auto flex flex-col gap-6"
+          style={{ width: 'calc(min(90%, 20rem))' }}
+        >
+          <Input
+            text="E-mail:"
+            type="email"
+            id="recoverUserEmail"
+            required
+            widthFull
+            onChange={(e) => setRecoverUserEmail(e.target.value)}
+          />
+          <div className="flex justify-center flex-wrap gap-4 flex-1">
+            <Button
+              primary
+              text="Enviar-email"
+              widthFull={isMobile}
+              onClick={() => {
+                forgotPassword()
+                setForgotPasswordModal(false)
+              }}
+            />
           </div>
         </form>
       </Modal>
