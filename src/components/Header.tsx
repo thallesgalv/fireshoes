@@ -11,7 +11,6 @@ import {
   MdPerson
 } from 'react-icons/md'
 import { useAuthContext } from '../contexts/AuthContext'
-import { useEffect } from 'react'
 
 function Header() {
   const { isMobile, menuActive, setMenuActive } = useGlobalContext()
@@ -104,7 +103,7 @@ function Header() {
           </div>
           <div className="flex text-primary cursor-pointer">
             <MdOutlineShoppingCart size={40} />
-            <span className="rounded-full h-5 w-5 flex justify-center items-center bg-yellow-400 text-xs overflow-hidden">
+            <span className="rounded-full h-5 w-5 flex justify-center items-center bg-yellow-400 text-tiny overflow-hidden">
               99
             </span>
           </div>

@@ -9,6 +9,9 @@ module.exports = {
       fontFamily: {
         primary: ['Inter']
       },
+      fontSize: {
+        tiny: '0.625rem'
+      },
       colors: {
         primary: '#F63C3C'
       },

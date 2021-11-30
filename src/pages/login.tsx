@@ -5,28 +5,28 @@ import Head from 'next/head'
 import Heading from '../components/Heading'
 import Input from '../components/Input'
 import Button from '../components/Button'
-import Main from '../components/Main'
 import Modal from '../components/Modal'
 import { MdLockOutline } from 'react-icons/md'
-import { useAuthContext } from '../contexts/AuthContext'
+import { useAuthContext, User } from '../contexts/AuthContext'
+import Router from 'next/router'
 
 const Login: NextPage = () => {
   const { isMobile } = useGlobalContext()
   const [modalActive, setModalActive] = useState(false)
-  const { currentUser } = useAuthContext()
+  const { currentUser, setCurrentUser } = useAuthContext()
 
   const {
     loginDataForm,
     setLoginDataForm,
     createUserDataForm,
     setCreateUserDataForm,
-    register,
+    signUp,
     login,
     signInWithGoogle
   } = useAuthContext()
 
   useEffect(() => {
-    if (currentUser?.name) setModalActive(false)
+    if (currentUser?.id) Router.push('/')
   }, [currentUser])
 
   return (
@@ -176,7 +176,7 @@ const Login: NextPage = () => {
               secondary
               text="Criar conta agora"
               widthFull={isMobile}
-              onClick={register}
+              onClick={signUp}
             />
             <Button primary text="Continuar cadastro" widthFull={isMobile} />
           </div>

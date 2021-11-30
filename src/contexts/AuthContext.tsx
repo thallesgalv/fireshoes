@@ -2,11 +2,11 @@ import {
   GoogleAuthProvider,
   onAuthStateChanged,
   signInWithPopup,
-  getAuth,
   createUserWithEmailAndPassword,
   signOut,
   signInWithEmailAndPassword,
-  updateProfile
+  updateProfile,
+  sendPasswordResetEmail
 } from 'firebase/auth'
 import {
   createContext,
@@ -19,12 +19,13 @@ import Router from 'next/router'
 
 import { auth } from '../services/firebase'
 import toast from 'react-hot-toast'
+import { firebaseErrorHandler } from '../utils/firebaseErrorHandler'
 
 interface AuthContextProps {
   currentUser: User | undefined
   setCurrentUser: (obj: User) => void
   signInWithGoogle: () => void
-  register: () => void
+  signUp: () => void
   login: () => void
   logout: () => void
   loginDataForm: LoginDataFormProps
@@ -33,7 +34,7 @@ interface AuthContextProps {
   setCreateUserDataForm: (obj: CreateUserDataFormProps) => void
 }
 
-interface User {
+export interface User {
   id: string
   name: string | null
   photo: string | null
@@ -77,7 +78,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
       }
     })
 
-    return () => unsubscribe()
+    return unsubscribe()
   }, [])
 
   async function signInWithGoogle() {
@@ -96,7 +97,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     }
   }
 
-  async function register() {
+  async function signUp() {
     try {
       const result = await createUserWithEmailAndPassword(
         auth,
@@ -118,14 +119,12 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
           name: createUserDataForm.name
         })
       }
-
       toast.success(`Conta criada com sucesso`)
-      Router.push('/')
-    } catch (error) {
-      toast.error(`Erro ao criar a conta. ${error}`)
-      console.log(error)
+      setCreateUserDataForm({} as CreateUserDataFormProps)
+    } catch (error: any) {
+      toast.error(firebaseErrorHandler(error.code))
+      console.log(error.code)
     }
-    setCreateUserDataForm({} as CreateUserDataFormProps)
   }
 
   async function login() {
@@ -142,10 +141,9 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         photo: photoURL
       })
       toast.success('Login realizado com sucesso')
-      Router.push('/')
-    } catch (error) {
-      toast.error(`Erro ao realizar login. ${error}`)
-      console.log(error)
+    } catch (error: any) {
+      toast.error(firebaseErrorHandler(error.code))
+      console.log(error.code)
     }
   }
 
@@ -156,13 +154,17 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     Router.push('/')
   }
 
+  // async function forgotPassword() {
+  //   sendPasswordResetEmail(auth, )
+  // }
+
   return (
     <AuthContext.Provider
       value={{
         currentUser,
         setCurrentUser,
         signInWithGoogle,
-        register,
+        signUp,
         login,
         logout,
         loginDataForm,
