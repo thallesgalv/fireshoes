@@ -8,21 +8,24 @@ import Header from '../components/Header'
 import Main from '../components/Main'
 import { ProductContextProvider } from '../contexts/ProductContext'
 import { Toaster } from 'react-hot-toast'
+import { UserContextProvider } from '../contexts/UserContext'
 
 function MyApp({ Component, pageProps }: AppProps) {
   showVersion()
   return (
-    <GlobalContextProvider>
-      <AuthContextProvider>
-        <ProductContextProvider>
-          <Header />
-          <Main>
-            <Component {...pageProps} />
-            <Toaster position="bottom-center"/>
-          </Main>
-        </ProductContextProvider>
-      </AuthContextProvider>
-    </GlobalContextProvider>
+    <UserContextProvider>
+      <GlobalContextProvider>
+        <AuthContextProvider>
+          <ProductContextProvider>
+            <Header />
+            <Main>
+              <Component {...pageProps} />
+              <Toaster position="bottom-center" />
+            </Main>
+          </ProductContextProvider>
+        </AuthContextProvider>
+      </GlobalContextProvider>
+    </UserContextProvider>
   )
 }
 

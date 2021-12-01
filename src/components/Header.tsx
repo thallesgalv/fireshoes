@@ -1,4 +1,5 @@
 import { useGlobalContext } from '../contexts/GlobalContext'
+import { useUserContext } from '../contexts/UserContext'
 import Link from 'next/link'
 import Input from '../components/Input'
 import Button from '../components/Button'
@@ -10,16 +11,15 @@ import {
   MdClose,
   MdPerson
 } from 'react-icons/md'
-import { useAuthContext } from '../contexts/AuthContext'
+import { auth } from '../services/firebase'
 
 function Header() {
   const { isMobile, menuActive, setMenuActive } = useGlobalContext()
-  const { currentUser } = useAuthContext()
+  const { currentUser } = useUserContext()
 
   function handleMenu() {
     isMobile && setMenuActive(!menuActive)
   }
-
 
   return (
     <header className="shadow-lg fixed w-full bg-white">
@@ -79,7 +79,7 @@ function Header() {
             <li className="md:hidden">
               <Link href="login">
                 <div onClick={handleMenu}>
-                  {currentUser?.id ? (
+                  {auth.currentUser?.uid ? (
                     <Button
                       primary
                       text={currentUser?.name}
@@ -108,9 +108,9 @@ function Header() {
             </span>
           </div>
           <div className="hidden md:block">
-            <Link href={currentUser?.id ? 'user' : 'login'}>
+            <Link href={auth.currentUser?.uid ? 'user' : 'login'}>
               <div>
-                {currentUser?.id ? (
+                {auth.currentUser?.uid ? (
                   <Button
                     primary
                     text={currentUser?.name}

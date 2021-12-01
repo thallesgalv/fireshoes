@@ -20,10 +20,9 @@ import Router from 'next/router'
 import { auth } from '../services/firebase'
 import toast from 'react-hot-toast'
 import { firebaseErrorHandler } from '../utils/firebaseErrorHandler'
+import { User, useUserContext } from './UserContext'
 
 interface AuthContextProps {
-  currentUser: User | undefined
-  setCurrentUser: (obj: User) => void
   signInWithGoogle: () => void
   signUp: () => void
   login: () => void
@@ -31,28 +30,12 @@ interface AuthContextProps {
   forgotPassword: () => void
   loginDataForm: LoginDataFormProps
   setLoginDataForm: (obj: LoginDataFormProps) => void
-  createUserDataForm: CreateUserDataFormProps
-  setCreateUserDataForm: (obj: CreateUserDataFormProps) => void
   recoverUserEmail: string
   setRecoverUserEmail: (str: string) => void
 }
 
-export interface User {
-  id: string
-  name: string | null
-  photo: string | null
-}
-
 interface LoginDataFormProps {
   email: string
-  password: string
-}
-
-interface CreateUserDataFormProps {
-  name: string
-  email: string
-  cpf: string
-  birthDate: string
   password: string
 }
 
@@ -63,26 +46,23 @@ interface AuthContextProviderProps {
 export const AuthContext = createContext({} as AuthContextProps)
 
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
-  const [currentUser, setCurrentUser] = useState({} as User)
+  const { currentUser, setCurrentUser, createUser } = useUserContext()
   const [loginDataForm, setLoginDataForm] = useState({} as LoginDataFormProps)
-  const [createUserDataForm, setCreateUserDataForm] = useState(
-    {} as CreateUserDataFormProps
-  )
   const [recoverUserEmail, setRecoverUserEmail] = useState('')
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        const { uid, displayName, photoURL } = user
+        const { displayName, photoURL } = user
+
         setCurrentUser({
-          id: uid,
           name: displayName,
           photo: photoURL
         })
       }
     })
 
-    return unsubscribe()
+    return () => unsubscribe()
   }, [])
 
   async function signInWithGoogle() {
@@ -97,22 +77,28 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   async function signUp() {
     try {
-      await createUserWithEmailAndPassword(
-        auth,
-        createUserDataForm.email,
-        createUserDataForm.password
-      )
+      if (currentUser?.email && currentUser.password) {
+        const result = await createUserWithEmailAndPassword(
+          auth,
+          currentUser?.email,
+          currentUser?.password
+        )
 
-      if (auth.currentUser) {
-        updateProfile(auth?.currentUser, {
-          displayName: createUserDataForm.name
-        })
+        if (result.user) {
+          setCurrentUser({...currentUser})
+        }
+
+        if (auth.currentUser) {
+          updateProfile(auth?.currentUser, {
+            displayName: currentUser?.name
+          })
+        }
+        createUser()
       }
-
-      toast.success(`Conta criada com sucesso`)
-      setCreateUserDataForm({} as CreateUserDataFormProps)
     } catch (error: any) {
       toast.error(firebaseErrorHandler(error.code))
+      console.log('ERROR', error)
+      console.log('ERROR CODE', error.code)
     }
   }
 
@@ -131,7 +117,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   async function logout() {
     await signOut(auth)
-    toast.success('Logoff realizado com sucesso')
+    toast.success('Logout realizado com sucesso')
     setCurrentUser({} as User)
     Router.push('/')
   }
@@ -148,8 +134,6 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   return (
     <AuthContext.Provider
       value={{
-        currentUser,
-        setCurrentUser,
         signInWithGoogle,
         signUp,
         login,
@@ -157,8 +141,6 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         forgotPassword,
         loginDataForm,
         setLoginDataForm,
-        createUserDataForm,
-        setCreateUserDataForm,
         recoverUserEmail,
         setRecoverUserEmail
       }}

@@ -1,15 +1,16 @@
 interface HeadingProps {
   text: string
   center?: boolean
+  small?: boolean
 }
 
-function Heading({ text, center }: HeadingProps) {
+function Heading({ text, center, small }: HeadingProps) {
   return (
     <>
       <h1
         className={`
+        ${small ? 'sm:text-3xl text-2xl' : 'sm:text-6xl text-4xl'}
         uppercase text-white font-semibold tracking-wider
-        sm:text-6xl text-4xl
         w-max relative my-4
         ${center && 'm-auto'}`}
         style={{

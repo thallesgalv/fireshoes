@@ -7,8 +7,10 @@ import Input from '../components/Input'
 import Button from '../components/Button'
 import Modal from '../components/Modal'
 import { MdLockOutline } from 'react-icons/md'
-import { useAuthContext, User } from '../contexts/AuthContext'
+import { useAuthContext } from '../contexts/AuthContext'
 import Router from 'next/router'
+import { useUserContext } from '../contexts/UserContext'
+import { auth } from '../services/firebase'
 
 const Login: NextPage = () => {
   const { isMobile } = useGlobalContext()
@@ -16,21 +18,19 @@ const Login: NextPage = () => {
   const [forgotPasswordModal, setForgotPasswordModal] = useState(false)
 
   const {
-    currentUser,
     signInWithGoogle,
     signUp,
     login,
     forgotPassword,
     loginDataForm,
     setLoginDataForm,
-    createUserDataForm,
-    setCreateUserDataForm,
     setRecoverUserEmail
   } = useAuthContext()
 
+  const { currentUser, setCurrentUser } = useUserContext()
+
   useEffect(() => {
-    if (currentUser?.name) setCreateAccountModal(false)
-    if (currentUser?.id) Router.push('/')
+    if (auth.currentUser?.uid) Router.push('/')
   }, [currentUser])
 
   return (
@@ -74,12 +74,18 @@ const Login: NextPage = () => {
               })
             }
           />
-          <div className="flex justify-between flex-wrap">
-            <Button primary text="Confirmar" onClick={login} />
+          <div className="flex justify-between flex-wrap gap-6">
+            <Button
+              primary
+              text="Confirmar"
+              widthFull={isMobile}
+              onClick={login}
+            />
             <Button
               secondary
-              text="Entrar com o Google"
               google
+              text="Entrar com o Google"
+              widthFull={isMobile}
               onClick={signInWithGoogle}
             />
             <p className="flex-grow mt-4 text-xs">
@@ -98,7 +104,7 @@ const Login: NextPage = () => {
         </form>
       </section>
       <section className="mt-14">
-        <Heading text="Criar Conta" center />
+        <Heading text="Criar conta" center />
         <div
           className="flex justify-center w-full mt-6"
           onClick={() => {
@@ -119,6 +125,7 @@ const Login: NextPage = () => {
           className="m-auto flex flex-col gap-6"
           style={{ width: 'calc(min(90%, 20rem))' }}
         >
+          <Heading text="Crie sua conta" small center />
           <Input
             text="Nome completo:"
             type="text"
@@ -126,8 +133,8 @@ const Login: NextPage = () => {
             required
             widthFull
             onChange={(e) =>
-              setCreateUserDataForm({
-                ...createUserDataForm,
+              setCurrentUser({
+                ...currentUser,
                 name: e.target.value
               })
             }
@@ -139,8 +146,8 @@ const Login: NextPage = () => {
             required
             widthFull
             onChange={(e) =>
-              setCreateUserDataForm({
-                ...createUserDataForm,
+              setCurrentUser({
+                ...currentUser,
                 email: e.target.value
               })
             }
@@ -153,8 +160,8 @@ const Login: NextPage = () => {
             required
             widthFull
             onChange={(e) =>
-              setCreateUserDataForm({
-                ...createUserDataForm,
+              setCurrentUser({
+                ...currentUser,
                 cpf: e.target.value
               })
             }
@@ -167,8 +174,8 @@ const Login: NextPage = () => {
             required
             widthFull
             onChange={(e) =>
-              setCreateUserDataForm({
-                ...createUserDataForm,
+              setCurrentUser({
+                ...currentUser,
                 birthDate: e.target.value
               })
             }
@@ -181,20 +188,19 @@ const Login: NextPage = () => {
             required
             widthFull
             onChange={(e) =>
-              setCreateUserDataForm({
-                ...createUserDataForm,
+              setCurrentUser({
+                ...currentUser,
                 password: e.target.value
               })
             }
           />
-          <div className="flex justify-between flex-wrap gap-4 flex-1">
+          <div className="flex justify-center flex-wrap gap-4 flex-1">
             <Button
-              secondary
+              primary
               text="Criar conta agora"
               widthFull={isMobile}
               onClick={signUp}
             />
-            <Button primary text="Continuar cadastro" widthFull={isMobile} />
           </div>
         </form>
       </Modal>
@@ -208,6 +214,7 @@ const Login: NextPage = () => {
           className="m-auto flex flex-col gap-6"
           style={{ width: 'calc(min(90%, 20rem))' }}
         >
+          <Heading text="Recuperar senha" small center />
           <Input
             text="E-mail:"
             type="email"

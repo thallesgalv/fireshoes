@@ -1,6 +1,7 @@
+import { ButtonHTMLAttributes } from 'react'
 import { FaGoogle } from 'react-icons/fa'
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   text?: string | null
   primary?: boolean
   secondary?: boolean
