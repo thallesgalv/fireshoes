@@ -1,23 +1,30 @@
 import { ReactNode, useRef } from 'react'
 import { MdClose } from 'react-icons/md'
 
+export type ModalStatus =
+  | null
+  | 'createAccountModal'
+  | 'forgotPasswordModal'
+  | 'createPaymentMethodModal'
+  | 'createAdressModal'
+
 interface ModalProps {
   children: ReactNode
-  modalActive: boolean
-  setModalActive: (bool: boolean) => void
+  modalStatus: ModalStatus
+  setModalStatus: (arg: ModalStatus) => void
 }
 
-function Modal({ children, modalActive, setModalActive }: ModalProps) {
+function Modal({ children, modalStatus, setModalStatus }: ModalProps) {
   const modalContainer = useRef(null)
 
   function handleModal(e: React.MouseEvent<HTMLDivElement>) {
-    if (e.target === modalContainer.current) setModalActive(!modalActive)
+    if (e.target === modalContainer.current) setModalStatus(null)
   }
 
   return (
     <div
       className={`
-          ${modalActive ? 'block' : 'hidden'}
+          ${modalStatus ? 'block' : 'hidden'}
           w-screen h-screen bg-black bg-opacity-50 fixed top-0 left-0 grid place-items-center z-10
         `}
       onClick={handleModal}
@@ -25,11 +32,11 @@ function Modal({ children, modalActive, setModalActive }: ModalProps) {
     >
       <div
         className="bg-white p-8 m-auto rounded relative animate-show"
-        style={{ width: 'calc(min(90%, 30rem))' }}
+        style={{ width: 'calc(min(91.666667%, 30rem))' }}
       >
         <div
           className="text-primary text-3xl absolute right-0 top-0 m-2 cursor-pointer"
-          onClick={() => setModalActive(false)}
+          onClick={() => setModalStatus(null)}
         >
           <MdClose />
         </div>

@@ -22,14 +22,14 @@ function Header() {
   }
 
   return (
-    <header className="shadow-lg fixed w-full bg-white">
+    <header className="shadow-lg fixed w-full bg-white z-10">
       <nav
         className="
           container m-auto
           flex justify-between
           py-4
           px-4 2xl:px-0
-      "
+        "
       >
         <div
           className="lg:hidden text-primary text-4xl cursor-pointer"

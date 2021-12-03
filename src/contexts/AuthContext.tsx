@@ -53,11 +53,12 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        const { displayName, photoURL } = user
+        const { displayName, photoURL, email } = user
 
         setCurrentUser({
           name: displayName,
-          photo: photoURL
+          photo: photoURL,
+          email: email
         })
       }
     })

@@ -6,9 +6,7 @@ import { auth, db } from '../services/firebase'
 export interface User {
   name?: string | undefined | null
   photo?: string | undefined | null
-  email?: string | undefined
-  cpf?: string | undefined
-  birthDate?: string | undefined
+  email?: string | undefined | null
   password?: string | undefined
 }
 
@@ -33,8 +31,6 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
       await setDoc(doc(db, 'users', auth.currentUser.uid), {
         name: currentUser?.name,
         email: currentUser?.email,
-        cpf: currentUser?.cpf,
-        birthDate: currentUser?.birthDate
       })
 
       toast.success(`Conta criada com sucesso`)

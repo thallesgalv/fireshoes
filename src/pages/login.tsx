@@ -5,7 +5,7 @@ import Head from 'next/head'
 import Heading from '../components/Heading'
 import Input from '../components/Input'
 import Button from '../components/Button'
-import Modal from '../components/Modal'
+import Modal, { ModalStatus } from '../components/Modal'
 import { MdLockOutline } from 'react-icons/md'
 import { useAuthContext } from '../contexts/AuthContext'
 import Router from 'next/router'
@@ -14,8 +14,7 @@ import { auth } from '../services/firebase'
 
 const Login: NextPage = () => {
   const { isMobile } = useGlobalContext()
-  const [createAccountModal, setCreateAccountModal] = useState(false)
-  const [forgotPasswordModal, setForgotPasswordModal] = useState(false)
+  const [modalStatus, setModalStatus] = useState<ModalStatus>(null)
 
   const {
     signInWithGoogle,
@@ -45,12 +44,12 @@ const Login: NextPage = () => {
         <form
           onSubmit={(e) => e.preventDefault()}
           className="m-auto flex flex-col gap-6"
-          style={{ width: 'calc(min(90%, 20rem))' }}
+          style={{ width: 'calc(min(91.666667%, 20rem))' }}
         >
           <Input
             text="E-mail:"
             type="email"
-            id="loginEmail"
+            name="loginUserEmail"
             required
             widthFull
             onChange={(e) =>
@@ -63,7 +62,7 @@ const Login: NextPage = () => {
           <Input
             text="Senha:"
             type="password"
-            id="loginPassword"
+            name="loginUserPassword"
             icon={<MdLockOutline />}
             required
             widthFull
@@ -93,8 +92,7 @@ const Login: NextPage = () => {
               <span
                 className="text-primary font-semibold cursor-pointer"
                 onClick={() => {
-                  setCreateAccountModal(false)
-                  setForgotPasswordModal(true)
+                  setModalStatus('forgotPasswordModal')
                 }}
               >
                 aqui
@@ -108,134 +106,103 @@ const Login: NextPage = () => {
         <div
           className="flex justify-center w-full mt-6"
           onClick={() => {
-            setForgotPasswordModal(false)
-            setCreateAccountModal(true)
+            setModalStatus('createAccountModal')
           }}
         >
           <Button primary text="Criar agora" />
         </div>
       </section>
 
-      <Modal
-        modalActive={createAccountModal}
-        setModalActive={setCreateAccountModal}
-      >
-        <form
-          onSubmit={(e) => e.preventDefault()}
-          className="m-auto flex flex-col gap-6"
-          style={{ width: 'calc(min(90%, 20rem))' }}
-        >
-          <Heading text="Crie sua conta" small center />
-          <Input
-            text="Nome completo:"
-            type="text"
-            id="createUserName"
-            required
-            widthFull
-            onChange={(e) =>
-              setCurrentUser({
-                ...currentUser,
-                name: e.target.value
-              })
-            }
-          />
-          <Input
-            text="E-mail:"
-            type="email"
-            id="createUserEmail"
-            required
-            widthFull
-            onChange={(e) =>
-              setCurrentUser({
-                ...currentUser,
-                email: e.target.value
-              })
-            }
-          />
-          <Input
-            text="CPF:"
-            type="text"
-            id="createUserCPF"
-            placeholder="999.999.999-99"
-            required
-            widthFull
-            onChange={(e) =>
-              setCurrentUser({
-                ...currentUser,
-                cpf: e.target.value
-              })
-            }
-          />
-          <Input
-            text="Data de Nascimento:"
-            type="text"
-            id="createUserBirthDate"
-            placeholder="DD/MM/AAAA"
-            required
-            widthFull
-            onChange={(e) =>
-              setCurrentUser({
-                ...currentUser,
-                birthDate: e.target.value
-              })
-            }
-          />
-          <Input
-            text="Senha:"
-            type="password"
-            id="createUserPassword"
-            icon={<MdLockOutline />}
-            required
-            widthFull
-            onChange={(e) =>
-              setCurrentUser({
-                ...currentUser,
-                password: e.target.value
-              })
-            }
-          />
-          <div className="flex justify-center flex-wrap gap-4 flex-1">
-            <Button
-              primary
-              text="Criar conta agora"
-              widthFull={isMobile}
-              onClick={signUp}
+      {modalStatus === 'createAccountModal' && (
+        <Modal modalStatus={modalStatus} setModalStatus={setModalStatus}>
+          <form
+            onSubmit={(e) => e.preventDefault()}
+            className="m-auto flex flex-col gap-6"
+            style={{ width: 'calc(min(91.666667%, 20rem))' }}
+          >
+            <Heading text="Crie sua conta" small center />
+            <Input
+              text="Nome completo:"
+              type="text"
+              name="createUserName"
+              required
+              widthFull
+              onChange={(e) =>
+                setCurrentUser({
+                  ...currentUser,
+                  name: e.target.value
+                })
+              }
             />
-          </div>
-        </form>
-      </Modal>
+            <Input
+              text="E-mail:"
+              type="email"
+              name="createUserEmail"
+              required
+              widthFull
+              onChange={(e) =>
+                setCurrentUser({
+                  ...currentUser,
+                  email: e.target.value
+                })
+              }
+            />
+            <Input
+              text="Senha:"
+              type="password"
+              name="createUserPassword"
+              icon={<MdLockOutline />}
+              required
+              widthFull
+              onChange={(e) =>
+                setCurrentUser({
+                  ...currentUser,
+                  password: e.target.value
+                })
+              }
+            />
+            <div className="flex justify-center flex-wrap gap-4 flex-1">
+              <Button
+                primary
+                text="Criar conta agora"
+                widthFull={isMobile}
+                onClick={signUp}
+              />
+            </div>
+          </form>
+        </Modal>
+      )}
 
-      <Modal
-        modalActive={forgotPasswordModal}
-        setModalActive={setForgotPasswordModal}
-      >
-        <form
-          onSubmit={(e) => e.preventDefault()}
-          className="m-auto flex flex-col gap-6"
-          style={{ width: 'calc(min(90%, 20rem))' }}
-        >
-          <Heading text="Recuperar senha" small center />
-          <Input
-            text="E-mail:"
-            type="email"
-            id="recoverUserEmail"
-            required
-            widthFull
-            onChange={(e) => setRecoverUserEmail(e.target.value)}
-          />
-          <div className="flex justify-center flex-wrap gap-4 flex-1">
-            <Button
-              primary
-              text="Enviar-email"
-              widthFull={isMobile}
-              onClick={() => {
-                forgotPassword()
-                setForgotPasswordModal(false)
-              }}
+      {modalStatus === 'forgotPasswordModal' && (
+        <Modal modalStatus={modalStatus} setModalStatus={setModalStatus}>
+          <form
+            onSubmit={(e) => e.preventDefault()}
+            className="m-auto flex flex-col gap-6"
+            style={{ width: 'calc(min(91.666667%, 20rem))' }}
+          >
+            <Heading text="Recuperar senha" small center />
+            <Input
+              text="E-mail:"
+              type="email"
+              name="recoverUserEmail"
+              required
+              widthFull
+              onChange={(e) => setRecoverUserEmail(e.target.value)}
             />
-          </div>
-        </form>
-      </Modal>
+            <div className="flex justify-center flex-wrap gap-4 flex-1">
+              <Button
+                primary
+                text="Enviar-email"
+                widthFull={isMobile}
+                onClick={() => {
+                  forgotPassword()
+                  setModalStatus(null)
+                }}
+              />
+            </div>
+          </form>
+        </Modal>
+      )}
     </>
   )
 }

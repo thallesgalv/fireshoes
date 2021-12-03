@@ -16,14 +16,14 @@ function Input({
   value,
   onChange,
   icon,
-  id,
+  name,
   validationMessage,
   widthFull
 }: InputProps) {
   return (
     <>
       <label
-        htmlFor={id}
+        htmlFor={name}
         className="text-primary font-primary font-semibold uppercase text-xs cursor-pointer"
       >
         {text}
@@ -34,8 +34,7 @@ function Input({
             onChange={onChange}
             placeholder={placeholder}
             required={required}
-            id={id}
-            name={id}
+            name={name}
             className={`
               font-primary text-primary text-base
               rounded-sm shadow-lg
