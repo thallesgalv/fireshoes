@@ -10,10 +10,14 @@ import CrudCard from '../components/CrudCard'
 import UserOption from '../components/UserOption'
 import Modal, { ModalStatus } from '../components/Modal'
 import { useGlobalContext } from '../contexts/GlobalContext'
+import { useUserContext } from '../contexts/UserContext'
+import { MdLockOutline } from 'react-icons/md'
 
 const Index: NextPage = () => {
   const { logout } = useAuthContext()
   const { isMobile } = useGlobalContext()
+  const { currentUser, setCurrentUser } = useUserContext()
+
   const [radio, setRadio] = useState('entrega')
   const [modalStatus, setModalStatus] = useState<ModalStatus>(null)
 
@@ -142,13 +146,129 @@ const Index: NextPage = () => {
           >
             <Heading text="Novo endereço" small center />
             <Input
-              text="Campos:"
+              text="CEP:"
               type="text"
-              name="recoverUserEmail"
+              name="adressPostalCode"
               required
               widthFull
-              // onChange={(e) => setRecoverUserEmail(e.target.value)}
+              placeholder="00.000-000"
+              onChange={(e) =>
+                setCurrentUser({
+                  ...currentUser,
+                  adress: {
+                    ...currentUser?.adress,
+                    postalCode: e.target.value
+                  }
+                })
+              }
             />
+            <Input
+              text="Logradouro:"
+              type="text"
+              name="adressStreet"
+              required
+              widthFull
+              onChange={(e) =>
+                setCurrentUser({
+                  ...currentUser,
+                  adress: {
+                    ...currentUser?.adress,
+                    street: e.target.value
+                  }
+                })
+              }
+            />
+
+            <div
+              className="grid gap-6"
+              style={{ gridTemplateColumns: '2fr 2fr 8fr' }}
+            >
+              <Input
+                text="Número:"
+                type="text"
+                name="adressNumber"
+                required
+                widthFull
+                onChange={(e) =>
+                  setCurrentUser({
+                    ...currentUser,
+                    adress: {
+                      ...currentUser?.adress,
+                      number: e.target.value
+                    }
+                  })
+                }
+              />
+              <Input
+                text="Complemento:"
+                type="text"
+                name="adressComplement"
+                widthFull
+                onChange={(e) =>
+                  setCurrentUser({
+                    ...currentUser,
+                    adress: {
+                      ...currentUser?.adress,
+                      complement: e.target.value
+                    }
+                  })
+                }
+              />
+              <Input
+                text="Bairro:"
+                type="text"
+                name="adressNeighborhood"
+                required
+                widthFull
+                onChange={(e) =>
+                  setCurrentUser({
+                    ...currentUser,
+                    adress: {
+                      ...currentUser?.adress,
+                      neighborhood: e.target.value
+                    }
+                  })
+                }
+              />
+            </div>
+            <div
+              className="grid gap-6"
+              style={{ gridTemplateColumns: '10fr 2fr' }}
+            >
+              <Input
+                text="Cidade:"
+                type="text"
+                name="adressCity"
+                required
+                widthFull
+                onChange={(e) =>
+                  setCurrentUser({
+                    ...currentUser,
+                    adress: {
+                      ...currentUser?.adress,
+                      city: e.target.value
+                    }
+                  })
+                }
+              />
+              <Input
+                text="UF:"
+                type="text"
+                name="adressState"
+                required
+                widthFull
+                onChange={(e) =>
+                  setCurrentUser({
+                    ...currentUser,
+                    adress: {
+                      ...currentUser?.adress,
+                      state: e.target.value
+                    }
+                  })
+                }
+              />
+            </div>
+
             <div className="flex justify-center flex-wrap gap-4 flex-1">
               <Button primary text="Cadastrar" widthFull={isMobile} />
             </div>
@@ -164,13 +284,79 @@ const Index: NextPage = () => {
           >
             <Heading text="Novo Cartão" small center />
             <Input
-              text="Campos:"
+              text="Apelido do cartão:"
               type="text"
-              name="recoverUserEmail"
+              name="paymentMethodAlias"
               required
               widthFull
-              // onChange={(e) => setRecoverUserEmail(e.target.value)}
+              placeholder="Banco X"
+              onChange={(e) =>
+                setCurrentUser({
+                  ...currentUser,
+                  paymentMethod: {
+                    ...currentUser?.paymentMethod,
+                    alias: e.target.value
+                  }
+                })
+              }
             />
+            <Input
+              text="Número do cartão:"
+              type="text"
+              name="paymentMethodCardNumber"
+              required
+              widthFull
+              icon={<MdLockOutline />}
+              onChange={(e) =>
+                setCurrentUser({
+                  ...currentUser,
+                  paymentMethod: {
+                    ...currentUser?.paymentMethod,
+                    cardNumber: e.target.value
+                  }
+                })
+              }
+            />
+            <div
+              className="grid gap-6"
+              style={{ gridTemplateColumns: '6fr 6fr' }}
+            >
+              <Input
+                text="Validade:"
+                type="text"
+                name="paymentMethodExpirationDate"
+                required
+                widthFull
+                placeholder="00/00"
+                onChange={(e) =>
+                  setCurrentUser({
+                    ...currentUser,
+                    paymentMethod: {
+                      ...currentUser?.paymentMethod,
+                      expirationDate: e.target.value
+                    }
+                  })
+                }
+              />
+              <Input
+                text="CVV:"
+                type="text"
+                name="paymentMethodSecurityCode"
+                required
+                widthFull
+                icon={<MdLockOutline />}
+                onChange={(e) =>
+                  setCurrentUser({
+                    ...currentUser,
+                    paymentMethod: {
+                      ...currentUser?.paymentMethod,
+                      securityCode: e.target.value
+                    }
+                  })
+                }
+              />
+            </div>
+
             <div className="flex justify-center flex-wrap gap-4 flex-1">
               <Button primary text="Cadastrar" widthFull={isMobile} />
             </div>

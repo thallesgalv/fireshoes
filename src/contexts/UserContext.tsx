@@ -8,6 +8,28 @@ export interface User {
   photo?: string | undefined | null
   email?: string | undefined | null
   password?: string | undefined
+  adress?: Adress
+  paymentMethod?: PaymentMethod
+}
+
+interface Adress {
+  postalCode?: string
+  street?: string
+  number?: string
+  complement?: string
+  neighborhood?: string
+  city?: string
+  state?: string
+  active?: boolean
+}
+
+interface PaymentMethod {
+  alias?: string
+  cardNumber?: string
+  expirationDate?: string
+  securityCode?: string
+  cardHolder?: string
+  active?: boolean
 }
 
 interface UserContextProps {
@@ -30,7 +52,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     if (auth.currentUser) {
       await setDoc(doc(db, 'users', auth.currentUser.uid), {
         name: currentUser?.name,
-        email: currentUser?.email,
+        email: currentUser?.email
       })
 
       toast.success(`Conta criada com sucesso`)
