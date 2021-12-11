@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { useState } from 'react'
+import { FormEvent, useCallback, useState, useEffect } from 'react'
 import Button from '../components/Button'
 import Heading from '../components/Heading'
 import { MdLogout, MdNoAccounts } from 'react-icons/md'
@@ -12,14 +12,63 @@ import Modal, { ModalStatus } from '../components/Modal'
 import { useGlobalContext } from '../contexts/GlobalContext'
 import { useUserContext } from '../contexts/UserContext'
 import { MdLockOutline } from 'react-icons/md'
+import useFetch from '../hooks/useFetch'
 
 const Index: NextPage = () => {
   const { logout } = useAuthContext()
   const { isMobile } = useGlobalContext()
-  const { currentUser, setCurrentUser } = useUserContext()
+  const { currentUser, setCurrentUser, setAdress } = useUserContext()
+  const { request, data } = useFetch()
 
   const [radio, setRadio] = useState('entrega')
   const [modalStatus, setModalStatus] = useState<ModalStatus>(null)
+
+  useEffect(() => {
+    let postalCode = currentUser?.adress?.postalCode
+
+    if (postalCode) postalCode = postalCode.replace(/\D/g, '')
+
+    if (postalCode?.length === 8) {
+      request(`https://viacep.com.br/ws/${postalCode}/json/`)
+      setCurrentUser({
+        ...currentUser,
+        adress: {
+          ...currentUser?.adress,
+          street: data?.logradouro,
+          neighborhood: data?.bairro,
+          city: data?.localidade,
+          state: data?.uf
+        }
+      })
+    }
+  }, [currentUser?.adress?.postalCode])
+
+  const handleAdress = useCallback(
+    (e: FormEvent<HTMLInputElement>) => {
+      setCurrentUser({
+        ...currentUser,
+        adress: {
+          ...currentUser?.adress,
+          [e.currentTarget.name]: e.currentTarget.value,
+          active: true
+        }
+      })
+    },
+    [currentUser]
+  )
+
+  const handlePaymentMethod = useCallback(
+    (e: FormEvent<HTMLInputElement>) => {
+      setCurrentUser({
+        ...currentUser,
+        paymentMethod: {
+          ...currentUser?.paymentMethod,
+          [e.currentTarget.name]: e.currentTarget.value
+        }
+      })
+    },
+    [currentUser]
+  )
 
   return (
     <>
@@ -148,88 +197,63 @@ const Index: NextPage = () => {
             <Input
               text="CEP:"
               type="text"
-              name="adressPostalCode"
+              name="postalCode"
+              htmlFor="adressPostalCode"
               required
               widthFull
-              placeholder="00.000-000"
-              onChange={(e) =>
-                setCurrentUser({
-                  ...currentUser,
-                  adress: {
-                    ...currentUser?.adress,
-                    postalCode: e.target.value
-                  }
-                })
-              }
+              placeholder="00000-000"
+              onChange={handleAdress}
+              mask="postalCodeMask"
+              value={currentUser?.adress?.postalCode}
             />
             <Input
               text="Logradouro:"
               type="text"
-              name="adressStreet"
+              name="street"
+              htmlFor="adressStreet"
               required
               widthFull
-              onChange={(e) =>
-                setCurrentUser({
-                  ...currentUser,
-                  adress: {
-                    ...currentUser?.adress,
-                    street: e.target.value
-                  }
-                })
-              }
+              onChange={handleAdress}
+              value={currentUser?.adress?.street}
             />
 
             <div
               className="grid gap-6"
-              style={{ gridTemplateColumns: '2fr 2fr 8fr' }}
+              style={{
+                gridTemplateColumns: isMobile ? '1fr 1fr' : '2fr 2fr 8fr'
+              }}
             >
               <Input
                 text="Número:"
                 type="text"
-                name="adressNumber"
+                name="number"
+                htmlFor="adressNumber"
                 required
                 widthFull
-                onChange={(e) =>
-                  setCurrentUser({
-                    ...currentUser,
-                    adress: {
-                      ...currentUser?.adress,
-                      number: e.target.value
-                    }
-                  })
-                }
+                onChange={handleAdress}
+                value={currentUser?.adress?.number}
               />
               <Input
                 text="Complemento:"
                 type="text"
-                name="adressComplement"
+                name="complement"
+                htmlFor="adressComplement"
                 widthFull
-                onChange={(e) =>
-                  setCurrentUser({
-                    ...currentUser,
-                    adress: {
-                      ...currentUser?.adress,
-                      complement: e.target.value
-                    }
-                  })
-                }
+                onChange={handleAdress}
+                value={currentUser?.adress?.complement}
               />
-              <Input
-                text="Bairro:"
-                type="text"
-                name="adressNeighborhood"
-                required
-                widthFull
-                onChange={(e) =>
-                  setCurrentUser({
-                    ...currentUser,
-                    adress: {
-                      ...currentUser?.adress,
-                      neighborhood: e.target.value
-                    }
-                  })
-                }
-              />
+              <div className="col-span-2 lg:col-auto flex items-center">
+                <Input
+                  text="Bairro:"
+                  type="text"
+                  name="neighborhood"
+                  htmlFor="adressNeighborhood"
+                  required
+                  widthFull
+                  onChange={handleAdress}
+                  value={currentUser?.adress?.neighborhood}
+                />
+              </div>
             </div>
             <div
               className="grid gap-6"
@@ -238,39 +262,35 @@ const Index: NextPage = () => {
               <Input
                 text="Cidade:"
                 type="text"
-                name="adressCity"
+                name="city"
+                htmlFor="adressCity"
                 required
                 widthFull
-                onChange={(e) =>
-                  setCurrentUser({
-                    ...currentUser,
-                    adress: {
-                      ...currentUser?.adress,
-                      city: e.target.value
-                    }
-                  })
-                }
+                onChange={handleAdress}
+                value={currentUser?.adress?.city}
               />
               <Input
                 text="UF:"
                 type="text"
-                name="adressState"
+                name="state"
+                htmlFor="adressState"
                 required
                 widthFull
-                onChange={(e) =>
-                  setCurrentUser({
-                    ...currentUser,
-                    adress: {
-                      ...currentUser?.adress,
-                      state: e.target.value
-                    }
-                  })
-                }
+                onChange={handleAdress}
+                value={currentUser?.adress?.state}
               />
             </div>
 
             <div className="flex justify-center flex-wrap gap-4 flex-1">
-              <Button primary text="Cadastrar" widthFull={isMobile} />
+              <Button
+                primary
+                text="Cadastrar"
+                widthFull={isMobile}
+                onClick={() => {
+                  setAdress()
+                  setModalStatus(null)
+                }}
+              />
             </div>
           </form>
         </Modal>
@@ -286,36 +306,22 @@ const Index: NextPage = () => {
             <Input
               text="Apelido do cartão:"
               type="text"
-              name="paymentMethodAlias"
+              name="alias"
+              htmlFor="paymentMethodAlias"
               required
               widthFull
               placeholder="Banco X"
-              onChange={(e) =>
-                setCurrentUser({
-                  ...currentUser,
-                  paymentMethod: {
-                    ...currentUser?.paymentMethod,
-                    alias: e.target.value
-                  }
-                })
-              }
+              onChange={handlePaymentMethod}
             />
             <Input
               text="Número do cartão:"
               type="text"
-              name="paymentMethodCardNumber"
+              name="cardNumber"
+              htmlFor="paymentMethodCardNumber"
               required
               widthFull
               icon={<MdLockOutline />}
-              onChange={(e) =>
-                setCurrentUser({
-                  ...currentUser,
-                  paymentMethod: {
-                    ...currentUser?.paymentMethod,
-                    cardNumber: e.target.value
-                  }
-                })
-              }
+              onChange={handlePaymentMethod}
             />
             <div
               className="grid gap-6"
@@ -324,36 +330,22 @@ const Index: NextPage = () => {
               <Input
                 text="Validade:"
                 type="text"
-                name="paymentMethodExpirationDate"
+                name="expirationDate"
+                htmlFor="paymentMethodExpirationDate"
                 required
                 widthFull
                 placeholder="00/00"
-                onChange={(e) =>
-                  setCurrentUser({
-                    ...currentUser,
-                    paymentMethod: {
-                      ...currentUser?.paymentMethod,
-                      expirationDate: e.target.value
-                    }
-                  })
-                }
+                onChange={handlePaymentMethod}
               />
               <Input
                 text="CVV:"
                 type="text"
-                name="paymentMethodSecurityCode"
+                name="securityCode"
+                htmlFor="paymentMethodSecurityCode"
                 required
                 widthFull
                 icon={<MdLockOutline />}
-                onChange={(e) =>
-                  setCurrentUser({
-                    ...currentUser,
-                    paymentMethod: {
-                      ...currentUser?.paymentMethod,
-                      securityCode: e.target.value
-                    }
-                  })
-                }
+                onChange={handlePaymentMethod}
               />
             </div>
 

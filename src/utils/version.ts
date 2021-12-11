@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import packageInfo from '../../package.json'
 
-export function showVersion() {
+export const showVersion = () => {
   useEffect(() => {
     const version = packageInfo.version
     console.log(

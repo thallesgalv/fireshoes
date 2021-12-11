@@ -5,7 +5,7 @@ interface MainProps {
   children: ReactNode
 }
 
-function Main({ children }: MainProps) {
+const Main = ({ children }: MainProps) => {
   const { menuActive } = useGlobalContext()
 
   return (

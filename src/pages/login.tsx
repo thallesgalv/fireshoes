@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { useEffect, useState } from 'react'
+import { FormEvent, useCallback, useEffect, useState } from 'react'
 import { useGlobalContext } from '../contexts/GlobalContext'
 import Head from 'next/head'
 import Heading from '../components/Heading'
@@ -32,6 +32,26 @@ const Login: NextPage = () => {
     if (auth.currentUser?.uid) Router.push('/')
   }, [currentUser])
 
+  const handleChange = useCallback(
+    (e: FormEvent<HTMLInputElement>) => {
+      setCurrentUser({
+        ...currentUser,
+        [e.currentTarget.name]: e.currentTarget.value
+      })
+    },
+    [currentUser]
+  )
+
+  const handleLoginInput = useCallback(
+    (e: FormEvent<HTMLInputElement>) => {
+      setLoginDataForm({
+        ...loginDataForm,
+        [e.currentTarget.name]: e.currentTarget.value
+      })
+    },
+    [loginDataForm]
+  )
+
   return (
     <>
       <Head>
@@ -49,29 +69,21 @@ const Login: NextPage = () => {
           <Input
             text="E-mail:"
             type="email"
-            name="loginUserEmail"
+            name="email"
+            htmlFor="loginUserEmail"
             required
             widthFull
-            onChange={(e) =>
-              setLoginDataForm({
-                ...loginDataForm,
-                email: e.target.value
-              })
-            }
+            onChange={handleLoginInput}
           />
           <Input
             text="Senha:"
             type="password"
-            name="loginUserPassword"
+            name="password"
+            htmlFor="loginUserPassword"
             icon={<MdLockOutline />}
             required
             widthFull
-            onChange={(e) =>
-              setLoginDataForm({
-                ...loginDataForm,
-                password: e.target.value
-              })
-            }
+            onChange={handleLoginInput}
           />
           <div className="flex justify-between flex-wrap gap-6">
             <Button
@@ -88,7 +100,7 @@ const Login: NextPage = () => {
               onClick={signInWithGoogle}
             />
             <p className="flex-grow mt-4 text-xs">
-              Esqueceu a senha? Clique{' '}
+              Esqueceu a senha? Clique
               <span
                 className="text-primary font-semibold cursor-pointer"
                 onClick={() => {
@@ -124,42 +136,30 @@ const Login: NextPage = () => {
             <Input
               text="Nome completo:"
               type="text"
-              name="createUserName"
+              name="name"
+              htmlFor="createUserName"
               required
               widthFull
-              onChange={(e) =>
-                setCurrentUser({
-                  ...currentUser,
-                  name: e.target.value
-                })
-              }
+              onChange={handleChange}
             />
             <Input
               text="E-mail:"
               type="email"
-              name="createUserEmail"
+              name="email"
+              htmlFor="createUserEmail"
               required
               widthFull
-              onChange={(e) =>
-                setCurrentUser({
-                  ...currentUser,
-                  email: e.target.value
-                })
-              }
+              onChange={handleChange}
             />
             <Input
               text="Senha:"
               type="password"
-              name="createUserPassword"
+              name="password"
+              htmlFor="createUserPassword"
               icon={<MdLockOutline />}
               required
               widthFull
-              onChange={(e) =>
-                setCurrentUser({
-                  ...currentUser,
-                  password: e.target.value
-                })
-              }
+              onChange={handleChange}
             />
             <div className="flex justify-center flex-wrap gap-4 flex-1">
               <Button

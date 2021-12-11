@@ -8,7 +8,7 @@ interface UserOptionProps {
   setRadio: (value: string) => void
 }
 
-function UserOption({ text, value, radio, setRadio }: UserOptionProps) {
+const UserOption = ({ text, value, radio, setRadio }: UserOptionProps) => {
   return (
     <label
       htmlFor={value}

@@ -13,11 +13,11 @@ import {
 } from 'react-icons/md'
 import { auth } from '../services/firebase'
 
-function Header() {
+const Header = () => {
   const { isMobile, menuActive, setMenuActive } = useGlobalContext()
   const { currentUser } = useUserContext()
 
-  function handleMenu() {
+  const handleMenu = () => {
     isMobile && setMenuActive(!menuActive)
   }
 

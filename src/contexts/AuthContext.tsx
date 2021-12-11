@@ -45,7 +45,7 @@ interface AuthContextProviderProps {
 
 export const AuthContext = createContext({} as AuthContextProps)
 
-export function AuthContextProvider({ children }: AuthContextProviderProps) {
+export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const { currentUser, setCurrentUser, createUser } = useUserContext()
   const [loginDataForm, setLoginDataForm] = useState({} as LoginDataFormProps)
   const [recoverUserEmail, setRecoverUserEmail] = useState('')
@@ -53,12 +53,13 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        const { displayName, photoURL, email } = user
+        const { displayName, photoURL, email, uid } = user
 
         setCurrentUser({
           name: displayName,
           photo: photoURL,
-          email: email
+          email: email,
+          uid: uid
         })
       }
     })
@@ -66,7 +67,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     return () => unsubscribe()
   }, [])
 
-  async function signInWithGoogle() {
+  const signInWithGoogle = async () => {
     const provider = new GoogleAuthProvider()
     const result = await signInWithPopup(auth, provider)
 
@@ -76,9 +77,9 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     }
   }
 
-  async function signUp() {
+  const signUp = async () => {
     try {
-      if (currentUser?.email && currentUser.password) {
+      if (currentUser?.email && currentUser?.password) {
         const result = await createUserWithEmailAndPassword(
           auth,
           currentUser?.email,
@@ -86,7 +87,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         )
 
         if (result.user) {
-          setCurrentUser({...currentUser})
+          setCurrentUser({ ...currentUser, uid: result.user.uid })
         }
 
         if (auth.currentUser) {
@@ -103,7 +104,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     }
   }
 
-  async function login() {
+  const login = async () => {
     try {
       await signInWithEmailAndPassword(
         auth,
@@ -116,14 +117,14 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     }
   }
 
-  async function logout() {
+  const logout = async () => {
     await signOut(auth)
     toast.success('Logout realizado com sucesso')
     setCurrentUser({} as User)
     Router.push('/')
   }
 
-  async function forgotPassword() {
+  const forgotPassword = async () => {
     try {
       await sendPasswordResetEmail(auth, recoverUserEmail)
       toast.success('E-mail enviado com sucesso')
@@ -151,6 +152,6 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   )
 }
 
-export function useAuthContext() {
+export const useAuthContext = () => {
   return useContext(AuthContext)
 }

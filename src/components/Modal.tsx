@@ -14,10 +14,10 @@ interface ModalProps {
   setModalStatus: (arg: ModalStatus) => void
 }
 
-function Modal({ children, modalStatus, setModalStatus }: ModalProps) {
+const Modal = ({ children, modalStatus, setModalStatus }: ModalProps) => {
   const modalContainer = useRef(null)
 
-  function handleModal(e: React.MouseEvent<HTMLDivElement>) {
+  const handleModal = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === modalContainer.current) setModalStatus(null)
   }
 

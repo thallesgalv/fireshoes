@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
 
-function useMedia(param: string) {
+const useMedia = (param: string) => {
   const [isMobile, setIsMobile] = useState(true)
 
   useEffect(() => {
-    function checkForMobile() {
+    const checkForMobile = () => {
       setIsMobile(window.matchMedia(param).matches)
     }
 

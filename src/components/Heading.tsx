@@ -4,7 +4,7 @@ interface HeadingProps {
   small?: boolean
 }
 
-function Heading({ text, center, small }: HeadingProps) {
+const Heading = ({ text, center, small }: HeadingProps) => {
   return (
     <>
       <h1

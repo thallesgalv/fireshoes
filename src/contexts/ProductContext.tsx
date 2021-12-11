@@ -10,9 +10,9 @@ interface ProductContextProviderProps {
 
 export const ProductContext = createContext({} as ProductContextProps)
 
-export function ProductContextProvider({
+export const ProductContextProvider = ({
   children
-}: ProductContextProviderProps) {
+}: ProductContextProviderProps) => {
   const currentProduct = 'product1'
 
   return (
@@ -22,6 +22,6 @@ export function ProductContextProvider({
   )
 }
 
-export function useProductContext() {
+export const useProductContext = () => {
   return useContext(ProductContext)
 }

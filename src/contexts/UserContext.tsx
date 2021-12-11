@@ -1,9 +1,10 @@
-import { setDoc, doc, collection } from 'firebase/firestore'
+import { setDoc, doc, updateDoc, arrayUnion } from 'firebase/firestore'
 import { createContext, useContext, useState, ReactNode } from 'react'
 import toast from 'react-hot-toast'
 import { auth, db } from '../services/firebase'
 
 export interface User {
+  uid?: string
   name?: string | undefined | null
   photo?: string | undefined | null
   email?: string | undefined | null
@@ -12,7 +13,7 @@ export interface User {
   paymentMethod?: PaymentMethod
 }
 
-interface Adress {
+export interface Adress {
   postalCode?: string
   street?: string
   number?: string
@@ -36,6 +37,7 @@ interface UserContextProps {
   currentUser: User | undefined
   setCurrentUser: (param: User | undefined) => void
   createUser: () => void
+  setAdress: () => void
 }
 
 interface UserContextProviderProps {
@@ -44,28 +46,41 @@ interface UserContextProviderProps {
 
 export const UserContext = createContext({} as UserContextProps)
 
-export function UserContextProvider({ children }: UserContextProviderProps) {
+export const UserContextProvider = ({ children }: UserContextProviderProps) => {
   const [currentUser, setCurrentUser] = useState<User>()
-  const usersCollectionRef = collection(db, 'users')
+  const currentUserRef = doc(db, 'users', currentUser?.uid || '')
 
-  async function createUser() {
+  const createUser = async () => {
     if (auth.currentUser) {
       await setDoc(doc(db, 'users', auth.currentUser.uid), {
         name: currentUser?.name,
-        email: currentUser?.email
+        email: currentUser?.email,
+        adress: []
       })
 
       toast.success(`Conta criada com sucesso`)
     }
   }
 
+  const setAdress = async () => {
+    if (auth.currentUser) {
+      await updateDoc(currentUserRef, {
+        adress: arrayUnion(currentUser?.adress)
+      })
+
+      toast.success(`Endereço atualizado com sucesso`)
+    }
+  }
+
   return (
-    <UserContext.Provider value={{ currentUser, setCurrentUser, createUser }}>
+    <UserContext.Provider
+      value={{ currentUser, setCurrentUser, createUser, setAdress }}
+    >
       {children}
     </UserContext.Provider>
   )
 }
 
-export function useUserContext() {
+export const useUserContext = () => {
   return useContext(UserContext)
 }

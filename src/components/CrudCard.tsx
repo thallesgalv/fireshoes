@@ -6,7 +6,7 @@ interface CrudCardProps {
   isActive?: boolean
 }
 
-function CrudCard({ children, isActive }: CrudCardProps) {
+const CrudCard = ({ children, isActive }: CrudCardProps) => {
   return (
     <li
       className={`

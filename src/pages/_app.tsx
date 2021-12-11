@@ -10,7 +10,7 @@ import { ProductContextProvider } from '../contexts/ProductContext'
 import { Toaster } from 'react-hot-toast'
 import { UserContextProvider } from '../contexts/UserContext'
 
-function MyApp({ Component, pageProps }: AppProps) {
+const MyApp = ({ Component, pageProps }: AppProps) => {
   showVersion()
   return (
     <UserContextProvider>

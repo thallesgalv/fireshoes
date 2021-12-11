@@ -1,40 +1,42 @@
-import { InputHTMLAttributes } from "react"
+import { InputHTMLAttributes, useCallback } from 'react'
+import { postalCodeMask } from '../utils/masks'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   text?: string
-  value?: string
   icon?: any
   validationMessage?: string
   widthFull?: boolean
+  htmlFor?: string
+  mask?: string
 }
 
-function Input({
-  text,
-  type,
-  placeholder,
-  required,
-  value,
-  onChange,
-  icon,
-  name,
-  validationMessage,
-  widthFull
-}: InputProps) {
+const Input = (props: InputProps) => {
+  const handleKeyUp = useCallback(
+    (e: React.FormEvent<HTMLInputElement>) => {
+      if (props.mask === 'postalCodeMask') {
+        postalCodeMask(e)
+      }
+    },
+    [props.mask]
+  )
+
   return (
     <>
       <label
-        htmlFor={name}
+        htmlFor={props.htmlFor}
         className="text-primary font-primary font-semibold uppercase text-xs cursor-pointer"
       >
-        {text}
+        {props.text}
         <div className="flex items-center relative">
           <input
-            type={type}
-            value={value}
-            onChange={onChange}
-            placeholder={placeholder}
-            required={required}
-            name={name}
+            type={props.type}
+            name={props.name}
+            id={props.htmlFor}
+            onChange={props.onChange}
+            onKeyUp={handleKeyUp}
+            placeholder={props.placeholder}
+            required={props.required}
+            defaultValue={props.value}
             className={`
               font-primary text-primary text-base
               rounded-sm shadow-lg
@@ -42,17 +44,17 @@ function Input({
               block border border-primary
               focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent focus:p-1
               placeholder-text-xs
-              ${widthFull && 'w-full'}
+              ${props.widthFull && 'w-full'}
             `}
           />
           <span className="text-lg absolute right-2 opacity-60 z-10">
-            {icon}
+            {props.icon}
           </span>
         </div>
       </label>
-      {validationMessage && (
+      {props.validationMessage && (
         <span className="text-primary text-sm relative top-2">
-          {validationMessage}
+          {props.validationMessage}
         </span>
       )}
     </>

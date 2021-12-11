@@ -11,7 +11,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   userPhoto?: string | null
 }
 
-function Button({
+const Button = ({
   text,
   primary,
   secondary,
@@ -21,7 +21,7 @@ function Button({
   google,
   widthFull,
   userPhoto
-}: ButtonProps) {
+}: ButtonProps) => {
   return (
     <button
       className={`
