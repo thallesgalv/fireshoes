@@ -1,4 +1,10 @@
-import { setDoc, doc, updateDoc, arrayUnion } from 'firebase/firestore'
+import {
+  setDoc,
+  doc,
+  updateDoc,
+  arrayUnion,
+  onSnapshot
+} from 'firebase/firestore'
 import { createContext, useContext, useState, ReactNode } from 'react'
 import toast from 'react-hot-toast'
 import { auth, db } from '../services/firebase'
@@ -10,7 +16,9 @@ export interface User {
   email?: string | undefined | null
   password?: string | undefined
   adress?: Adress
+  adressList?: Adress[]
   paymentMethod?: PaymentMethod
+  selectedAdress?: number
 }
 
 export interface Adress {
@@ -21,7 +29,6 @@ export interface Adress {
   neighborhood?: string
   city?: string
   state?: string
-  active?: boolean
 }
 
 interface PaymentMethod {
@@ -30,7 +37,6 @@ interface PaymentMethod {
   expirationDate?: string
   securityCode?: string
   cardHolder?: string
-  active?: boolean
 }
 
 interface UserContextProps {
@@ -38,6 +44,8 @@ interface UserContextProps {
   setCurrentUser: (param: User | undefined) => void
   createUser: () => void
   setAdress: () => void
+  getUser: () => void
+  setActiveAdress: (arg: number) => void
 }
 
 interface UserContextProviderProps {
@@ -48,33 +56,64 @@ export const UserContext = createContext({} as UserContextProps)
 
 export const UserContextProvider = ({ children }: UserContextProviderProps) => {
   const [currentUser, setCurrentUser] = useState<User>()
-  const currentUserRef = doc(db, 'users', currentUser?.uid || '')
+  const currentUserRef = doc(db, 'users', currentUser?.uid || 'noUid')
 
   const createUser = async () => {
     if (auth.currentUser) {
       await setDoc(doc(db, 'users', auth.currentUser.uid), {
         name: currentUser?.name,
         email: currentUser?.email,
-        adress: []
       })
 
       toast.success(`Conta criada com sucesso`)
     }
   }
 
+  const getUser = async () => {
+    if (auth.currentUser) {
+      onSnapshot(doc(db, 'users', auth.currentUser.uid), (doc) => {
+        const data = doc.data() as User
+        const { name, email, adressList, selectedAdress } = data
+        setCurrentUser({
+          ...currentUser,
+          uid: auth?.currentUser?.uid,
+          name: name,
+          email: email,
+          adressList: adressList,
+          selectedAdress: selectedAdress
+        })
+      })
+    }
+  }
+
   const setAdress = async () => {
     if (auth.currentUser) {
       await updateDoc(currentUserRef, {
-        adress: arrayUnion(currentUser?.adress)
+        adressList: arrayUnion(currentUser?.adress),
+        selectedAdress: currentUser?.adressList?.length || 0
       })
 
       toast.success(`Endereço atualizado com sucesso`)
     }
   }
 
+  const setActiveAdress = async (arg: number) => {
+    await updateDoc(currentUserRef, {
+      selectedAdress: arg
+    })
+    toast.success(`Endereço primário atualizado com sucesso`)
+  }
+
   return (
     <UserContext.Provider
-      value={{ currentUser, setCurrentUser, createUser, setAdress }}
+      value={{
+        currentUser,
+        setCurrentUser,
+        createUser,
+        setAdress,
+        getUser,
+        setActiveAdress
+      }}
     >
       {children}
     </UserContext.Provider>

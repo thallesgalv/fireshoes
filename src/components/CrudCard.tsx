@@ -1,12 +1,13 @@
-import { ReactNode } from 'react'
+import { MouseEventHandler, ReactNode } from 'react'
 import { MdDeleteOutline, MdOutlineEdit } from 'react-icons/md'
 
 interface CrudCardProps {
   children: ReactNode
   isActive?: boolean
+  onClick?: MouseEventHandler<HTMLLIElement> | undefined
 }
 
-const CrudCard = ({ children, isActive }: CrudCardProps) => {
+const CrudCard = ({ children, isActive, onClick }: CrudCardProps) => {
   return (
     <li
       className={`
@@ -16,6 +17,7 @@ const CrudCard = ({ children, isActive }: CrudCardProps) => {
         font-primary text-primary font-semibold
         shadow-lg relative
       `}
+      onClick={onClick}
     >
       {children}
       <ul className="flex text-2xl absolute bottom-2 right-2 cursor-pointer">

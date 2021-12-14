@@ -46,7 +46,7 @@ interface AuthContextProviderProps {
 export const AuthContext = createContext({} as AuthContextProps)
 
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
-  const { currentUser, setCurrentUser, createUser } = useUserContext()
+  const { currentUser, setCurrentUser, createUser, getUser } = useUserContext()
   const [loginDataForm, setLoginDataForm] = useState({} as LoginDataFormProps)
   const [recoverUserEmail, setRecoverUserEmail] = useState('')
 
@@ -55,7 +55,10 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       if (user) {
         const { displayName, photoURL, email, uid } = user
 
+        getUser()
+
         setCurrentUser({
+          ...currentUser,
           name: displayName,
           photo: photoURL,
           email: email,

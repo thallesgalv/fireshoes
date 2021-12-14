@@ -14,14 +14,19 @@ import { useUserContext } from '../contexts/UserContext'
 import { MdLockOutline } from 'react-icons/md'
 import useFetch from '../hooks/useFetch'
 
-const Index: NextPage = () => {
+const User: NextPage = () => {
   const { logout } = useAuthContext()
   const { isMobile } = useGlobalContext()
-  const { currentUser, setCurrentUser, setAdress } = useUserContext()
+  const { currentUser, setCurrentUser, setAdress, getUser, setActiveAdress } =
+    useUserContext()
   const { request, data } = useFetch()
 
   const [radio, setRadio] = useState('entrega')
   const [modalStatus, setModalStatus] = useState<ModalStatus>(null)
+
+  useEffect(() => {
+    getUser()
+  }, [])
 
   useEffect(() => {
     let postalCode = currentUser?.adress?.postalCode
@@ -49,8 +54,7 @@ const Index: NextPage = () => {
         ...currentUser,
         adress: {
           ...currentUser?.adress,
-          [e.currentTarget.name]: e.currentTarget.value,
-          active: true
+          [e.currentTarget.name]: e.currentTarget.value
         }
       })
     },
@@ -69,6 +73,11 @@ const Index: NextPage = () => {
     },
     [currentUser]
   )
+
+  const handleClick = (arg: number) => {
+    setCurrentUser({...currentUser, selectedAdress: +arg})
+    setActiveAdress(+arg)
+  }
 
   return (
     <>
@@ -128,18 +137,37 @@ const Index: NextPage = () => {
           <div>
             {radio === 'entrega' && (
               <ul className="flex flex-col gap-6">
-                <CrudCard isActive>
-                  <p>Avenida Senador Feijó, 350</p>
-                  <p>Vila Mathias</p>
-                  <p>Santos/SP</p>
-                  <p>CEP: 11015-502</p>
-                </CrudCard>
-                <CrudCard>
-                  <p>Avenida Bartolomeu de Gusmão, 340</p>
-                  <p>Ponta da Praia</p>
-                  <p>Santos/SP</p>
-                  <p>CEP: 11015-502</p>
-                </CrudCard>
+                {currentUser?.adressList?.map(
+                  (
+                    {
+                      street,
+                      number,
+                      complement,
+                      neighborhood,
+                      city,
+                      state,
+                      postalCode
+                    },
+                    idx
+                  ) => {
+                    return (
+                      <CrudCard
+                        key={idx}
+                        isActive={idx === currentUser.selectedAdress}
+                        onClick={() => handleClick(idx)}
+                      >
+                        <p>
+                          {street}, {number}, {complement}
+                        </p>
+                        <p>{neighborhood}</p>
+                        <p>
+                          {city}/{state}
+                        </p>
+                        <p>{postalCode}</p>
+                      </CrudCard>
+                    )
+                  }
+                )}
                 <div className="flex flex-row-reverse">
                   <Button
                     primary
@@ -359,4 +387,4 @@ const Index: NextPage = () => {
   )
 }
 
-export default Index
+export default User
