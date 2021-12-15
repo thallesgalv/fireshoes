@@ -5,9 +5,17 @@ interface CrudCardProps {
   children: ReactNode
   isActive?: boolean
   onClick?: MouseEventHandler<HTMLLIElement> | undefined
+  handleDeleteButton?: MouseEventHandler<HTMLLIElement> | undefined
+  handleUpdateButton?: MouseEventHandler<HTMLLIElement> | undefined
 }
 
-const CrudCard = ({ children, isActive, onClick }: CrudCardProps) => {
+const CrudCard = ({
+  children,
+  isActive,
+  onClick,
+  handleDeleteButton,
+  handleUpdateButton
+}: CrudCardProps) => {
   return (
     <li
       className={`
@@ -21,10 +29,10 @@ const CrudCard = ({ children, isActive, onClick }: CrudCardProps) => {
     >
       {children}
       <ul className="flex text-2xl absolute bottom-2 right-2 cursor-pointer">
-        <li>
+        <li onClick={handleUpdateButton}>
           <MdOutlineEdit />
         </li>
-        <li>
+        <li onClick={handleDeleteButton}>
           <MdDeleteOutline />
         </li>
       </ul>

@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, ReactNode } from 'react'
 import useMedia from '../hooks/useMedia'
+import { Adress } from './UserContext'
 
 interface GlobalContextProps {
   isMobile: boolean
@@ -20,7 +21,13 @@ export const GlobalContextProvider = ({
   const [menuActive, setMenuActive] = useState(false)
 
   return (
-    <GlobalContext.Provider value={{ isMobile, menuActive, setMenuActive }}>
+    <GlobalContext.Provider
+      value={{
+        isMobile,
+        menuActive,
+        setMenuActive
+      }}
+    >
       {children}
     </GlobalContext.Provider>
   )

@@ -10,18 +10,31 @@ import CrudCard from '../components/CrudCard'
 import UserOption from '../components/UserOption'
 import Modal, { ModalStatus } from '../components/Modal'
 import { useGlobalContext } from '../contexts/GlobalContext'
-import { useUserContext } from '../contexts/UserContext'
+import { Adress, useUserContext, PaymentMethod } from '../contexts/UserContext'
 import { MdLockOutline } from 'react-icons/md'
 import useFetch from '../hooks/useFetch'
 
 const User: NextPage = () => {
   const { logout } = useAuthContext()
   const { isMobile } = useGlobalContext()
-  const { currentUser, setCurrentUser, setAdress, getUser, setActiveAdress } =
-    useUserContext()
+  const {
+    currentUser,
+    setCurrentUser,
+    setAdress,
+    getUser,
+    setActiveAdress,
+    deleteAdress,
+    adressDataForm,
+    setAdressDataForm,
+    paymentMethodDataForm,
+    setPaymentMethodDataForm,
+    setActivePaymentMethod,
+    deletePaymentMethod,
+    setPaymentMethod
+  } = useUserContext()
   const { request, data } = useFetch()
-
   const [radio, setRadio] = useState('entrega')
+  const [editMode, setEditMode] = useState(false)
   const [modalStatus, setModalStatus] = useState<ModalStatus>(null)
 
   useEffect(() => {
@@ -29,54 +42,84 @@ const User: NextPage = () => {
   }, [])
 
   useEffect(() => {
-    let postalCode = currentUser?.adress?.postalCode
+    let postalCode = adressDataForm?.postalCode
 
     if (postalCode) postalCode = postalCode.replace(/\D/g, '')
 
     if (postalCode?.length === 8) {
       request(`https://viacep.com.br/ws/${postalCode}/json/`)
-      setCurrentUser({
-        ...currentUser,
-        adress: {
-          ...currentUser?.adress,
-          street: data?.logradouro,
-          neighborhood: data?.bairro,
-          city: data?.localidade,
-          state: data?.uf
-        }
+      setAdressDataForm({
+        ...adressDataForm,
+        street: data?.logradouro,
+        neighborhood: data?.bairro,
+        city: data?.localidade,
+        state: data?.uf
       })
     }
-  }, [currentUser?.adress?.postalCode])
+  }, [adressDataForm?.postalCode])
 
   const handleAdress = useCallback(
     (e: FormEvent<HTMLInputElement>) => {
-      setCurrentUser({
-        ...currentUser,
-        adress: {
-          ...currentUser?.adress,
-          [e.currentTarget.name]: e.currentTarget.value
-        }
+      setAdressDataForm({
+        ...adressDataForm,
+        [e.currentTarget.name]: e.currentTarget.value
       })
     },
-    [currentUser]
+    [adressDataForm]
   )
+
+  const handleSelectActiveAdress = (arg: number) => {
+    setCurrentUser({ ...currentUser, selectedAdress: +arg })
+    setActiveAdress(+arg)
+  }
+
+  const handleDeleteAdress = (arg: number) => {
+    let newSelectAdress = currentUser?.adressList?.length
+    setCurrentUser({
+      ...currentUser,
+      selectedAdress: newSelectAdress ? newSelectAdress - 1 : 0
+    })
+    setActiveAdress(newSelectAdress ? newSelectAdress - 1 : 0)
+    deleteAdress(arg)
+  }
+
+  const handleUpdateAdress = (arg: number) => {
+    setEditMode(true)
+    if (currentUser?.adressList)
+      setAdressDataForm(currentUser?.adressList?.[arg])
+    setModalStatus('createAdressModal')
+  }
 
   const handlePaymentMethod = useCallback(
     (e: FormEvent<HTMLInputElement>) => {
-      setCurrentUser({
-        ...currentUser,
-        paymentMethod: {
-          ...currentUser?.paymentMethod,
-          [e.currentTarget.name]: e.currentTarget.value
-        }
+      setPaymentMethodDataForm({
+        ...paymentMethodDataForm,
+        [e.currentTarget.name]: e.currentTarget.value
       })
     },
-    [currentUser]
+    [paymentMethodDataForm]
   )
 
-  const handleClick = (arg: number) => {
-    setCurrentUser({...currentUser, selectedAdress: +arg})
-    setActiveAdress(+arg)
+  const handleSelectActivePaymentMethod = (arg: number) => {
+    setCurrentUser({ ...currentUser, selectedPaymentMethod: +arg })
+    setActivePaymentMethod(+arg)
+  }
+
+  const handleDeletePaymentMethod = (arg: number) => {
+    let newSelectedPaymentMethod = currentUser?.paymentMethodList?.length || 0
+    setCurrentUser({
+      ...currentUser,
+      selectedPaymentMethod: newSelectedPaymentMethod
+    })
+    setActivePaymentMethod(newSelectedPaymentMethod)
+    deletePaymentMethod(arg)
+  }
+
+  const handleUpdatePaymentMethod = (arg: number) => {
+    setEditMode(true)
+    if (currentUser?.paymentMethodList)
+      setPaymentMethodDataForm(currentUser?.paymentMethodList?.[arg])
+    setModalStatus('createPaymentMethodModal')
   }
 
   return (
@@ -137,42 +180,66 @@ const User: NextPage = () => {
           <div>
             {radio === 'entrega' && (
               <ul className="flex flex-col gap-6">
-                {currentUser?.adressList?.map(
-                  (
-                    {
-                      street,
-                      number,
-                      complement,
-                      neighborhood,
-                      city,
-                      state,
-                      postalCode
-                    },
-                    idx
-                  ) => {
-                    return (
-                      <CrudCard
-                        key={idx}
-                        isActive={idx === currentUser.selectedAdress}
-                        onClick={() => handleClick(idx)}
-                      >
-                        <p>
-                          {street}, {number}, {complement}
-                        </p>
-                        <p>{neighborhood}</p>
-                        <p>
-                          {city}/{state}
-                        </p>
-                        <p>{postalCode}</p>
-                      </CrudCard>
-                    )
-                  }
+                {currentUser?.adressList?.length ? (
+                  currentUser?.adressList?.map(
+                    (
+                      {
+                        street,
+                        number,
+                        complement,
+                        neighborhood,
+                        city,
+                        state,
+                        postalCode
+                      },
+                      idx
+                    ) => {
+                      return (
+                        <CrudCard
+                          key={idx}
+                          isActive={idx === currentUser.selectedAdress}
+                          onClick={() => handleSelectActiveAdress(idx)}
+                          handleDeleteButton={() => handleDeleteAdress(idx)}
+                          handleUpdateButton={() => handleUpdateAdress(idx)}
+                        >
+                          <p>
+                            {street}, {number}, {complement}
+                          </p>
+                          <p>{neighborhood}</p>
+                          <p>
+                            {city}/{state}
+                          </p>
+                          <p>{postalCode}</p>
+                        </CrudCard>
+                      )
+                    }
+                  )
+                ) : (
+                  <div>
+                    <img
+                      src="/building.svg"
+                      alt="Illustration by vectorjuice"
+                      title="Illustration by vectorjuice"
+                      className="opacity-50"
+                    />
+                    <p className="text-primary text-center">
+                      Nenhum endereço cadastrado.
+                    </p>
+                  </div>
                 )}
-                <div className="flex flex-row-reverse">
+                <div
+                  className={`flex ${
+                    currentUser?.adressList?.length
+                      ? 'flex-row-reverse'
+                      : 'justify-center'
+                  }`}
+                >
                   <Button
                     primary
                     text="Cadastrar novo"
                     onClick={() => {
+                      setEditMode(false)
+                      setAdressDataForm({} as Adress)
                       setModalStatus('createAdressModal')
                     }}
                   />
@@ -183,19 +250,53 @@ const User: NextPage = () => {
           <div>
             {radio === 'pagamento' && (
               <ul className="flex flex-col gap-6">
-                <CrudCard isActive>
-                  <p>Crédito Nubank Mãe</p>
-                  <p>••••0099</p>
-                </CrudCard>
-                <CrudCard>
-                  <p>Crédito Nubank Mãe</p>
-                  <p>••••0099</p>
-                </CrudCard>
-                <div className="flex flex-row-reverse">
+                {currentUser?.paymentMethodList?.length ? (
+                  currentUser?.paymentMethodList?.map(
+                    ({ alias, cardNumber }, idx) => {
+                      return (
+                        <CrudCard
+                          key={idx}
+                          isActive={idx === currentUser.selectedPaymentMethod}
+                          onClick={() => handleSelectActivePaymentMethod(idx)}
+                          handleDeleteButton={() =>
+                            handleDeletePaymentMethod(idx)
+                          }
+                          handleUpdateButton={() =>
+                            handleUpdatePaymentMethod(idx)
+                          }
+                        >
+                          <p>{alias}</p>
+                          <p>••••{cardNumber}</p>
+                        </CrudCard>
+                      )
+                    }
+                  )
+                ) : (
+                  <div>
+                    <img
+                      src="/paymentMethod.svg"
+                      alt="Illustration by vectorjuice"
+                      title="Illustration by vectorjuice"
+                      className="opacity-50"
+                    />
+                    <p className="text-primary text-center">
+                      Nenhum meio de pagamento cadastrado.
+                    </p>
+                  </div>
+                )}
+                <div
+                  className={`flex ${
+                    currentUser?.paymentMethodList?.length
+                      ? 'flex-row-reverse'
+                      : 'justify-center'
+                  }`}
+                >
                   <Button
                     primary
                     text="Cadastrar novo"
                     onClick={() => {
+                      setEditMode(false)
+                      setPaymentMethodDataForm({} as PaymentMethod)
                       setModalStatus('createPaymentMethodModal')
                     }}
                   />
@@ -216,12 +317,16 @@ const User: NextPage = () => {
 
       {modalStatus === 'createAdressModal' && (
         <Modal modalStatus={modalStatus} setModalStatus={setModalStatus}>
-          <form
+          <div
             onSubmit={(e) => e.preventDefault()}
             className="m-auto flex flex-col gap-6"
             style={{ width: 'calc(min(91.666667%, 20rem))' }}
           >
-            <Heading text="Novo endereço" small center />
+            <Heading
+              text={editMode ? 'Editar endereço' : 'Novo endereço'}
+              small
+              center
+            />
             <Input
               text="CEP:"
               type="text"
@@ -232,7 +337,7 @@ const User: NextPage = () => {
               placeholder="00000-000"
               onChange={handleAdress}
               mask="postalCodeMask"
-              value={currentUser?.adress?.postalCode}
+              value={adressDataForm?.postalCode}
             />
             <Input
               text="Logradouro:"
@@ -242,7 +347,7 @@ const User: NextPage = () => {
               required
               widthFull
               onChange={handleAdress}
-              value={currentUser?.adress?.street}
+              value={adressDataForm?.street}
             />
 
             <div
@@ -259,7 +364,7 @@ const User: NextPage = () => {
                 required
                 widthFull
                 onChange={handleAdress}
-                value={currentUser?.adress?.number}
+                value={adressDataForm?.number}
               />
               <Input
                 text="Complemento:"
@@ -268,7 +373,7 @@ const User: NextPage = () => {
                 htmlFor="adressComplement"
                 widthFull
                 onChange={handleAdress}
-                value={currentUser?.adress?.complement}
+                value={adressDataForm?.complement}
               />
               <div className="col-span-2 lg:col-auto flex items-center">
                 <Input
@@ -279,7 +384,7 @@ const User: NextPage = () => {
                   required
                   widthFull
                   onChange={handleAdress}
-                  value={currentUser?.adress?.neighborhood}
+                  value={adressDataForm?.neighborhood}
                 />
               </div>
             </div>
@@ -295,7 +400,7 @@ const User: NextPage = () => {
                 required
                 widthFull
                 onChange={handleAdress}
-                value={currentUser?.adress?.city}
+                value={adressDataForm?.city}
               />
               <Input
                 text="UF:"
@@ -305,22 +410,34 @@ const User: NextPage = () => {
                 required
                 widthFull
                 onChange={handleAdress}
-                value={currentUser?.adress?.state}
+                value={adressDataForm?.state}
               />
             </div>
-
             <div className="flex justify-center flex-wrap gap-4 flex-1">
-              <Button
-                primary
-                text="Cadastrar"
-                widthFull={isMobile}
-                onClick={() => {
-                  setAdress()
-                  setModalStatus(null)
-                }}
-              />
+              {editMode ? (
+                <Button
+                  primary
+                  text="Editar"
+                  widthFull={isMobile}
+                  onClick={() => {
+                    handleDeleteAdress(currentUser?.selectedAdress || 99)
+                    setAdress()
+                    setModalStatus(null)
+                  }}
+                />
+              ) : (
+                <Button
+                  primary
+                  text="Cadastrar"
+                  widthFull={isMobile}
+                  onClick={() => {
+                    setAdress()
+                    setModalStatus(null)
+                  }}
+                />
+              )}
             </div>
-          </form>
+          </div>
         </Modal>
       )}
       {modalStatus === 'createPaymentMethodModal' && (
@@ -330,7 +447,12 @@ const User: NextPage = () => {
             className="m-auto flex flex-col gap-6"
             style={{ width: 'calc(min(91.666667%, 20rem))' }}
           >
-            <Heading text="Novo Cartão" small center />
+            <Heading
+              text={editMode ? 'Editar cartão' : 'Novo cartão'}
+              small
+              center
+            />
+
             <Input
               text="Apelido do cartão:"
               type="text"
@@ -378,7 +500,30 @@ const User: NextPage = () => {
             </div>
 
             <div className="flex justify-center flex-wrap gap-4 flex-1">
-              <Button primary text="Cadastrar" widthFull={isMobile} />
+              {editMode ? (
+                <Button
+                  primary
+                  text="Editar"
+                  widthFull={isMobile}
+                  onClick={() => {
+                    handleDeletePaymentMethod(
+                      currentUser?.selectedPaymentMethod || 99
+                    )
+                    setPaymentMethod()
+                    setModalStatus(null)
+                  }}
+                />
+              ) : (
+                <Button
+                  primary
+                  text="Cadastrar"
+                  widthFull={isMobile}
+                  onClick={() => {
+                    setPaymentMethod()
+                    setModalStatus(null)
+                  }}
+                />
+              )}
             </div>
           </form>
         </Modal>

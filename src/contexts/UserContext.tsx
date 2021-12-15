@@ -3,7 +3,8 @@ import {
   doc,
   updateDoc,
   arrayUnion,
-  onSnapshot
+  onSnapshot,
+  arrayRemove
 } from 'firebase/firestore'
 import { createContext, useContext, useState, ReactNode } from 'react'
 import toast from 'react-hot-toast'
@@ -15,10 +16,10 @@ export interface User {
   photo?: string | undefined | null
   email?: string | undefined | null
   password?: string | undefined
-  adress?: Adress
   adressList?: Adress[]
-  paymentMethod?: PaymentMethod
   selectedAdress?: number
+  paymentMethodList?: PaymentMethod[]
+  selectedPaymentMethod?: number
 }
 
 export interface Adress {
@@ -31,7 +32,7 @@ export interface Adress {
   state?: string
 }
 
-interface PaymentMethod {
+export interface PaymentMethod {
   alias?: string
   cardNumber?: string
   expirationDate?: string
@@ -43,9 +44,17 @@ interface UserContextProps {
   currentUser: User | undefined
   setCurrentUser: (param: User | undefined) => void
   createUser: () => void
-  setAdress: () => void
   getUser: () => void
+  adressDataForm: Adress
+  setAdressDataForm: (obj: Adress) => void
+  setAdress: () => void
+  deleteAdress: (arg: number) => void
   setActiveAdress: (arg: number) => void
+  paymentMethodDataForm: PaymentMethod
+  setPaymentMethodDataForm: (obj: PaymentMethod) => void
+  setPaymentMethod: () => void
+  deletePaymentMethod: (arg: number) => void
+  setActivePaymentMethod: (arg: number) => void
 }
 
 interface UserContextProviderProps {
@@ -55,6 +64,10 @@ interface UserContextProviderProps {
 export const UserContext = createContext({} as UserContextProps)
 
 export const UserContextProvider = ({ children }: UserContextProviderProps) => {
+  const [adressDataForm, setAdressDataForm] = useState({} as Adress)
+  const [paymentMethodDataForm, setPaymentMethodDataForm] = useState(
+    {} as PaymentMethod
+  )
   const [currentUser, setCurrentUser] = useState<User>()
   const currentUserRef = doc(db, 'users', currentUser?.uid || 'noUid')
 
@@ -62,7 +75,7 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
     if (auth.currentUser) {
       await setDoc(doc(db, 'users', auth.currentUser.uid), {
         name: currentUser?.name,
-        email: currentUser?.email,
+        email: currentUser?.email
       })
 
       toast.success(`Conta criada com sucesso`)
@@ -73,14 +86,15 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
     if (auth.currentUser) {
       onSnapshot(doc(db, 'users', auth.currentUser.uid), (doc) => {
         const data = doc.data() as User
-        const { name, email, adressList, selectedAdress } = data
         setCurrentUser({
           ...currentUser,
           uid: auth?.currentUser?.uid,
-          name: name,
-          email: email,
-          adressList: adressList,
-          selectedAdress: selectedAdress
+          name: data?.name,
+          email: data?.email,
+          adressList: data?.adressList,
+          selectedAdress: data?.selectedAdress,
+          paymentMethodList: data?.paymentMethodList,
+          selectedPaymentMethod: data?.selectedPaymentMethod
         })
       })
     }
@@ -88,20 +102,75 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
 
   const setAdress = async () => {
     if (auth.currentUser) {
+      const newSelectAdress = currentUser?.adressList?.length
+
       await updateDoc(currentUserRef, {
-        adressList: arrayUnion(currentUser?.adress),
-        selectedAdress: currentUser?.adressList?.length || 0
+        adressList: arrayUnion(adressDataForm),
+        // selectedAdress: newSelectAdress ? newSelectAdress - 1 : 0
+        selectedAdress: newSelectAdress || 0
       })
 
       toast.success(`Endereço atualizado com sucesso`)
     }
   }
 
+  const deleteAdress = async (arg: number) => {
+    if (auth.currentUser) {
+      const newSelectAdress = currentUser?.adressList?.length
+
+      await updateDoc(currentUserRef, {
+        adressList: arrayRemove(currentUser?.adressList?.[arg]),
+        selectedAdress: newSelectAdress ? newSelectAdress - 1 : 0
+      })
+
+      toast.success(`Endereço removido com sucesso`)
+    }
+  }
+
   const setActiveAdress = async (arg: number) => {
-    await updateDoc(currentUserRef, {
-      selectedAdress: arg
-    })
-    toast.success(`Endereço primário atualizado com sucesso`)
+    if (auth.currentUser) {
+      await updateDoc(currentUserRef, {
+        selectedAdress: arg
+      })
+    }
+  }
+
+  const setPaymentMethod = async () => {
+    if (auth.currentUser) {
+      const newSelectPaymentMethod = currentUser?.paymentMethodList?.length
+
+      await updateDoc(currentUserRef, {
+        paymentMethodList: arrayUnion(paymentMethodDataForm),
+        selectedPaymentMethod: newSelectPaymentMethod
+          ? newSelectPaymentMethod - 1
+          : 0
+      })
+
+      toast.success(`Meio de pagamento atualizado com sucesso`)
+    }
+  }
+
+  const deletePaymentMethod = async (arg: number) => {
+    if (auth.currentUser) {
+      const newSelectPaymentMethod = currentUser?.paymentMethodList?.length
+
+      await updateDoc(currentUserRef, {
+        paymentMethodList: arrayRemove(currentUser?.paymentMethodList?.[arg]),
+        selectedPaymentMethod: newSelectPaymentMethod
+          ? newSelectPaymentMethod - 1
+          : 0
+      })
+
+      toast.success(`Meio de pagamento removido com sucesso`)
+    }
+  }
+
+  const setActivePaymentMethod = async (arg: number) => {
+    if (auth.currentUser) {
+      await updateDoc(currentUserRef, {
+        selectedPaymentMethod: arg
+      })
+    }
   }
 
   return (
@@ -112,7 +181,15 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
         createUser,
         setAdress,
         getUser,
-        setActiveAdress
+        setActiveAdress,
+        deleteAdress,
+        adressDataForm,
+        setAdressDataForm,
+        paymentMethodDataForm,
+        setPaymentMethodDataForm,
+        setPaymentMethod,
+        deletePaymentMethod,
+        setActivePaymentMethod
       }}
     >
       {children}
