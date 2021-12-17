@@ -9,6 +9,7 @@ import {
 import { createContext, useContext, useState, ReactNode } from 'react'
 import toast from 'react-hot-toast'
 import { auth, db } from '../services/firebase'
+import { firebaseErrorHandler } from '../utils/firebaseErrorHandler'
 
 export interface User {
   uid?: string
@@ -47,14 +48,16 @@ interface UserContextProps {
   getUser: () => void
   adressDataForm: Adress
   setAdressDataForm: (obj: Adress) => void
+  setActiveAdress: (arg: number) => void
   setAdress: () => void
   deleteAdress: (arg: number) => void
-  setActiveAdress: (arg: number) => void
+  updateAdress: (arg: number) => void
   paymentMethodDataForm: PaymentMethod
   setPaymentMethodDataForm: (obj: PaymentMethod) => void
+  setActivePaymentMethod: (arg: number) => void
   setPaymentMethod: () => void
   deletePaymentMethod: (arg: number) => void
-  setActivePaymentMethod: (arg: number) => void
+  updatePaymentMethod: (arg: number) => void
 }
 
 interface UserContextProviderProps {
@@ -74,8 +77,11 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
   const createUser = async () => {
     if (auth.currentUser) {
       await setDoc(doc(db, 'users', auth.currentUser.uid), {
-        name: currentUser?.name,
-        email: currentUser?.email
+        name: currentUser?.name || auth.currentUser.displayName,
+        email: currentUser?.email || auth.currentUser.email,
+        photo: auth.currentUser.photoURL || '',
+        adressList: [],
+        paymentMethodList: []
       })
 
       toast.success(`Conta criada com sucesso`)
@@ -83,93 +89,144 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
   }
 
   const getUser = async () => {
-    if (auth.currentUser) {
-      onSnapshot(doc(db, 'users', auth.currentUser.uid), (doc) => {
-        const data = doc.data() as User
-        setCurrentUser({
-          ...currentUser,
-          uid: auth?.currentUser?.uid,
-          name: data?.name,
-          email: data?.email,
-          adressList: data?.adressList,
-          selectedAdress: data?.selectedAdress,
-          paymentMethodList: data?.paymentMethodList,
-          selectedPaymentMethod: data?.selectedPaymentMethod
+    try {
+      if (auth.currentUser) {
+        onSnapshot(doc(db, 'users', auth.currentUser.uid), (doc) => {
+          const data = doc.data() as User
+          setCurrentUser({
+            ...currentUser,
+            uid: auth?.currentUser?.uid,
+            name: data?.name,
+            email: data?.email,
+            photo: data?.photo,
+            adressList: data?.adressList,
+            selectedAdress: data?.selectedAdress,
+            paymentMethodList: data?.paymentMethodList,
+            selectedPaymentMethod: data?.selectedPaymentMethod
+          })
         })
-      })
-    }
-  }
-
-  const setAdress = async () => {
-    if (auth.currentUser) {
-      const newSelectAdress = currentUser?.adressList?.length
-
-      await updateDoc(currentUserRef, {
-        adressList: arrayUnion(adressDataForm),
-        // selectedAdress: newSelectAdress ? newSelectAdress - 1 : 0
-        selectedAdress: newSelectAdress || 0
-      })
-
-      toast.success(`Endereço atualizado com sucesso`)
-    }
-  }
-
-  const deleteAdress = async (arg: number) => {
-    if (auth.currentUser) {
-      const newSelectAdress = currentUser?.adressList?.length
-
-      await updateDoc(currentUserRef, {
-        adressList: arrayRemove(currentUser?.adressList?.[arg]),
-        selectedAdress: newSelectAdress ? newSelectAdress - 1 : 0
-      })
-
-      toast.success(`Endereço removido com sucesso`)
+      }
+    } catch (error: any) {
+      toast.error(firebaseErrorHandler(error.code))
     }
   }
 
   const setActiveAdress = async (arg: number) => {
-    if (auth.currentUser) {
+    try {
       await updateDoc(currentUserRef, {
         selectedAdress: arg
       })
+    } catch (error: any) {
+      toast.error(firebaseErrorHandler(error.code))
     }
   }
 
-  const setPaymentMethod = async () => {
-    if (auth.currentUser) {
-      const newSelectPaymentMethod = currentUser?.paymentMethodList?.length
-
-      await updateDoc(currentUserRef, {
-        paymentMethodList: arrayUnion(paymentMethodDataForm),
-        selectedPaymentMethod: newSelectPaymentMethod
-          ? newSelectPaymentMethod - 1
-          : 0
-      })
-
-      toast.success(`Meio de pagamento atualizado com sucesso`)
+  const setAdress = async () => {
+    try {
+      if (currentUser?.adressList && currentUser.adressList.length < 3) {
+        await updateDoc(currentUserRef, {
+          adressList: arrayUnion(adressDataForm),
+          selectedAdress: currentUser?.adressList?.length || 0
+        })
+        toast.success(`Endereço adicionado com sucesso`)
+      } else {
+        toast.error(`Você só pode possuir até três endereços cadastrados.`)
+      }
+    } catch (error: any) {
+      toast.error(firebaseErrorHandler(error.code))
     }
   }
 
-  const deletePaymentMethod = async (arg: number) => {
-    if (auth.currentUser) {
-      const newSelectPaymentMethod = currentUser?.paymentMethodList?.length
-
+  const deleteAdress = async (arg: number) => {
+    try {
       await updateDoc(currentUserRef, {
-        paymentMethodList: arrayRemove(currentUser?.paymentMethodList?.[arg]),
-        selectedPaymentMethod: newSelectPaymentMethod
-          ? newSelectPaymentMethod - 1
-          : 0
+        adressList: arrayRemove(currentUser?.adressList?.[arg])
+      })
+      toast.success(`Endereço removido com sucesso`)
+      currentUser?.adressList &&
+        setActiveAdress(currentUser?.adressList.length - 2)
+    } catch (error: any) {
+      toast.error(firebaseErrorHandler(error.code))
+    }
+  }
+
+  const updateAdress = async (arg: number) => {
+    try {
+      await updateDoc(currentUserRef, {
+        adressList: arrayRemove(currentUser?.adressList?.[arg])
       })
 
-      toast.success(`Meio de pagamento removido com sucesso`)
+      await updateDoc(currentUserRef, {
+        adressList: arrayUnion(adressDataForm)
+      })
+
+      currentUser?.adressList &&
+        setActiveAdress(currentUser?.adressList.length - 1)
+      toast.success(`Endereço atualizado com sucesso`)
+    } catch (error: any) {
+      toast.error(firebaseErrorHandler(error.code))
     }
   }
 
   const setActivePaymentMethod = async (arg: number) => {
-    if (auth.currentUser) {
+    try {
       await updateDoc(currentUserRef, {
         selectedPaymentMethod: arg
       })
+    } catch (error: any) {
+      toast.error(firebaseErrorHandler(error.code))
+    }
+  }
+
+  const setPaymentMethod = async () => {
+    try {
+      if (
+        currentUser?.paymentMethodList &&
+        currentUser.paymentMethodList.length < 3
+      ) {
+        await updateDoc(currentUserRef, {
+          paymentMethodList: arrayUnion(paymentMethodDataForm),
+          selectedPaymentMethod: currentUser?.paymentMethodList?.length || 0
+        })
+        toast.success(`Meio de pagamento adicionado com sucesso`)
+      } else {
+        toast.error(
+          `Você só pode possuir até três meios de pagamento cadastrados.`
+        )
+      }
+    } catch (error: any) {
+      toast.error(firebaseErrorHandler(error.code))
+    }
+  }
+
+  const deletePaymentMethod = async (arg: number) => {
+    try {
+      await updateDoc(currentUserRef, {
+        paymentMethodList: arrayRemove(currentUser?.paymentMethodList?.[arg])
+      })
+      toast.success(`Meio de pagamento removido com sucesso`)
+      currentUser?.paymentMethodList &&
+        setActivePaymentMethod(currentUser?.paymentMethodList.length - 2)
+    } catch (error: any) {
+      toast.error(firebaseErrorHandler(error.code))
+    }
+  }
+
+  const updatePaymentMethod = async (arg: number) => {
+    try {
+      await updateDoc(currentUserRef, {
+        paymentMethodList: arrayRemove(currentUser?.paymentMethodList?.[arg])
+      })
+
+      await updateDoc(currentUserRef, {
+        paymentMethodList: arrayUnion(paymentMethodDataForm)
+      })
+
+      currentUser?.paymentMethodList &&
+        setActivePaymentMethod(currentUser?.paymentMethodList.length - 1)
+      toast.success(`Meio de pagamento atualizado com sucesso`)
+    } catch (error: any) {
+      toast.error(firebaseErrorHandler(error.code))
     }
   }
 
@@ -179,17 +236,19 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
         currentUser,
         setCurrentUser,
         createUser,
-        setAdress,
         getUser,
-        setActiveAdress,
-        deleteAdress,
         adressDataForm,
         setAdressDataForm,
+        setActiveAdress,
+        setAdress,
+        deleteAdress,
+        updateAdress,
         paymentMethodDataForm,
         setPaymentMethodDataForm,
+        setActivePaymentMethod,
         setPaymentMethod,
         deletePaymentMethod,
-        setActivePaymentMethod
+        updatePaymentMethod
       }}
     >
       {children}

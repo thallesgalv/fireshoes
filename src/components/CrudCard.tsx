@@ -29,10 +29,10 @@ const CrudCard = ({
     >
       {children}
       <ul className="flex text-2xl absolute bottom-2 right-2 cursor-pointer">
-        <li onClick={handleUpdateButton}>
+        <li onClick={isActive ? handleUpdateButton : undefined}>
           <MdOutlineEdit />
         </li>
-        <li onClick={handleDeleteButton}>
+        <li onClick={isActive ? handleDeleteButton : undefined}>
           <MdDeleteOutline />
         </li>
       </ul>

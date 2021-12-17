@@ -17,10 +17,11 @@ import {
 } from 'react'
 import Router from 'next/router'
 
-import { auth } from '../services/firebase'
+import { auth, db } from '../services/firebase'
 import toast from 'react-hot-toast'
 import { firebaseErrorHandler } from '../utils/firebaseErrorHandler'
 import { User, useUserContext } from './UserContext'
+import { doc, getDoc } from 'firebase/firestore'
 
 interface AuthContextProps {
   signInWithGoogle: () => void
@@ -71,12 +72,20 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   }, [])
 
   const signInWithGoogle = async () => {
-    const provider = new GoogleAuthProvider()
-    const result = await signInWithPopup(auth, provider)
+    try {
+      const provider = new GoogleAuthProvider()
+      const result = await signInWithPopup(auth, provider)
 
-    if (result.user) {
-      toast.success('Login realizado com sucesso')
-      Router.push('/')
+      if (result.user) {
+        toast.success('Login realizado com sucesso')
+        Router.push('/')
+        const currentUserRef = doc(db, 'users', currentUser?.uid || 'noUid')
+        const currentUserSnap = await getDoc(currentUserRef)
+        if(!currentUserSnap.exists()) createUser()
+
+      }
+    } catch (error: any) {
+      toast.error(firebaseErrorHandler(error.code))
     }
   }
 
@@ -102,8 +111,6 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       }
     } catch (error: any) {
       toast.error(firebaseErrorHandler(error.code))
-      console.log('ERROR', error)
-      console.log('ERROR CODE', error.code)
     }
   }
 

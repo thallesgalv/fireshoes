@@ -77,7 +77,7 @@ const Header = () => {
               </Link>
             </li>
             <li className="md:hidden">
-              <Link href="login">
+              <Link href={auth.currentUser?.uid ? 'user' : 'login'}>
                 <div onClick={handleMenu}>
                   {auth.currentUser?.uid ? (
                     <Button

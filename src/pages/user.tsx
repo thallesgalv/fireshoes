@@ -13,13 +13,14 @@ import { useGlobalContext } from '../contexts/GlobalContext'
 import { Adress, useUserContext, PaymentMethod } from '../contexts/UserContext'
 import { MdLockOutline } from 'react-icons/md'
 import useFetch from '../hooks/useFetch'
+import { auth } from '../services/firebase'
+import Router from 'next/router'
 
 const User: NextPage = () => {
   const { logout } = useAuthContext()
   const { isMobile } = useGlobalContext()
   const {
     currentUser,
-    setCurrentUser,
     setAdress,
     getUser,
     setActiveAdress,
@@ -30,12 +31,18 @@ const User: NextPage = () => {
     setPaymentMethodDataForm,
     setActivePaymentMethod,
     deletePaymentMethod,
-    setPaymentMethod
+    setPaymentMethod,
+    updateAdress,
+    updatePaymentMethod
   } = useUserContext()
   const { request, data } = useFetch()
   const [radio, setRadio] = useState('entrega')
   const [editMode, setEditMode] = useState(false)
   const [modalStatus, setModalStatus] = useState<ModalStatus>(null)
+
+  // useEffect(() => {
+  //   if (!currentUser?.uid) Router.push('/login')
+  // }, [])
 
   useEffect(() => {
     getUser()
@@ -68,26 +75,19 @@ const User: NextPage = () => {
     [adressDataForm]
   )
 
-  const handleSelectActiveAdress = (arg: number) => {
-    setCurrentUser({ ...currentUser, selectedAdress: +arg })
-    setActiveAdress(+arg)
-  }
-
-  const handleDeleteAdress = (arg: number) => {
-    let newSelectAdress = currentUser?.adressList?.length
-    setCurrentUser({
-      ...currentUser,
-      selectedAdress: newSelectAdress ? newSelectAdress - 1 : 0
-    })
-    setActiveAdress(newSelectAdress ? newSelectAdress - 1 : 0)
-    deleteAdress(arg)
-  }
-
-  const handleUpdateAdress = (arg: number) => {
+  const handleEditAdress = (arg: number) => {
     setEditMode(true)
     if (currentUser?.adressList)
       setAdressDataForm(currentUser?.adressList?.[arg])
+
     setModalStatus('createAdressModal')
+  }
+
+  const handleUpdateAdress = () => {
+    if (currentUser?.selectedAdress || currentUser?.selectedAdress === 0) {
+      updateAdress(currentUser.selectedAdress)
+    }
+    setModalStatus(null)
   }
 
   const handlePaymentMethod = useCallback(
@@ -100,26 +100,22 @@ const User: NextPage = () => {
     [paymentMethodDataForm]
   )
 
-  const handleSelectActivePaymentMethod = (arg: number) => {
-    setCurrentUser({ ...currentUser, selectedPaymentMethod: +arg })
-    setActivePaymentMethod(+arg)
-  }
-
-  const handleDeletePaymentMethod = (arg: number) => {
-    let newSelectedPaymentMethod = currentUser?.paymentMethodList?.length || 0
-    setCurrentUser({
-      ...currentUser,
-      selectedPaymentMethod: newSelectedPaymentMethod
-    })
-    setActivePaymentMethod(newSelectedPaymentMethod)
-    deletePaymentMethod(arg)
-  }
-
-  const handleUpdatePaymentMethod = (arg: number) => {
+  const handleEditPaymentMethod = (arg: number) => {
     setEditMode(true)
     if (currentUser?.paymentMethodList)
       setPaymentMethodDataForm(currentUser?.paymentMethodList?.[arg])
+
     setModalStatus('createPaymentMethodModal')
+  }
+
+  const handleUpdatePaymentMethod = () => {
+    if (
+      currentUser?.selectedPaymentMethod ||
+      currentUser?.selectedPaymentMethod === 0
+    ) {
+      updatePaymentMethod(currentUser.selectedPaymentMethod)
+    }
+    setModalStatus(null)
   }
 
   return (
@@ -174,7 +170,7 @@ const User: NextPage = () => {
           </div>
         </aside>
         <article
-          className="lg:absolute left-0 right-0 mt-6 lg:m-auto "
+          className="lg:absolute left-0 right-0 mt-6 m-auto "
           style={{ width: 'calc(min(91.666667%,25rem))' }}
         >
           <div>
@@ -198,9 +194,9 @@ const User: NextPage = () => {
                         <CrudCard
                           key={idx}
                           isActive={idx === currentUser.selectedAdress}
-                          onClick={() => handleSelectActiveAdress(idx)}
-                          handleDeleteButton={() => handleDeleteAdress(idx)}
-                          handleUpdateButton={() => handleUpdateAdress(idx)}
+                          onClick={() => setActiveAdress(idx)}
+                          handleDeleteButton={() => deleteAdress(idx)}
+                          handleUpdateButton={() => handleEditAdress(idx)}
                         >
                           <p>
                             {street}, {number}, {complement}
@@ -257,16 +253,14 @@ const User: NextPage = () => {
                         <CrudCard
                           key={idx}
                           isActive={idx === currentUser.selectedPaymentMethod}
-                          onClick={() => handleSelectActivePaymentMethod(idx)}
-                          handleDeleteButton={() =>
-                            handleDeletePaymentMethod(idx)
-                          }
+                          onClick={() => setActivePaymentMethod(idx)}
+                          handleDeleteButton={() => deletePaymentMethod(idx)}
                           handleUpdateButton={() =>
-                            handleUpdatePaymentMethod(idx)
+                            handleEditPaymentMethod(idx)
                           }
                         >
                           <p>{alias}</p>
-                          <p>••••{cardNumber}</p>
+                          <p>••••{cardNumber?.slice(-4)}</p>
                         </CrudCard>
                       )
                     }
@@ -307,9 +301,17 @@ const User: NextPage = () => {
 
           <div>
             {radio === 'compras' && (
-              <ul>
-                <p className="text-center">Compras realizadas</p>
-              </ul>
+              <div>
+                <img
+                  src="/orders.svg"
+                  alt="Illustration by vectorjuice"
+                  title="Illustration by vectorjuice"
+                  className="opacity-50"
+                />
+                <p className="text-primary text-center">
+                  Histórico de compras vazio.
+                </p>
+              </div>
             )}
           </div>
         </article>
@@ -419,11 +421,7 @@ const User: NextPage = () => {
                   primary
                   text="Editar"
                   widthFull={isMobile}
-                  onClick={() => {
-                    handleDeleteAdress(currentUser?.selectedAdress || 99)
-                    setAdress()
-                    setModalStatus(null)
-                  }}
+                  onClick={handleUpdateAdress}
                 />
               ) : (
                 <Button
@@ -505,13 +503,7 @@ const User: NextPage = () => {
                   primary
                   text="Editar"
                   widthFull={isMobile}
-                  onClick={() => {
-                    handleDeletePaymentMethod(
-                      currentUser?.selectedPaymentMethod || 99
-                    )
-                    setPaymentMethod()
-                    setModalStatus(null)
-                  }}
+                  onClick={handleUpdatePaymentMethod}
                 />
               ) : (
                 <Button
