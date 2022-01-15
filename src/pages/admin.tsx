@@ -15,7 +15,6 @@ const Admin: NextPage = () => {
     setProductDataForm,
     uploadProgress,
     inputFileRef,
-    mainImgUrl
   } = useProductContext()
 
   const handleProduct = useCallback(
@@ -71,7 +70,7 @@ const Admin: NextPage = () => {
           accept="image/x-png,image/gif,image/jpeg"
         />
         <p>Uploaded {uploadProgress} %</p>
-        
+
         <Button primary text="Cadastrar produto" onClick={createProduct} />
         <Button secondary text="Carregar produtos" onClick={getProducts} />
       </div>
