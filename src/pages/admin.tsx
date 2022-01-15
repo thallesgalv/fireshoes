@@ -71,8 +71,7 @@ const Admin: NextPage = () => {
           accept="image/x-png,image/gif,image/jpeg"
         />
         <p>Uploaded {uploadProgress} %</p>
-        <p>{mainImgUrl && mainImgUrl}</p>
-
+        
         <Button primary text="Cadastrar produto" onClick={createProduct} />
         <Button secondary text="Carregar produtos" onClick={getProducts} />
       </div>
