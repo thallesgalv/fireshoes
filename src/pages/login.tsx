@@ -135,7 +135,6 @@ const Login: NextPage = () => {
             <Heading text="Crie sua conta" small center />
             <Input
               text="Nome completo:"
-              type="text"
               name="name"
               htmlFor="createUserName"
               required

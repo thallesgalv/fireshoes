@@ -1,4 +1,4 @@
-<svg version="1.2" baseProfile="tiny-ps" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3710 3710" width="3710" height="3710">
+<svg version="1.2" baseProfile="tiny-ps" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3710 3710" width="400" height="3710">
 	<title>19198838-ai</title>
 	<defs>
 		<linearGradient id="grd1" gradientUnits="userSpaceOnUse"  x1="2354.9" y1="4568.4" x2="353.4" y2="2408.1">
@@ -385,105 +385,105 @@
 	</defs>
 	<style>
 		tspan { white-space:pre }
-		.s0 { opacity: .3;fill: url(#grd1) } 
-		.s1 { fill: url(#grd2) } 
-		.s2 { opacity: .5;fill: #ffffff } 
-		.s3 { fill: url(#grd3) } 
-		.s4 { fill: url(#grd4) } 
-		.s5 { fill: url(#grd5) } 
-		.s6 { fill: url(#grd6) } 
-		.s7 { fill: url(#grd7) } 
-		.s8 { fill: url(#grd8) } 
-		.s9 { fill: url(#grd9) } 
-		.s10 { fill: url(#grd10) } 
-		.s11 { fill: url(#grd11) } 
-		.s12 { fill: url(#grd12) } 
-		.s13 { fill: url(#grd13) } 
-		.s14 { fill: url(#grd14) } 
-		.s15 { fill: url(#grd15) } 
-		.s16 { fill: url(#grd16) } 
-		.s17 { fill: url(#grd17) } 
-		.s18 { fill: #ffffff } 
-		.s19 { fill: url(#grd18) } 
-		.s20 { fill: url(#grd19) } 
-		.s21 { fill: url(#grd20) } 
-		.s22 { fill: url(#grd21) } 
-		.s23 { fill: url(#grd22) } 
-		.s24 { fill: url(#grd23) } 
-		.s25 { fill: url(#grd24) } 
-		.s26 { fill: url(#grd25) } 
-		.s27 { fill: url(#grd26) } 
-		.s28 { fill: url(#grd27) } 
-		.s29 { fill: url(#grd28) } 
-		.s30 { fill: url(#grd29) } 
-		.s31 { fill: url(#grd30) } 
-		.s32 { fill: url(#grd31) } 
-		.s33 { fill: url(#grd32) } 
-		.s34 { fill: url(#grd33) } 
-		.s35 { fill: url(#grd34) } 
-		.s36 { fill: url(#grd35) } 
-		.s37 { fill: url(#grd36) } 
-		.s38 { fill: url(#grd37) } 
-		.s39 { fill: url(#grd38) } 
-		.s40 { fill: url(#grd39) } 
-		.s41 { fill: url(#grd40) } 
-		.s42 { fill: url(#grd41) } 
-		.s43 { fill: url(#grd42) } 
-		.s44 { fill: url(#grd43) } 
-		.s45 { fill: url(#grd44) } 
-		.s46 { fill: url(#grd45) } 
-		.s47 { fill: url(#grd46) } 
-		.s48 { fill: url(#grd47) } 
-		.s49 { fill: url(#grd48) } 
-		.s50 { fill: url(#grd49) } 
-		.s51 { fill: url(#grd50) } 
-		.s52 { fill: url(#grd51) } 
-		.s53 { fill: url(#grd52) } 
-		.s54 { fill: url(#grd53) } 
-		.s55 { fill: url(#grd54) } 
-		.s56 { fill: url(#grd55) } 
-		.s57 { fill: url(#grd56) } 
-		.s58 { fill: url(#grd57) } 
-		.s59 { fill: url(#grd58) } 
-		.s60 { fill: url(#grd59) } 
-		.s61 { fill: url(#grd60) } 
-		.s62 { fill: url(#grd61) } 
-		.s63 { fill: url(#grd62) } 
-		.s64 { fill: url(#grd63) } 
-		.s65 { fill: url(#grd64) } 
-		.s66 { fill: url(#grd65) } 
-		.s67 { fill: url(#grd66) } 
-		.s68 { fill: url(#grd67) } 
-		.s69 { fill: url(#grd68) } 
-		.s70 { fill: url(#grd69) } 
-		.s71 { fill: url(#grd70) } 
-		.s72 { fill: url(#grd71) } 
-		.s73 { fill: url(#grd72) } 
-		.s74 { fill: url(#grd73) } 
-		.s75 { fill: url(#grd74) } 
-		.s76 { fill: url(#grd75) } 
-		.s77 { fill: url(#grd76) } 
-		.s78 { fill: url(#grd77) } 
-		.s79 { fill: url(#grd78) } 
-		.s80 { fill: url(#grd79) } 
-		.s81 { fill: url(#grd80) } 
-		.s82 { fill: url(#grd81) } 
-		.s83 { fill: url(#grd82) } 
-		.s84 { fill: url(#grd83) } 
-		.s85 { fill: url(#grd84) } 
-		.s86 { fill: url(#grd85) } 
-		.s87 { fill: url(#grd86) } 
-		.s88 { fill: url(#grd87) } 
-		.s89 { fill: url(#grd88) } 
-		.s90 { fill: url(#grd89) } 
-		.s91 { fill: url(#grd90) } 
-		.s92 { fill: url(#grd91) } 
-		.s93 { fill: url(#grd92) } 
-		.s94 { fill: url(#grd93) } 
-		.s95 { fill: url(#grd94) } 
-		.s96 { opacity: .3;fill: #ffffff } 
-		.s97 { fill: url(#grd95) } 
-		.s98 { opacity: 1;fill: #ffffff } 
+		.s0 { opacity: .3;fill: url(#grd1) }
+		.s1 { fill: url(#grd2) }
+		.s2 { opacity: .5;fill: #ffffff }
+		.s3 { fill: url(#grd3) }
+		.s4 { fill: url(#grd4) }
+		.s5 { fill: url(#grd5) }
+		.s6 { fill: url(#grd6) }
+		.s7 { fill: url(#grd7) }
+		.s8 { fill: url(#grd8) }
+		.s9 { fill: url(#grd9) }
+		.s10 { fill: url(#grd10) }
+		.s11 { fill: url(#grd11) }
+		.s12 { fill: url(#grd12) }
+		.s13 { fill: url(#grd13) }
+		.s14 { fill: url(#grd14) }
+		.s15 { fill: url(#grd15) }
+		.s16 { fill: url(#grd16) }
+		.s17 { fill: url(#grd17) }
+		.s18 { fill: #ffffff }
+		.s19 { fill: url(#grd18) }
+		.s20 { fill: url(#grd19) }
+		.s21 { fill: url(#grd20) }
+		.s22 { fill: url(#grd21) }
+		.s23 { fill: url(#grd22) }
+		.s24 { fill: url(#grd23) }
+		.s25 { fill: url(#grd24) }
+		.s26 { fill: url(#grd25) }
+		.s27 { fill: url(#grd26) }
+		.s28 { fill: url(#grd27) }
+		.s29 { fill: url(#grd28) }
+		.s30 { fill: url(#grd29) }
+		.s31 { fill: url(#grd30) }
+		.s32 { fill: url(#grd31) }
+		.s33 { fill: url(#grd32) }
+		.s34 { fill: url(#grd33) }
+		.s35 { fill: url(#grd34) }
+		.s36 { fill: url(#grd35) }
+		.s37 { fill: url(#grd36) }
+		.s38 { fill: url(#grd37) }
+		.s39 { fill: url(#grd38) }
+		.s40 { fill: url(#grd39) }
+		.s41 { fill: url(#grd40) }
+		.s42 { fill: url(#grd41) }
+		.s43 { fill: url(#grd42) }
+		.s44 { fill: url(#grd43) }
+		.s45 { fill: url(#grd44) }
+		.s46 { fill: url(#grd45) }
+		.s47 { fill: url(#grd46) }
+		.s48 { fill: url(#grd47) }
+		.s49 { fill: url(#grd48) }
+		.s50 { fill: url(#grd49) }
+		.s51 { fill: url(#grd50) }
+		.s52 { fill: url(#grd51) }
+		.s53 { fill: url(#grd52) }
+		.s54 { fill: url(#grd53) }
+		.s55 { fill: url(#grd54) }
+		.s56 { fill: url(#grd55) }
+		.s57 { fill: url(#grd56) }
+		.s58 { fill: url(#grd57) }
+		.s59 { fill: url(#grd58) }
+		.s60 { fill: url(#grd59) }
+		.s61 { fill: url(#grd60) }
+		.s62 { fill: url(#grd61) }
+		.s63 { fill: url(#grd62) }
+		.s64 { fill: url(#grd63) }
+		.s65 { fill: url(#grd64) }
+		.s66 { fill: url(#grd65) }
+		.s67 { fill: url(#grd66) }
+		.s68 { fill: url(#grd67) }
+		.s69 { fill: url(#grd68) }
+		.s70 { fill: url(#grd69) }
+		.s71 { fill: url(#grd70) }
+		.s72 { fill: url(#grd71) }
+		.s73 { fill: url(#grd72) }
+		.s74 { fill: url(#grd73) }
+		.s75 { fill: url(#grd74) }
+		.s76 { fill: url(#grd75) }
+		.s77 { fill: url(#grd76) }
+		.s78 { fill: url(#grd77) }
+		.s79 { fill: url(#grd78) }
+		.s80 { fill: url(#grd79) }
+		.s81 { fill: url(#grd80) }
+		.s82 { fill: url(#grd81) }
+		.s83 { fill: url(#grd82) }
+		.s84 { fill: url(#grd83) }
+		.s85 { fill: url(#grd84) }
+		.s86 { fill: url(#grd85) }
+		.s87 { fill: url(#grd86) }
+		.s88 { fill: url(#grd87) }
+		.s89 { fill: url(#grd88) }
+		.s90 { fill: url(#grd89) }
+		.s91 { fill: url(#grd90) }
+		.s92 { fill: url(#grd91) }
+		.s93 { fill: url(#grd92) }
+		.s94 { fill: url(#grd93) }
+		.s95 { fill: url(#grd94) }
+		.s96 { opacity: .3;fill: #ffffff }
+		.s97 { fill: url(#grd95) }
+		.s98 { opacity: 1;fill: #ffffff }
 	</style>
 	<g id="Illustration">
 		<g id="&lt;Group&gt;">

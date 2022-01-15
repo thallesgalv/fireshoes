@@ -30,7 +30,7 @@ const Input = (props: InputProps) => {
         <div className="flex items-center relative">
           <input
             autoComplete='off'
-            type={props.type}
+            type={props.type || 'text'}
             name={props.name}
             id={props.htmlFor}
             onChange={props.onChange}
@@ -38,6 +38,7 @@ const Input = (props: InputProps) => {
             placeholder={props.placeholder}
             required={props.required}
             defaultValue={props.value}
+            maxLength={props.maxLength}
             className={`
               font-primary text-primary text-base
               rounded-sm shadow-lg
