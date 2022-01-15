@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 interface UserOptionProps {
   text: string
   isActive?: boolean

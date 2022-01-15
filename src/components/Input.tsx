@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, useCallback } from 'react'
+import { InputHTMLAttributes, MutableRefObject, useCallback } from 'react'
 import { postalCodeMask } from '../utils/masks'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -8,6 +8,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   widthFull?: boolean
   htmlFor?: string
   mask?: string
+  reference?: MutableRefObject<HTMLInputElement | null>
 }
 
 const Input = (props: InputProps) => {
@@ -39,6 +40,8 @@ const Input = (props: InputProps) => {
             required={props.required}
             defaultValue={props.value}
             maxLength={props.maxLength}
+            ref={props.reference}
+            accept={props.accept}
             className={`
               font-primary text-primary text-base
               rounded-sm shadow-lg

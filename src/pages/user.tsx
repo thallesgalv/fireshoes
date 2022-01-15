@@ -15,6 +15,7 @@ import { MdLockOutline } from 'react-icons/md'
 import useFetch from '../hooks/useFetch'
 import { BuildingSvg, OrdersSvg, PaymentMethodSvg } from '../components/Svgs'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 const User: NextPage = () => {
   const { logout } = useAuthContext()
@@ -168,6 +169,9 @@ const User: NextPage = () => {
               icon={<MdNoAccounts />}
               onClick={logout}
             />
+          </div>
+          <div>
+            <Link href="/admin">Admin</Link>
           </div>
         </aside>
         <article

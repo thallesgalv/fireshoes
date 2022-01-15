@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, ReactNode } from 'react'
 import useMedia from '../hooks/useMedia'
-import { Adress } from './UserContext'
 
 interface GlobalContextProps {
   isMobile: boolean
