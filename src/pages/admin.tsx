@@ -4,6 +4,7 @@ import { FormEvent, useCallback, useEffect, useState } from 'react'
 import Button from '../components/Button'
 import Heading from '../components/Heading'
 import Input from '../components/Input'
+import ShelfItem from '../components/ShelfItem'
 import { Product, useProductContext } from '../contexts/ProductContext'
 
 const Admin: NextPage = () => {
@@ -14,7 +15,7 @@ const Admin: NextPage = () => {
     productDataForm,
     setProductDataForm,
     uploadProgress,
-    inputFileRef,
+    inputFileRef
   } = useProductContext()
 
   const handleProduct = useCallback(
@@ -59,6 +60,15 @@ const Admin: NextPage = () => {
           value={productDataForm?.price}
         />
         <Input
+          text="Melhor Preço:"
+          name="bestPrice"
+          type="number"
+          htmlFor="productBestPrice"
+          widthFull
+          onChange={handleProduct}
+          value={productDataForm?.bestPrice}
+        />
+        <Input
           text="Foto:"
           name="mainImg"
           type="file"
@@ -75,15 +85,17 @@ const Admin: NextPage = () => {
         <Button secondary text="Carregar produtos" onClick={getProducts} />
       </div>
 
-      <section>
+      <section className="my-20">
         <ul className="flex flex-wrap gap-6 mt-6">
-          {currentProducts?.map(({ id, name, price, mainImg }) => (
-            <li key={id} className="p-4 border border-red-500">
-              <p>ID: {id}</p>
-              <p>Name: {name}</p>
-              <p>Price: {price}</p>
-              <img src={mainImg} alt={name} />
-            </li>
+          {currentProducts?.map(({ id, name, price, bestPrice, mainImg }) => (
+            <ShelfItem
+              key={id}
+              id={id}
+              name={name}
+              price={price}
+              bestPrice={bestPrice}
+              mainImg={mainImg}
+            />
           ))}
         </ul>
       </section>

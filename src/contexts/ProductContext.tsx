@@ -4,6 +4,9 @@ import {
   doc,
   getDoc,
   getDocs,
+  orderBy,
+  query,
+  serverTimestamp,
   updateDoc
 } from 'firebase/firestore'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
@@ -23,8 +26,9 @@ export interface Product {
   id?: string
   name?: string
   price?: number
+  bestPrice?: number
   mainImg?: string
-  created?: string
+  timestamp?: string
 }
 
 interface ProductContextProps {
@@ -63,7 +67,12 @@ export const ProductContextProvider = ({
   const getProducts = async () => {
     try {
       if (auth.currentUser) {
-        const querySnapshot = await getDocs(productsCollectionRef)
+        const queryOrderByReleaseDate = query(
+          productsCollectionRef,
+          orderBy('timestamp', 'desc')
+        )
+        const querySnapshot = await getDocs(queryOrderByReleaseDate)
+
         setCurrentProducts(
           querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
         )
@@ -83,7 +92,9 @@ export const ProductContextProvider = ({
     if (auth.currentUser) {
       const docRef = await addDoc(collection(db, 'products'), {
         name: productDataForm?.name,
-        price: productDataForm?.price
+        price: productDataForm?.price! * 1,
+        bestPrice: productDataForm?.bestPrice! * 1,
+        timestamp: serverTimestamp()
       })
 
       toast.success(`Produto criado com sucesso`)
