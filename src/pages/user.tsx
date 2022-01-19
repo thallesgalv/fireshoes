@@ -107,7 +107,6 @@ const User: NextPage = () => {
     setEditMode(true)
     if (currentUser?.paymentMethodList)
       setPaymentMethodDataForm(currentUser?.paymentMethodList?.[arg])
-
     setModalStatus('createPaymentMethodModal')
   }
 
@@ -121,7 +120,9 @@ const User: NextPage = () => {
     setModalStatus(null)
   }
 
-  return currentUser?.uid ? (
+  if (!currentUser?.uid) return null
+
+  return (
     <>
       <Head>
         <title>Fireshoes 🔥 | Área do Usuário</title>
@@ -503,7 +504,7 @@ const User: NextPage = () => {
         </Modal>
       )}
     </>
-  ) : null
+  )
 }
 
 export default User

@@ -1,22 +1,37 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { FormEvent, useCallback, useEffect, useState } from 'react'
+import { MdDeleteOutline, MdOutlineEdit } from 'react-icons/md'
 import Button from '../components/Button'
 import Heading from '../components/Heading'
 import Input from '../components/Input'
-import ShelfItem from '../components/ShelfItem'
+import Modal, { ModalStatus } from '../components/Modal'
 import { Product, useProductContext } from '../contexts/ProductContext'
+import { currency } from '../utils/calculations'
+import { useGlobalContext } from '../contexts/GlobalContext'
 
 const Admin: NextPage = () => {
+  const [modalStatus, setModalStatus] = useState<ModalStatus>(null)
+  const [editMode, setEditMode] = useState(false)
+
   const {
     currentProducts,
+    currentProduct,
     createProduct,
     getProducts,
+    getProductOnTime,
     productDataForm,
     setProductDataForm,
-    uploadProgress,
-    inputFileRef
+    uploadFile,
+    inputFileRef,
+    handleChangeMainImg,
+    deleteProduct
   } = useProductContext()
+  const { isMobile } = useGlobalContext()
+
+  useEffect(() => {
+    getProducts()
+  }, [])
 
   const handleProduct = useCallback(
     (e: FormEvent<HTMLInputElement>) => {
@@ -28,9 +43,33 @@ const Admin: NextPage = () => {
     [productDataForm]
   )
 
-  // useEffect(() => {
-  //   getProducts()
-  // }, [])
+  useEffect(() => {
+    setProductDataForm({
+      id: currentProduct?.id,
+      name: currentProduct?.name,
+      price: currentProduct?.price,
+      bestPrice: currentProduct?.bestPrice
+    })
+  }, [currentProduct])
+
+  useEffect(() => {
+    setProductDataForm({} as Product)
+  }, [modalStatus])
+
+  const handleEditProduct = (productId?: string) => {
+    setEditMode(true)
+    setModalStatus('createProductModal')
+    if (productId) {
+      getProductOnTime(productId)
+    }
+  }
+
+  const handleDeleteProduct = (productId?: string) => {
+    if (productId) {
+      deleteProduct(productId)
+      setProductDataForm({} as Product)
+    }
+  }
 
   return (
     <>
@@ -40,64 +79,181 @@ const Admin: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Heading text="Manipulação de Produtos" center />
-      <div className="flex flex-col gap-6 max-w-xs">
-        <Input
-          text="Nome:"
-          name="name"
-          htmlFor="productName"
-          required
-          widthFull
-          onChange={handleProduct}
-        />
-        <Input
-          text="Preço:"
-          name="price"
-          type="number"
-          htmlFor="productPrice"
-          required
-          widthFull
-          onChange={handleProduct}
-          value={productDataForm?.price}
-        />
-        <Input
-          text="Melhor Preço:"
-          name="bestPrice"
-          type="number"
-          htmlFor="productBestPrice"
-          widthFull
-          onChange={handleProduct}
-          value={productDataForm?.bestPrice}
-        />
-        <Input
-          text="Foto:"
-          name="mainImg"
-          type="file"
-          htmlFor="productMainImg"
-          widthFull
-          onChange={handleProduct}
-          value={productDataForm?.mainImg}
-          reference={inputFileRef}
-          accept="image/x-png,image/gif,image/jpeg"
-        />
-        <p>Uploaded {uploadProgress} %</p>
-
-        <Button primary text="Cadastrar produto" onClick={createProduct} />
-        <Button secondary text="Carregar produtos" onClick={getProducts} />
-      </div>
-
-      <section className="my-20">
-        <ul className="flex flex-wrap gap-6 mt-6">
-          {currentProducts?.map(({ id, name, price, bestPrice, mainImg }) => (
-            <ShelfItem
-              key={id}
-              id={id}
-              name={name}
-              price={price}
-              bestPrice={bestPrice}
-              mainImg={mainImg}
-            />
-          ))}
+      <section className="flex flex-col gap-8 my-10">
+        <ul className="flex justify-center gap-4">
+          <Button
+            primary
+            text="Cadastrar produto"
+            onClick={() => {
+              setEditMode(false)
+              setModalStatus('createProductModal')
+            }}
+          />
+          <Button secondary text="Carregar produtos" onClick={getProducts} />
         </ul>
+
+        <div className="flex justify-center">
+          {currentProducts && (
+            <table className="border border-primary">
+              <thead>
+                <tr className="border border-primary bg-primary text-white">
+                  <th className="text-center p-2 border border-white">
+                    Editar
+                  </th>
+                  <th className="text-center p-2 border border-white">
+                    Excluir
+                  </th>
+                  <th className="text-center p-2 border border-white">Id</th>
+                  <th className="text-center p-2 border border-white">Nome</th>
+                  <th className="text-center p-2 border border-white">
+                    Foto Principal
+                  </th>
+                  <th className="text-center p-2 border border-white">Preço</th>
+                  <th className="text-center p-2 border border-white">
+                    Melhor Preço
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentProducts?.map(
+                  ({ id, name, price, bestPrice, mainImg }) => (
+                    <tr key={id} className="border border-primary">
+                      <td
+                        className="p-4 text-3xl text-center text-primary cursor-pointer border border-primary"
+                        onClick={() => handleEditProduct(id)}
+                      >
+                        <MdOutlineEdit />
+                      </td>
+                      <td
+                        className="p-4 text-3xl text-center text-primary cursor-pointer border border-primary"
+                        onClick={() => handleDeleteProduct(id)}
+                      >
+                        <MdDeleteOutline />
+                      </td>
+                      <td className="border border-primary p-2 text-center">
+                        {id}
+                      </td>
+                      <td className="border border-primary p-2 text-center">
+                        {name}
+                      </td>
+                      <td className="flex justify-center p-2 text-center">
+                        <div
+                          className="w-20 h-20"
+                          style={{
+                            background: `no-repeat center/cover url(${mainImg})`
+                          }}
+                        ></div>
+                      </td>
+                      <td className="border border-primary p-2 text-center">
+                        {currency(price)}
+                      </td>
+                      <td className="border border-primary p-2 text-center">
+                        {currency(bestPrice)}
+                      </td>
+                    </tr>
+                  )
+                )}
+              </tbody>
+            </table>
+          )}
+        </div>
+
+        {modalStatus === 'createProductModal' && (
+          <Modal modalStatus={modalStatus} setModalStatus={setModalStatus}>
+            <form
+              onSubmit={(e) => e.preventDefault()}
+              className="m-auto flex flex-col gap-6"
+              style={{ width: 'calc(min(91.666667%, 20rem))' }}
+            >
+              <Heading
+                text={editMode ? 'Editar produto' : 'Cadastrar produto'}
+                small
+                center
+              />
+              <Input
+                text="Nome:"
+                name="name"
+                htmlFor="productName"
+                required
+                widthFull
+                onChange={handleProduct}
+                value={productDataForm?.name}
+              />
+              <fieldset className="flex gap-6">
+                <Input
+                  text="Preço:"
+                  name="price"
+                  type="number"
+                  htmlFor="productPrice"
+                  required
+                  widthFull
+                  onChange={handleProduct}
+                  value={productDataForm?.price}
+                />
+                <Input
+                  text="Melhor Preço:"
+                  name="bestPrice"
+                  type="number"
+                  htmlFor="productBestPrice"
+                  widthFull
+                  onChange={handleProduct}
+                  value={productDataForm?.bestPrice}
+                />
+              </fieldset>
+              <Input
+                text="Fotos:"
+                name="mainImg"
+                type="file"
+                htmlFor="productMainImg"
+                widthFull
+                onChange={handleProduct}
+                value={productDataForm?.mainImg}
+                reference={inputFileRef}
+                accept="image/x-png,image/gif,image/jpeg"
+              />
+              {editMode && (
+                <Button
+                  primary
+                  text="Upload"
+                  widthFull={isMobile}
+                  onClick={() => {
+                    currentProduct?.id && uploadFile(currentProduct?.id)
+                  }}
+                />
+              )}
+
+              {editMode && (
+                <div className="flex gap-2">
+                  {currentProduct &&
+                    currentProduct.images?.map((image, index) => (
+                      <div
+                        key={index}
+                        style={{
+                          background: `no-repeat center/cover url(${image})`
+                        }}
+                        className={`
+                          w-20 h-20 rounded-sm
+                          ${
+                            image === currentProduct.mainImg &&
+                            'border-4 border-primary'
+                          }
+                        `}
+                        onClick={() => handleChangeMainImg(image.toString())}
+                      ></div>
+                    ))}
+                </div>
+              )}
+              <div className="flex justify-center flex-wrap gap-4 flex-1">
+                <Button
+                  primary
+                  text={editMode ? 'Editar produto' : 'Cadastrar produto'}
+                  widthFull={isMobile}
+                  onClick={createProduct}
+                />
+              </div>
+            </form>
+          </Modal>
+        )}
       </section>
     </>
   )

@@ -30,7 +30,7 @@ const Input = (props: InputProps) => {
         {props.text}
         <div className="flex items-center relative">
           <input
-            autoComplete='off'
+            autoComplete="off"
             type={props.type || 'text'}
             name={props.name}
             id={props.htmlFor}
@@ -42,14 +42,16 @@ const Input = (props: InputProps) => {
             maxLength={props.maxLength}
             ref={props.reference}
             accept={props.accept}
+            readOnly={props.readOnly}
             className={`
               font-primary text-primary text-base
               rounded-sm shadow-lg
               p-2
               block border border-primary
-              focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent focus:p-1
+              focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent
               placeholder-text-xs
               ${props.widthFull && 'w-full'}
+              ${props.readOnly && 'bg-red-100'}
             `}
           />
           <span className="text-lg absolute right-2 opacity-60 z-10">

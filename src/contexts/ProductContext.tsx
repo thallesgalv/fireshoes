@@ -1,9 +1,12 @@
 import {
   addDoc,
+  arrayUnion,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
+  onSnapshot,
   orderBy,
   query,
   serverTimestamp,
@@ -27,24 +30,27 @@ export interface Product {
   name?: string
   price?: number
   bestPrice?: number
+  images?: String[]
   mainImg?: string
   timestamp?: string
 }
 
 interface ProductContextProps {
   currentProducts: Product[] | undefined
-  setCurrentProducts: (param: Product[] | undefined) => void
+  setCurrentProducts: (arg: Product[] | undefined) => void
   currentProduct: Product | undefined
-  setCurrentProduct: (param: Product | undefined) => void
+  setCurrentProduct: (arg: Product | undefined) => void
   getProducts: () => void
-  getProduct: (param: string) => void
+  getProduct: (productId: string) => void
+  getProductOnTime: (productId: string) => void
   createProduct: () => void
   productDataForm: Product
   setProductDataForm: (obj: Product) => void
-  uploadFile: (file: any, productId: string) => void
-  uploadProgress: number
-  setUploadProgress: (arg: number) => void
+  uploadFile: (productId: string) => void
   inputFileRef: MutableRefObject<HTMLInputElement | null>
+  handleChangeMainImg: (newImage: string) => void
+  updateProduct: () => void
+  deleteProduct: (productId: string) => void
 }
 
 interface ProductContextProviderProps {
@@ -59,24 +65,21 @@ export const ProductContextProvider = ({
   const [currentProducts, setCurrentProducts] = useState<Product[]>()
   const [currentProduct, setCurrentProduct] = useState<Product>()
   const [productDataForm, setProductDataForm] = useState({} as Product)
-  const [uploadProgress, setUploadProgress] = useState(0)
   const inputFileRef = useRef<HTMLInputElement>(null)
 
   const productsCollectionRef = collection(db, 'products')
 
   const getProducts = async () => {
     try {
-      if (auth.currentUser) {
-        const queryOrderByReleaseDate = query(
-          productsCollectionRef,
-          orderBy('timestamp', 'desc')
-        )
-        const querySnapshot = await getDocs(queryOrderByReleaseDate)
+      const queryOrderByReleaseDate = query(
+        productsCollectionRef,
+        orderBy('timestamp', 'desc')
+      )
+      const querySnapshot = await getDocs(queryOrderByReleaseDate)
 
-        setCurrentProducts(
-          querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-        )
-      }
+      setCurrentProducts(
+        querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+      )
     } catch (error: any) {
       toast.error(firebaseErrorHandler(error.code))
     }
@@ -85,7 +88,17 @@ export const ProductContextProvider = ({
   const getProduct = async (productId: string) => {
     const docRef = doc(db, 'products', productId)
     const docSnap = await getDoc(docRef)
-    if (docSnap.exists()) setCurrentProduct(docSnap.data())
+    if (docSnap.exists()) {
+      setCurrentProduct({ ...docSnap.data(), id: docSnap.id })
+    }
+  }
+
+  const getProductOnTime = async (productId: string) => {
+    const docRef = doc(db, 'products', productId)
+
+    onSnapshot(docRef, (docSnap) => {
+      setCurrentProduct({ ...docSnap.data(), id: docSnap.id })
+    })
   }
 
   const createProduct = async () => {
@@ -97,46 +110,80 @@ export const ProductContextProvider = ({
         timestamp: serverTimestamp()
       })
 
-      toast.success(`Produto criado com sucesso`)
-
       if (inputFileRef.current !== null) {
-        const file = inputFileRef.current
-        const image = file.files && file.files[0]
-        await uploadFile(image, docRef.id)
+        await uploadFile(docRef.id)
+        toast.success(`Produto criado com sucesso`)
       }
     }
   }
 
-  const uploadFile = async (file: any, productId: string) => {
-    if (file) {
-      const storageRef = ref(storage, `/${productId}/${file.name}`)
-      const uploadTask = uploadBytesResumable(storageRef, file)
-      uploadTask.on(
-        'state_changed',
-        (snapshot) => {
-          const progress = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          )
-          setUploadProgress(progress)
-        },
-        (error: any) => {
-          toast.error(firebaseErrorHandler(error.code))
-          console.error(error)
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((url) =>
-            pushImgUrl(url, productId)
-          )
-        }
-      )
+  const uploadFile = async (productId: string) => {
+    if (inputFileRef.current !== null) {
+      const file = inputFileRef.current
+      const image = file.files && file.files[0]
+
+      if (image) {
+        const storageRef = ref(storage, `/${productId}/${image.name}`)
+        const uploadTask = uploadBytesResumable(storageRef, image)
+        uploadTask.on(
+          'state_changed',
+          (snapshot) => {
+            toast.success(`Upload de foto realizado com sucesso`)
+          },
+          (error: any) => {
+            toast.error(firebaseErrorHandler(error.code))
+            console.error(error)
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((url) =>
+              pushImgUrl(url, productId)
+            )
+          }
+        )
+      }
     }
   }
 
   const pushImgUrl = async (url: string, productId: string) => {
     const docRef = doc(db, 'products', productId)
     await updateDoc(docRef, {
-      mainImg: url || 'não carregou'
+      mainImg: url,
+      images: arrayUnion(url)
     })
+  }
+
+  const handleChangeMainImg = async (newImage: string) => {
+    if (currentProduct?.id) {
+      const docRef = doc(db, 'products', currentProduct?.id)
+
+      await updateDoc(docRef, {
+        mainImg: newImage
+      })
+      toast.success(`Foto principal atualizada com sucesso`)
+    }
+  }
+
+  const updateProduct = async () => {
+    if (currentProduct?.id) {
+      const docRef = doc(db, 'products', currentProduct?.id)
+
+      await updateDoc(docRef, {
+        name: productDataForm?.name,
+        price: productDataForm?.price! * 1,
+        bestPrice: productDataForm?.bestPrice! * 1,
+        timestamp: serverTimestamp()
+      })
+      toast.success(`Produto editado com sucesso`)
+    }
+  }
+
+  const deleteProduct = async (productId: string) => {
+    if (productId) {
+      const docRef = doc(db, 'products', productId)
+
+      await deleteDoc(docRef)
+      toast.success(`Produto deletado com sucesso`)
+    }
   }
 
   return (
@@ -149,12 +196,14 @@ export const ProductContextProvider = ({
         createProduct,
         getProducts,
         getProduct,
+        getProductOnTime,
         productDataForm,
         setProductDataForm,
         uploadFile,
-        uploadProgress,
-        setUploadProgress,
-        inputFileRef
+        inputFileRef,
+        handleChangeMainImg,
+        updateProduct,
+        deleteProduct
       }}
     >
       {children}

@@ -1,13 +1,40 @@
 import { Product, useProductContext } from '../contexts/ProductContext'
 import Button from './Button'
 import { MdOutlineShoppingCart } from 'react-icons/md'
-import { DiscountFlag } from './Svgs'
 import { currency, getDiscount } from '../utils/calculations'
+import { useState } from 'react'
+import { AiFillFire } from 'react-icons/ai'
+import { useGlobalContext } from '../contexts/GlobalContext'
 
 interface ShelfItemProps extends Product {}
 
-const ShelfItem = ({ id, name, price, bestPrice, mainImg }: ShelfItemProps) => {
+const ShelfItem = ({
+  id,
+  name,
+  price,
+  bestPrice,
+  images,
+  mainImg
+}: ShelfItemProps) => {
   const { getProduct, currentProduct } = useProductContext()
+  const [currentImage, setCurrentImage] = useState(mainImg)
+  const { isMobile } = useGlobalContext()
+
+  const handleMouseOver = () => {
+    if (images && images.length > 1) {
+      const altImage = images
+        .find((photo) => photo !== currentImage)
+        ?.toString()
+
+      setCurrentImage(altImage)
+    }
+  }
+
+  const handleMouseLeave = () => {
+    if (images && images.length > 1) {
+      setCurrentImage(mainImg)
+    }
+  }
 
   const handleProduct = (productId?: string) => {
     if (productId) {
@@ -15,17 +42,34 @@ const ShelfItem = ({ id, name, price, bestPrice, mainImg }: ShelfItemProps) => {
       console.log(currentProduct)
     }
   }
+
   return (
-    <li className=" flex flex-col gap-0.5 w-72 relative">
+    <li
+      className={`
+        flex flex-col gap-0.5
+        ${isMobile ? 'w-full' : 'w-64'}
+        relative
+      `}
+    >
       {bestPrice && price && bestPrice < price && (
-        <div className="absolute -right-6 -top-6 flex justify-center items-center animate-bounce">
-          <p className="absolute text-white font-primary font-semibold tracking-tighter text-sm">
+        <div className="absolute -right-6 -top-8 flex justify-center items-center">
+          <p className="absolute text-white font-primary font-semibold tracking-tighter text-xs mt-4">
             {getDiscount(bestPrice, price)} off
           </p>
-          <DiscountFlag />
+          <div className="text-primary">
+            <AiFillFire size={75} />
+          </div>
         </div>
       )}
-      <img src={mainImg} alt={name} className="rounded-sm shadow-lg" />
+      <div
+        style={{
+          background: `no-repeat center/cover url(${currentImage})`
+        }}
+        role={`Image: ${name}. Photo by:`}
+        className="w-64 h-52 rounded-sm shadow-lg"
+        onMouseOver={handleMouseOver}
+        onMouseLeave={handleMouseLeave}
+      />
       <p className="font-semibold text-xl font-primary uppercase">{name}</p>
       {(!bestPrice || (price && bestPrice >= price)) && (
         <p className="text-xl font-primary uppercase text-primary tracking-tighter">
@@ -44,14 +88,15 @@ const ShelfItem = ({ id, name, price, bestPrice, mainImg }: ShelfItemProps) => {
           <strong className="font-normal "> {`${currency(bestPrice)}`}</strong>
         </p>
       )}
-
-      <Button
-        primary
-        text="Adicionar ao Carrinho"
-        icon={<MdOutlineShoppingCart />}
-        widthFull
-        onClick={() => handleProduct(id)}
-      />
+      <div className="mt-4">
+        <Button
+          primary
+          text="Adicionar ao Carrinho"
+          icon={<MdOutlineShoppingCart />}
+          widthFull
+          onClick={() => handleProduct(id)}
+        />
+      </div>
     </li>
   )
 }

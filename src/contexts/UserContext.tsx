@@ -43,7 +43,7 @@ export interface PaymentMethod {
 
 interface UserContextProps {
   currentUser: User | undefined
-  setCurrentUser: (param: User | undefined) => void
+  setCurrentUser: (arg: User | undefined) => void
   createUser: () => void
   getUser: () => void
   adressDataForm: Adress
