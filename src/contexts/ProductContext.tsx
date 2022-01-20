@@ -6,11 +6,13 @@ import {
   doc,
   getDoc,
   getDocs,
+  limit,
   onSnapshot,
   orderBy,
   query,
   serverTimestamp,
-  updateDoc
+  updateDoc,
+  where
 } from 'firebase/firestore'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import {
@@ -51,6 +53,7 @@ interface ProductContextProps {
   handleChangeMainImg: (newImage: string) => void
   updateProduct: () => void
   deleteProduct: () => void
+  getProductsByQuery: (field: string, value: string) => Promise<Product[] | undefined>
 }
 
 interface ProductContextProviderProps {
@@ -82,6 +85,29 @@ export const ProductContextProvider = ({
       )
     } catch (error: any) {
       toast.error(firebaseErrorHandler(error.code))
+      console.error(error)
+    }
+  }
+
+  const getProductsByQuery = async (field: string, value: string) => {
+    try {
+      const givenQuery = query(
+        productsCollectionRef,
+        where(field, '==', value),
+        orderBy('timestamp', 'desc'),
+        limit(10)
+      )
+      const querySnapshot = await getDocs(givenQuery)
+
+      const data = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id
+      }))
+
+      return data
+    } catch (error: any) {
+      toast.error(firebaseErrorHandler(error.code))
+      console.error(error)
     }
   }
 
@@ -204,7 +230,8 @@ export const ProductContextProvider = ({
         inputFileRef,
         handleChangeMainImg,
         updateProduct,
-        deleteProduct
+        deleteProduct,
+        getProductsByQuery
       }}
     >
       {children}
