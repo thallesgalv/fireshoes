@@ -1,26 +1,23 @@
 import { DocumentData, QuerySnapshot } from 'firebase/firestore'
-import type { NextPage } from 'next'
+import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import packageInfo from '../../package.json'
 import Heading from '../components/Heading'
 import Shelf from '../components/Shelf'
 import { Product, useProductContext } from '../contexts/ProductContext'
+import { getProductsByQuery } from '../utils/getProductsByQuery'
 
-const Index: NextPage = () => {
-  const [nikeShelfData, setNikeShelfData] = useState<Product[]>()
-  const [asicsShelfData, setAsicsShelfData] = useState<Product[]>()
-  const { getProducts, currentProducts, getProductsByQuery } =
-    useProductContext()
+interface IndexProps {
+  nikeShelfData: Product[]
+  asicsShelfData: Product[]
+}
+
+const Index: NextPage<IndexProps> = ({ nikeShelfData, asicsShelfData }) => {
+  const { getProducts, currentProducts } = useProductContext()
 
   useEffect(() => {
-    getProducts()
-    getProductsByQuery('brand', 'Nike').then((data?: Product[]) =>
-      setNikeShelfData(data)
-    )
-    getProductsByQuery('brand', 'Asics').then((data?: Product[]) =>
-      setAsicsShelfData(data)
-    )
+    getProducts() // aqui os dados são gerados no cliente não por SSR
   }, [])
 
   return (
@@ -43,6 +40,15 @@ const Index: NextPage = () => {
       </main>
     </>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  return {
+    props: {
+      nikeShelfData: await getProductsByQuery('brand', 'Nike'),
+      asicsShelfData: await getProductsByQuery('brand', 'Asics')
+    }
+  }
 }
 
 export default Index
