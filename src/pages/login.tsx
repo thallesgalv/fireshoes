@@ -107,6 +107,7 @@ const Login: NextPage = () => {
                   setModalStatus('forgotPasswordModal')
                 }}
               >
+                {' '}
                 aqui
               </span>
             </p>

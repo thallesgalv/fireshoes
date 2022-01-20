@@ -27,7 +27,7 @@ const Shelf = ({ data, title }: ShelfProps) => {
     }
   }
 
-  if (!data) return null
+  if (!data || data.length === 0) return null
 
   return (
     <section className="relative">

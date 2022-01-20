@@ -42,8 +42,8 @@ export interface PaymentMethod {
 }
 
 interface UserContextProps {
-  currentUser: User | undefined
-  setCurrentUser: (arg: User | undefined) => void
+  currentUser?: User
+  setCurrentUser: (arg?: User) => void
   createUser: () => void
   getUser: () => void
   adressDataForm: Adress
@@ -128,7 +128,7 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
           adressList: arrayUnion(adressDataForm),
           selectedAdress: currentUser?.adressList?.length || 0
         })
-        toast.success(`Endereço adicionado com sucesso`)
+        toast.success(`Endereço cadastrado com sucesso`)
       } else {
         toast.error(`Você só pode possuir até três endereços cadastrados.`)
       }
@@ -188,7 +188,7 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
           paymentMethodList: arrayUnion(paymentMethodDataForm),
           selectedPaymentMethod: currentUser?.paymentMethodList?.length || 0
         })
-        toast.success(`Meio de pagamento adicionado com sucesso`)
+        toast.success(`Meio de pagamento cadastrado com sucesso`)
       } else {
         toast.error(
           `Você só pode possuir até três meios de pagamento cadastrados.`

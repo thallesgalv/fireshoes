@@ -13,10 +13,12 @@ import { useGlobalContext } from '../contexts/GlobalContext'
 const Admin: NextPage = () => {
   const [modalStatus, setModalStatus] = useState<ModalStatus>(null)
   const [editMode, setEditMode] = useState(false)
+  const { isMobile } = useGlobalContext()
 
   const {
     currentProducts,
     currentProduct,
+    setCurrentProduct,
     createProduct,
     getProducts,
     getProductOnTime,
@@ -25,9 +27,9 @@ const Admin: NextPage = () => {
     uploadFile,
     inputFileRef,
     handleChangeMainImg,
+    updateProduct,
     deleteProduct
   } = useProductContext()
-  const { isMobile } = useGlobalContext()
 
   useEffect(() => {
     getProducts()
@@ -54,21 +56,36 @@ const Admin: NextPage = () => {
 
   useEffect(() => {
     setProductDataForm({} as Product)
+    setCurrentProduct(undefined)
   }, [modalStatus])
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    editMode ? handleUpdateProduct() : handleCreateProduct()
+  }
+
+  const handleCreateProduct = () => {
+    createProduct()
+    getProducts()
+  }
 
   const handleEditProduct = (productId?: string) => {
     setEditMode(true)
     setModalStatus('createProductModal')
-    if (productId) {
-      getProductOnTime(productId)
-    }
+
+    if (productId) getProductOnTime(productId)
+  }
+
+  const handleUpdateProduct = () => {
+    updateProduct()
+    setEditMode(false)
+    setModalStatus(null)
+    getProducts()
   }
 
   const handleDeleteProduct = (productId?: string) => {
-    if (productId) {
-      deleteProduct(productId)
-      setProductDataForm({} as Product)
-    }
+    setModalStatus('confirmationModal')
+    if (productId) getProductOnTime(productId)
   }
 
   return (
@@ -83,7 +100,7 @@ const Admin: NextPage = () => {
         <ul className="flex justify-center gap-4">
           <Button
             primary
-            text="Cadastrar produto"
+            text="Cadastrar novo"
             onClick={() => {
               setEditMode(false)
               setModalStatus('createProductModal')
@@ -93,7 +110,7 @@ const Admin: NextPage = () => {
         </ul>
 
         <div className="flex justify-center">
-          {currentProducts && (
+          {currentProducts && currentProducts?.length > 0 && (
             <table className="border border-primary">
               <thead>
                 <tr className="border border-primary bg-primary text-white">
@@ -161,12 +178,12 @@ const Admin: NextPage = () => {
         {modalStatus === 'createProductModal' && (
           <Modal modalStatus={modalStatus} setModalStatus={setModalStatus}>
             <form
-              onSubmit={(e) => e.preventDefault()}
               className="m-auto flex flex-col gap-6"
               style={{ width: 'calc(min(91.666667%, 20rem))' }}
+              onSubmit={(e) => handleSubmit(e)}
             >
               <Heading
-                text={editMode ? 'Editar produto' : 'Cadastrar produto'}
+                text={editMode ? 'Editar produto' : 'Novo produto'}
                 small
                 center
               />
@@ -184,8 +201,6 @@ const Admin: NextPage = () => {
                   text="Preço:"
                   name="price"
                   type="number"
-                  htmlFor="productPrice"
-                  required
                   widthFull
                   onChange={handleProduct}
                   value={productDataForm?.price}
@@ -243,15 +258,39 @@ const Admin: NextPage = () => {
                     ))}
                 </div>
               )}
+
               <div className="flex justify-center flex-wrap gap-4 flex-1">
                 <Button
                   primary
-                  text={editMode ? 'Editar produto' : 'Cadastrar produto'}
+                  text={editMode ? 'Editar' : 'Cadastrar'}
                   widthFull={isMobile}
-                  onClick={createProduct}
                 />
               </div>
             </form>
+          </Modal>
+        )}
+
+        {modalStatus === 'confirmationModal' && (
+          <Modal modalStatus={modalStatus} setModalStatus={setModalStatus}>
+            <Heading text="Tem certeza?" small center />
+            <div className="flex justify-center gap-6 mt-6">
+              <Button
+                secondary
+                text="Sim"
+                widthFull
+                onClick={() => {
+                  deleteProduct()
+                  setModalStatus(null)
+                  getProducts()
+                }}
+              />
+              <Button
+                primary
+                text="Não"
+                widthFull
+                onClick={() => setModalStatus(null)}
+              />
+            </div>
           </Modal>
         )}
       </section>

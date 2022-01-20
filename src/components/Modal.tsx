@@ -8,6 +8,7 @@ export type ModalStatus =
   | 'createPaymentMethodModal'
   | 'createAdressModal'
   | 'createProductModal'
+  | 'confirmationModal'
 
 interface ModalProps {
   children: ReactNode

@@ -51,6 +51,26 @@ const User: NextPage = () => {
     getUser()
   }, [])
 
+  const handleAdress = useCallback(
+    (e: FormEvent<HTMLInputElement>) => {
+      setAdressDataForm({
+        ...adressDataForm,
+        [e.currentTarget.name]: e.currentTarget.value
+      })
+    },
+    [adressDataForm]
+  )
+
+  const handlePaymentMethod = useCallback(
+    (e: FormEvent<HTMLInputElement>) => {
+      setPaymentMethodDataForm({
+        ...paymentMethodDataForm,
+        [e.currentTarget.name]: e.currentTarget.value
+      })
+    },
+    [paymentMethodDataForm]
+  )
+
   useEffect(() => {
     if (adressDataForm?.postalCode?.length === 9) {
       let postalCode = adressDataForm?.postalCode.replace(/\D/g, '')
@@ -68,15 +88,15 @@ const User: NextPage = () => {
     })
   }, [data])
 
-  const handleAdress = useCallback(
-    (e: FormEvent<HTMLInputElement>) => {
-      setAdressDataForm({
-        ...adressDataForm,
-        [e.currentTarget.name]: e.currentTarget.value
-      })
-    },
-    [adressDataForm]
-  )
+  const handleSubmitAdress = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    editMode ? handleUpdateAdress() : handleCreateAdress()
+  }
+
+  const handleCreateAdress = () => {
+    setAdress()
+    setModalStatus(null)
+  }
 
   const handleEditAdress = (arg: number) => {
     setEditMode(true)
@@ -93,15 +113,19 @@ const User: NextPage = () => {
     setModalStatus(null)
   }
 
-  const handlePaymentMethod = useCallback(
-    (e: FormEvent<HTMLInputElement>) => {
-      setPaymentMethodDataForm({
-        ...paymentMethodDataForm,
-        [e.currentTarget.name]: e.currentTarget.value
-      })
-    },
-    [paymentMethodDataForm]
-  )
+  const handleDeleteAdress = () => {
+    setModalStatus('confirmationModal')
+  }
+
+  const handleSubmitPaymentMethod = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    editMode ? handleUpdatePaymentMethod() : handleCreatePaymentMethod()
+  }
+
+  const handleCreatePaymentMethod = () => {
+    setPaymentMethod()
+    setModalStatus(null)
+  }
 
   const handleEditPaymentMethod = (arg: number) => {
     setEditMode(true)
@@ -118,6 +142,28 @@ const User: NextPage = () => {
       updatePaymentMethod(currentUser.selectedPaymentMethod)
     }
     setModalStatus(null)
+  }
+
+  const handleDeletePaymentMethod = () => {
+    setModalStatus('confirmationModal')
+  }
+
+  const handleConfirmationModal = () => {
+    if (
+      (radio === 'entrega' && currentUser?.selectedAdress) ||
+      currentUser?.selectedAdress === 0
+    ) {
+      deleteAdress(currentUser.selectedAdress)
+      setModalStatus(null)
+    }
+
+    if (
+      (radio === 'pagamento' && currentUser?.selectedPaymentMethod) ||
+      currentUser?.selectedPaymentMethod === 0
+    ) {
+      deletePaymentMethod(currentUser.selectedPaymentMethod)
+      setModalStatus(null)
+    }
   }
 
   if (!currentUser?.uid) return null
@@ -201,7 +247,7 @@ const User: NextPage = () => {
                           key={idx}
                           isActive={idx === currentUser.selectedAdress}
                           onClick={() => setActiveAdress(idx)}
-                          handleDeleteButton={() => deleteAdress(idx)}
+                          handleDeleteButton={handleDeleteAdress}
                           handleUpdateButton={() => handleEditAdress(idx)}
                         >
                           <p>
@@ -255,7 +301,7 @@ const User: NextPage = () => {
                           key={idx}
                           isActive={idx === currentUser.selectedPaymentMethod}
                           onClick={() => setActivePaymentMethod(idx)}
-                          handleDeleteButton={() => deletePaymentMethod(idx)}
+                          handleDeleteButton={handleDeletePaymentMethod}
                           handleUpdateButton={() =>
                             handleEditPaymentMethod(idx)
                           }
@@ -309,8 +355,8 @@ const User: NextPage = () => {
       </section>
       {modalStatus === 'createAdressModal' && (
         <Modal modalStatus={modalStatus} setModalStatus={setModalStatus}>
-          <div
-            onSubmit={(e) => e.preventDefault()}
+          <form
+            onSubmit={(e) => handleSubmitAdress(e)}
             className="m-auto flex flex-col gap-6"
             style={{ width: 'calc(min(91.666667%, 20rem))' }}
           >
@@ -401,32 +447,19 @@ const User: NextPage = () => {
               />
             </div>
             <div className="flex justify-center flex-wrap gap-4 flex-1">
-              {editMode ? (
-                <Button
-                  primary
-                  text="Editar"
-                  widthFull={isMobile}
-                  onClick={handleUpdateAdress}
-                />
-              ) : (
-                <Button
-                  primary
-                  text="Cadastrar"
-                  widthFull={isMobile}
-                  onClick={() => {
-                    setAdress()
-                    setModalStatus(null)
-                  }}
-                />
-              )}
+              <Button
+                primary
+                text={editMode ? 'Editar' : 'Cadastrar'}
+                widthFull={isMobile}
+              />
             </div>
-          </div>
+          </form>
         </Modal>
       )}
       {modalStatus === 'createPaymentMethodModal' && (
         <Modal modalStatus={modalStatus} setModalStatus={setModalStatus}>
           <form
-            onSubmit={(e) => e.preventDefault()}
+            onSubmit={(e) => handleSubmitPaymentMethod(e)}
             className="m-auto flex flex-col gap-6"
             style={{ width: 'calc(min(91.666667%, 20rem))' }}
           >
@@ -444,6 +477,7 @@ const User: NextPage = () => {
               widthFull
               placeholder="Banco X"
               onChange={handlePaymentMethod}
+              value={paymentMethodDataForm?.alias}
             />
             <Input
               text="Número do cartão:"
@@ -453,6 +487,7 @@ const User: NextPage = () => {
               widthFull
               icon={<MdLockOutline />}
               onChange={handlePaymentMethod}
+              value={paymentMethodDataForm?.cardNumber}
             />
             <div
               className="grid gap-6"
@@ -467,6 +502,7 @@ const User: NextPage = () => {
                 widthFull
                 placeholder="00/00"
                 onChange={handlePaymentMethod}
+                value={paymentMethodDataForm?.expirationDate}
               />
               <Input
                 text="CVV:"
@@ -477,30 +513,37 @@ const User: NextPage = () => {
                 widthFull
                 icon={<MdLockOutline />}
                 onChange={handlePaymentMethod}
+                value={paymentMethodDataForm?.securityCode}
               />
             </div>
 
             <div className="flex justify-center flex-wrap gap-4 flex-1">
-              {editMode ? (
-                <Button
-                  primary
-                  text="Editar"
-                  widthFull={isMobile}
-                  onClick={handleUpdatePaymentMethod}
-                />
-              ) : (
-                <Button
-                  primary
-                  text="Cadastrar"
-                  widthFull={isMobile}
-                  onClick={() => {
-                    setPaymentMethod()
-                    setModalStatus(null)
-                  }}
-                />
-              )}
+              <Button
+                primary
+                text={editMode ? 'Editar' : 'Cadastrar'}
+                widthFull={isMobile}
+              />
             </div>
           </form>
+        </Modal>
+      )}
+      {modalStatus === 'confirmationModal' && (
+        <Modal modalStatus={modalStatus} setModalStatus={setModalStatus}>
+          <Heading text="Tem certeza?" small center />
+          <div className="flex justify-center gap-6 mt-6">
+            <Button
+              secondary
+              text="Sim"
+              widthFull
+              onClick={handleConfirmationModal}
+            />
+            <Button
+              primary
+              text="Não"
+              widthFull
+              onClick={() => setModalStatus(null)}
+            />
+          </div>
         </Modal>
       )}
     </>

@@ -42,7 +42,6 @@ const Input = (props: InputProps) => {
             maxLength={props.maxLength}
             ref={props.reference}
             accept={props.accept}
-            readOnly={props.readOnly}
             className={`
               font-primary text-primary text-base
               rounded-sm shadow-lg
@@ -51,7 +50,6 @@ const Input = (props: InputProps) => {
               focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent
               placeholder-text-xs
               ${props.widthFull && 'w-full'}
-              ${props.readOnly && 'bg-red-100'}
             `}
           />
           <span className="text-lg absolute right-2 opacity-60 z-10">

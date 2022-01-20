@@ -36,9 +36,9 @@ export interface Product {
 }
 
 interface ProductContextProps {
-  currentProducts: Product[] | undefined
-  setCurrentProducts: (arg: Product[] | undefined) => void
-  currentProduct: Product | undefined
+  currentProducts?: Product[]
+  setCurrentProducts: (arg?: Product[]) => void
+  currentProduct?: Product
   setCurrentProduct: (arg: Product | undefined) => void
   getProducts: () => void
   getProduct: (productId: string) => void
@@ -50,7 +50,7 @@ interface ProductContextProps {
   inputFileRef: MutableRefObject<HTMLInputElement | null>
   handleChangeMainImg: (newImage: string) => void
   updateProduct: () => void
-  deleteProduct: (productId: string) => void
+  deleteProduct: () => void
 }
 
 interface ProductContextProviderProps {
@@ -102,7 +102,7 @@ export const ProductContextProvider = ({
   }
 
   const createProduct = async () => {
-    if (auth.currentUser) {
+    if (auth.currentUser && productDataForm.name) {
       const docRef = await addDoc(collection(db, 'products'), {
         name: productDataForm?.name,
         price: productDataForm?.price! * 1,
@@ -112,7 +112,8 @@ export const ProductContextProvider = ({
 
       if (inputFileRef.current !== null) {
         await uploadFile(docRef.id)
-        toast.success(`Produto criado com sucesso`)
+
+        toast.success(`Produto cadastrado com sucesso`)
       }
     }
   }
@@ -173,16 +174,16 @@ export const ProductContextProvider = ({
         bestPrice: productDataForm?.bestPrice! * 1,
         timestamp: serverTimestamp()
       })
-      toast.success(`Produto editado com sucesso`)
+      toast.success(`Produto atualizado com sucesso`)
     }
   }
 
-  const deleteProduct = async (productId: string) => {
-    if (productId) {
-      const docRef = doc(db, 'products', productId)
+  const deleteProduct = async () => {
+    if (currentProduct?.id) {
+      const docRef = doc(db, 'products', currentProduct?.id)
 
       await deleteDoc(docRef)
-      toast.success(`Produto deletado com sucesso`)
+      toast.success(`Produto removido com sucesso`)
     }
   }
 
