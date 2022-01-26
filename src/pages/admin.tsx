@@ -196,6 +196,15 @@ const Admin: NextPage = () => {
                 onChange={handleProduct}
                 value={productDataForm?.name}
               />
+              <Input
+                text="Marca:"
+                name="brand"
+                htmlFor="productBrand"
+                required
+                widthFull
+                onChange={handleProduct}
+                value={productDataForm?.brand}
+              />
               <fieldset className="flex gap-6">
                 <Input
                   text="Preço:"

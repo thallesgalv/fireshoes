@@ -2128,7 +2128,7 @@ export const PaymentMethodSvg = () => (
       <path
         opacity="0.8"
         fillRule="evenodd"
-        clip-rule="evenodd"
+        clipRule="evenodd"
         d="M84.6824 124.36H77.2101C76.4198 124.36 75.7783 123.719 75.7783 122.929V116.976C75.7783 116.186 76.4198 115.544 77.2101 115.544H84.6824C85.4728 115.544 86.1142 116.186 86.1142 116.976V122.929C86.1142 123.719 85.4728 124.36 84.6824 124.36ZM77.2101 116.152C76.7572 116.152 76.3863 116.52 76.3863 116.976V122.929C76.3863 123.381 76.7541 123.752 77.2101 123.752H84.6824C85.1354 123.752 85.5062 123.385 85.5062 122.929V116.976C85.5062 116.523 85.1384 116.152 84.6824 116.152H77.2101Z"
         fill="white"
       />
@@ -2341,7 +2341,7 @@ export const PaymentMethodSvg = () => (
       />
       <path
         fillRule="evenodd"
-        clip-rule="evenodd"
+        clipRule="evenodd"
         d="M206.19 24.0413V27.0327C206.19 28.1544 205.789 29.2366 205.181 30.176L204.616 30.9208C203.95 31.9513 202.822 32.5533 201.594 32.5533H189.002L188.908 32.2158L185.822 20.901L183.232 19.5026L183.619 18.7974L186.513 20.3751L187.504 24.0413H206.187H206.19ZM205.278 24.9533H187.729L188.969 29.5254L189.622 31.9453H201.594C202.545 31.9453 203.433 31.3798 203.95 30.5833L204.448 29.7443C204.971 28.9357 205.275 27.9963 205.275 27.0327V24.9533H205.278Z"
         fill="white"
       />
@@ -2368,13 +2368,13 @@ export const PaymentMethodSvg = () => (
       />
       <path
         fillRule="evenodd"
-        clip-rule="evenodd"
+        clipRule="evenodd"
         d="M192.951 39.3748C192.951 40.3354 192.169 41.1167 191.209 41.1167C190.248 41.1167 189.467 40.3354 189.467 39.3748C189.467 38.4141 190.248 37.6329 191.209 37.6329C192.169 37.6329 192.951 38.4141 192.951 39.3748ZM192.261 39.3748C192.261 38.7941 191.789 38.3229 191.209 38.3229C190.628 38.3229 190.157 38.7941 190.157 39.3748C190.157 39.9554 190.628 40.4266 191.209 40.4266C191.789 40.4266 192.261 39.9554 192.261 39.3748Z"
         fill="white"
       />
       <path
         fillRule="evenodd"
-        clip-rule="evenodd"
+        clipRule="evenodd"
         d="M203.774 39.3748C203.774 40.3354 202.993 41.1167 202.032 41.1167C201.071 41.1167 200.29 40.3354 200.29 39.3748C200.29 38.4141 201.071 37.6329 202.032 37.6329C202.993 37.6329 203.774 38.4141 203.774 39.3748ZM203.084 39.3748C203.084 38.7941 202.613 38.3229 202.032 38.3229C201.451 38.3229 200.98 38.7941 200.98 39.3748C200.98 39.9554 201.451 40.4266 202.032 40.4266C202.613 40.4266 203.084 39.9554 203.084 39.3748Z"
         fill="white"
       />
@@ -2480,7 +2480,7 @@ export const PaymentMethodSvg = () => (
             <path
               opacity="0.8"
               fillRule="evenodd"
-              clip-rule="evenodd"
+              clipRule="evenodd"
               d="M206.032 129.288C188.294 129.288 173.86 114.857 173.86 97.1161C173.86 79.3778 188.291 64.944 206.032 64.944C223.771 64.944 238.204 79.3748 238.204 97.1161C238.204 114.854 223.774 129.288 206.032 129.288ZM206.032 65.552C188.629 65.552 174.468 79.7122 174.468 97.1161C174.468 114.52 188.629 128.68 206.032 128.68C223.436 128.68 237.596 114.52 237.596 97.1161C237.596 79.7122 223.436 65.552 206.032 65.552Z"
               fill="white"
             />
@@ -2489,7 +2489,7 @@ export const PaymentMethodSvg = () => (
             <path
               opacity="0.8"
               fillRule="evenodd"
-              clip-rule="evenodd"
+              clipRule="evenodd"
               d="M179.177 97.1161C179.177 82.3084 191.224 70.261 206.032 70.261C220.84 70.261 232.887 82.3084 232.887 97.1161C232.887 111.924 220.84 123.971 206.032 123.971C191.224 123.971 179.177 111.924 179.177 97.1161ZM180.834 97.1161C180.834 111.012 192.139 122.314 206.032 122.314C219.928 122.314 231.23 111.009 231.23 97.1161C231.23 83.2204 219.925 71.9178 206.032 71.9178C192.136 71.9178 180.834 83.2234 180.834 97.1161Z"
               fill="white"
             />
@@ -2498,7 +2498,7 @@ export const PaymentMethodSvg = () => (
         <path
           opacity="0.8"
           fillRule="evenodd"
-          clip-rule="evenodd"
+          clipRule="evenodd"
           d="M213.489 92.167V90.3552C213.489 89.0997 212.507 87.8776 211.252 87.8776H207.713V95.7816H211.252C214.638 95.7816 217.441 98.6969 217.441 102.08V103.874C217.441 107.261 214.635 109.765 211.252 109.765H207.713V112.474C207.713 113.033 207.032 113.486 206.193 113.486C205.354 113.486 204.673 113.033 204.673 112.474V109.765H201.18C197.794 109.765 194.945 107.261 194.945 103.874V103.719C194.945 103.385 195.31 103.077 195.645 103.077H198.301C198.636 103.077 198.9 103.385 198.9 103.719V103.874C198.9 105.129 199.928 106.117 201.183 106.117H204.676V99.7335H201.183C197.797 99.7335 194.948 97.0492 194.948 93.6657V90.3552C194.948 86.9687 197.797 84.2296 201.183 84.2296H204.676V81.7551C204.676 81.1958 205.357 80.7428 206.196 80.7428C207.035 80.7428 207.716 81.1958 207.716 81.7551V84.2296H211.255C214.641 84.2296 217.444 86.9687 217.444 90.3552V92.167C217.444 92.5014 217.122 92.7446 216.791 92.7446H214.134C213.799 92.7446 213.492 92.5014 213.492 92.167H213.489ZM207.713 99.7366V106.121H211.252C212.507 106.121 213.489 105.133 213.489 103.877V102.083C213.489 100.828 212.507 99.7366 211.252 99.7366H207.713ZM204.673 87.8807H201.18C199.925 87.8807 198.897 89.1027 198.897 90.3582V93.6688C198.897 94.9243 199.925 95.7846 201.18 95.7846H204.673V87.8807V87.8807Z"
           fill="white"
         />
@@ -2512,8 +2512,8 @@ export const PaymentMethodSvg = () => (
           y2="-77.9804"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#B37CFF" />
-          <stop offset="1" stop-color="#F895E7" />
+          <stop stopColor="#B37CFF" />
+          <stop offset="1" stopColor="#F895E7" />
         </linearGradient>
         <linearGradient
           id="paint1_linear_129_327"
@@ -2523,8 +2523,8 @@ export const PaymentMethodSvg = () => (
           y2="271.009"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#B37CFF" />
-          <stop offset="1" stop-color="#F895E7" />
+          <stop stopColor="#B37CFF" />
+          <stop offset="1" stopColor="#F895E7" />
         </linearGradient>
         <linearGradient
           id="paint2_linear_129_327"
@@ -2534,8 +2534,8 @@ export const PaymentMethodSvg = () => (
           y2="26.1082"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#B37CFF" />
-          <stop offset="1" stop-color="#F895E7" />
+          <stop stopColor="#B37CFF" />
+          <stop offset="1" stopColor="#F895E7" />
         </linearGradient>
         <linearGradient
           id="paint3_linear_129_327"
@@ -2545,8 +2545,8 @@ export const PaymentMethodSvg = () => (
           y2="50.5497"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#B37CFF" />
-          <stop offset="1" stop-color="#F895E7" />
+          <stop stopColor="#B37CFF" />
+          <stop offset="1" stopColor="#F895E7" />
         </linearGradient>
         <linearGradient
           id="paint4_linear_129_327"
@@ -2556,8 +2556,8 @@ export const PaymentMethodSvg = () => (
           y2="-843.446"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#2B3582" />
-          <stop offset="1" stop-color="#150E42" />
+          <stop stopColor="#2B3582" />
+          <stop offset="1" stopColor="#150E42" />
         </linearGradient>
         <linearGradient
           id="paint5_linear_129_327"
@@ -2567,8 +2567,8 @@ export const PaymentMethodSvg = () => (
           y2="268.182"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#B37CFF" />
-          <stop offset="1" stop-color="#F895E7" />
+          <stop stopColor="#B37CFF" />
+          <stop offset="1" stopColor="#F895E7" />
         </linearGradient>
         <linearGradient
           id="paint6_linear_129_327"
@@ -2578,8 +2578,8 @@ export const PaymentMethodSvg = () => (
           y2="-2918.53"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#2B3582" />
-          <stop offset="1" stop-color="#150E42" />
+          <stop stopColor="#2B3582" />
+          <stop offset="1" stopColor="#150E42" />
         </linearGradient>
         <linearGradient
           id="paint7_linear_129_327"
@@ -2589,8 +2589,8 @@ export const PaymentMethodSvg = () => (
           y2="266.905"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#B37CFF" />
-          <stop offset="1" stop-color="#F895E7" />
+          <stop stopColor="#B37CFF" />
+          <stop offset="1" stopColor="#F895E7" />
         </linearGradient>
         <linearGradient
           id="paint8_linear_129_327"
@@ -2600,8 +2600,8 @@ export const PaymentMethodSvg = () => (
           y2="-1.22101"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#E40045" />
-          <stop offset="1" stop-color="#5C0E16" />
+          <stop stopColor="#E40045" />
+          <stop offset="1" stopColor="#5C0E16" />
         </linearGradient>
         <linearGradient
           id="paint9_linear_129_327"
@@ -2611,8 +2611,8 @@ export const PaymentMethodSvg = () => (
           y2="6.80453"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#9CFFFB" />
-          <stop offset="1" stop-color="#9BFFFA" />
+          <stop stopColor="#9CFFFB" />
+          <stop offset="1" stopColor="#9BFFFA" />
         </linearGradient>
         <linearGradient
           id="paint10_linear_129_327"
@@ -2622,8 +2622,8 @@ export const PaymentMethodSvg = () => (
           y2="140.472"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#E92556" />
-          <stop offset="1" stop-color="#F9C342" />
+          <stop stopColor="#E92556" />
+          <stop offset="1" stopColor="#F9C342" />
         </linearGradient>
         <linearGradient
           id="paint11_linear_129_327"
@@ -2633,8 +2633,8 @@ export const PaymentMethodSvg = () => (
           y2="30.9723"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#53D8FF" />
-          <stop offset="1" stop-color="#3840F7" />
+          <stop stopColor="#53D8FF" />
+          <stop offset="1" stopColor="#3840F7" />
         </linearGradient>
         <linearGradient
           id="paint12_linear_129_327"
@@ -2644,8 +2644,8 @@ export const PaymentMethodSvg = () => (
           y2="31.246"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#2B3582" />
-          <stop offset="1" stop-color="#150E42" />
+          <stop stopColor="#2B3582" />
+          <stop offset="1" stopColor="#150E42" />
         </linearGradient>
         <linearGradient
           id="paint13_linear_129_327"
@@ -2655,8 +2655,8 @@ export const PaymentMethodSvg = () => (
           y2="52.7385"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F9B776" />
-          <stop offset="1" stop-color="#F47960" />
+          <stop stopColor="#F9B776" />
+          <stop offset="1" stopColor="#F47960" />
         </linearGradient>
         <linearGradient
           id="paint14_linear_129_327"
@@ -2666,8 +2666,8 @@ export const PaymentMethodSvg = () => (
           y2="38.8458"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#2B3582" />
-          <stop offset="1" stop-color="#150E42" />
+          <stop stopColor="#2B3582" />
+          <stop offset="1" stopColor="#150E42" />
         </linearGradient>
         <linearGradient
           id="paint15_linear_129_327"
@@ -2677,8 +2677,8 @@ export const PaymentMethodSvg = () => (
           y2="38.633"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#53D8FF" />
-          <stop offset="1" stop-color="#3840F7" />
+          <stop stopColor="#53D8FF" />
+          <stop offset="1" stopColor="#3840F7" />
         </linearGradient>
         <linearGradient
           id="paint16_linear_129_327"
@@ -2688,8 +2688,8 @@ export const PaymentMethodSvg = () => (
           y2="54.7145"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F9B776" />
-          <stop offset="1" stop-color="#F47960" />
+          <stop stopColor="#F9B776" />
+          <stop offset="1" stopColor="#F47960" />
         </linearGradient>
         <linearGradient
           id="paint17_linear_129_327"
@@ -2699,8 +2699,8 @@ export const PaymentMethodSvg = () => (
           y2="68.1208"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#53D8FF" />
-          <stop offset="1" stop-color="#3840F7" />
+          <stop stopColor="#53D8FF" />
+          <stop offset="1" stopColor="#3840F7" />
         </linearGradient>
         <linearGradient
           id="paint18_linear_129_327"
@@ -2710,8 +2710,8 @@ export const PaymentMethodSvg = () => (
           y2="69.1544"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#53D8FF" />
-          <stop offset="1" stop-color="#3840F7" />
+          <stop stopColor="#53D8FF" />
+          <stop offset="1" stopColor="#3840F7" />
         </linearGradient>
         <linearGradient
           id="paint19_linear_129_327"
@@ -2721,8 +2721,8 @@ export const PaymentMethodSvg = () => (
           y2="40.001"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F9B776" />
-          <stop offset="1" stop-color="#F47960" />
+          <stop stopColor="#F9B776" />
+          <stop offset="1" stopColor="#F47960" />
         </linearGradient>
         <linearGradient
           id="paint20_linear_129_327"
@@ -2732,8 +2732,8 @@ export const PaymentMethodSvg = () => (
           y2="46.5978"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F9B776" />
-          <stop offset="1" stop-color="#F47960" />
+          <stop stopColor="#F9B776" />
+          <stop offset="1" stopColor="#F47960" />
         </linearGradient>
         <linearGradient
           id="paint21_linear_129_327"
@@ -2743,8 +2743,8 @@ export const PaymentMethodSvg = () => (
           y2="85.8742"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FDF53F" />
-          <stop offset="1" stop-color="#D93C65" />
+          <stop stopColor="#FDF53F" />
+          <stop offset="1" stopColor="#D93C65" />
         </linearGradient>
         <linearGradient
           id="paint22_linear_129_327"
@@ -2754,8 +2754,8 @@ export const PaymentMethodSvg = () => (
           y2="39.4842"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F9B776" />
-          <stop offset="1" stop-color="#F47960" />
+          <stop stopColor="#F9B776" />
+          <stop offset="1" stopColor="#F47960" />
         </linearGradient>
         <linearGradient
           id="paint23_linear_129_327"
@@ -2765,8 +2765,8 @@ export const PaymentMethodSvg = () => (
           y2="75.1735"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F9B776" />
-          <stop offset="1" stop-color="#F47960" />
+          <stop stopColor="#F9B776" />
+          <stop offset="1" stopColor="#F47960" />
         </linearGradient>
         <linearGradient
           id="paint24_linear_129_327"
@@ -2776,8 +2776,8 @@ export const PaymentMethodSvg = () => (
           y2="36.8394"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F9B776" />
-          <stop offset="1" stop-color="#F47960" />
+          <stop stopColor="#F9B776" />
+          <stop offset="1" stopColor="#F47960" />
         </linearGradient>
         <linearGradient
           id="paint25_linear_129_327"
@@ -2787,8 +2787,8 @@ export const PaymentMethodSvg = () => (
           y2="40.2442"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#2B3582" />
-          <stop offset="1" stop-color="#150E42" />
+          <stop stopColor="#2B3582" />
+          <stop offset="1" stopColor="#150E42" />
         </linearGradient>
         <linearGradient
           id="paint26_linear_129_327"
@@ -2798,8 +2798,8 @@ export const PaymentMethodSvg = () => (
           y2="37.5386"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F9B776" />
-          <stop offset="1" stop-color="#F47960" />
+          <stop stopColor="#F9B776" />
+          <stop offset="1" stopColor="#F47960" />
         </linearGradient>
         <linearGradient
           id="paint27_linear_129_327"
@@ -2809,8 +2809,8 @@ export const PaymentMethodSvg = () => (
           y2="78.5783"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FDF53F" />
-          <stop offset="1" stop-color="#D93C65" />
+          <stop stopColor="#FDF53F" />
+          <stop offset="1" stopColor="#D93C65" />
         </linearGradient>
         <linearGradient
           id="paint28_linear_129_327"
@@ -2820,8 +2820,8 @@ export const PaymentMethodSvg = () => (
           y2="38.6938"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FDF53F" />
-          <stop offset="1" stop-color="#D93C65" />
+          <stop stopColor="#FDF53F" />
+          <stop offset="1" stopColor="#D93C65" />
         </linearGradient>
         <linearGradient
           id="paint29_linear_129_327"
@@ -2831,8 +2831,8 @@ export const PaymentMethodSvg = () => (
           y2="44.3178"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FDF53F" />
-          <stop offset="1" stop-color="#D93C65" />
+          <stop stopColor="#FDF53F" />
+          <stop offset="1" stopColor="#D93C65" />
         </linearGradient>
         <linearGradient
           id="paint30_linear_129_327"
@@ -2842,8 +2842,8 @@ export const PaymentMethodSvg = () => (
           y2="71.3431"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F9B776" />
-          <stop offset="1" stop-color="#F47960" />
+          <stop stopColor="#F9B776" />
+          <stop offset="1" stopColor="#F47960" />
         </linearGradient>
         <linearGradient
           id="paint31_linear_129_327"
@@ -2853,8 +2853,8 @@ export const PaymentMethodSvg = () => (
           y2="66.6616"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#2B3582" />
-          <stop offset="1" stop-color="#150E42" />
+          <stop stopColor="#2B3582" />
+          <stop offset="1" stopColor="#150E42" />
         </linearGradient>
         <linearGradient
           id="paint32_linear_129_327"
@@ -2864,8 +2864,8 @@ export const PaymentMethodSvg = () => (
           y2="69.7928"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#2B3582" />
-          <stop offset="1" stop-color="#150E42" />
+          <stop stopColor="#2B3582" />
+          <stop offset="1" stopColor="#150E42" />
         </linearGradient>
         <linearGradient
           id="paint33_linear_129_327"
@@ -2875,8 +2875,8 @@ export const PaymentMethodSvg = () => (
           y2="59.5176"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#53D8FF" />
-          <stop offset="1" stop-color="#3840F7" />
+          <stop stopColor="#53D8FF" />
+          <stop offset="1" stopColor="#3840F7" />
         </linearGradient>
         <linearGradient
           id="paint34_linear_129_327"
@@ -2886,8 +2886,8 @@ export const PaymentMethodSvg = () => (
           y2="11.6381"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#CB236D" />
-          <stop offset="1" stop-color="#4C246D" />
+          <stop stopColor="#CB236D" />
+          <stop offset="1" stopColor="#4C246D" />
         </linearGradient>
         <linearGradient
           id="paint35_linear_129_327"
@@ -2897,8 +2897,8 @@ export const PaymentMethodSvg = () => (
           y2="9.35812"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#53D8FF" />
-          <stop offset="1" stop-color="#3840F7" />
+          <stop stopColor="#53D8FF" />
+          <stop offset="1" stopColor="#3840F7" />
         </linearGradient>
         <linearGradient
           id="paint36_linear_129_327"
@@ -2908,8 +2908,8 @@ export const PaymentMethodSvg = () => (
           y2="8.84125"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#53D8FF" />
-          <stop offset="1" stop-color="#3840F7" />
+          <stop stopColor="#53D8FF" />
+          <stop offset="1" stopColor="#3840F7" />
         </linearGradient>
         <linearGradient
           id="paint37_linear_129_327"
@@ -2919,8 +2919,8 @@ export const PaymentMethodSvg = () => (
           y2="10.3308"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#53D8FF" />
-          <stop offset="1" stop-color="#3840F7" />
+          <stop stopColor="#53D8FF" />
+          <stop offset="1" stopColor="#3840F7" />
         </linearGradient>
         <linearGradient
           id="paint38_linear_129_327"
@@ -2930,8 +2930,8 @@ export const PaymentMethodSvg = () => (
           y2="7.68605"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#53D8FF" />
-          <stop offset="1" stop-color="#3840F7" />
+          <stop stopColor="#53D8FF" />
+          <stop offset="1" stopColor="#3840F7" />
         </linearGradient>
         <linearGradient
           id="paint39_linear_129_327"
@@ -2941,8 +2941,8 @@ export const PaymentMethodSvg = () => (
           y2="188.443"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#2B3582" />
-          <stop offset="1" stop-color="#150E42" />
+          <stop stopColor="#2B3582" />
+          <stop offset="1" stopColor="#150E42" />
         </linearGradient>
         <linearGradient
           id="paint40_linear_129_327"
@@ -2952,8 +2952,8 @@ export const PaymentMethodSvg = () => (
           y2="186.376"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F9B776" />
-          <stop offset="1" stop-color="#F47960" />
+          <stop stopColor="#F9B776" />
+          <stop offset="1" stopColor="#F47960" />
         </linearGradient>
         <linearGradient
           id="paint41_linear_129_327"
@@ -2963,8 +2963,8 @@ export const PaymentMethodSvg = () => (
           y2="188.443"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#2B3582" />
-          <stop offset="1" stop-color="#150E42" />
+          <stop stopColor="#2B3582" />
+          <stop offset="1" stopColor="#150E42" />
         </linearGradient>
         <linearGradient
           id="paint42_linear_129_327"
@@ -2974,8 +2974,8 @@ export const PaymentMethodSvg = () => (
           y2="184.43"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F9B776" />
-          <stop offset="1" stop-color="#F47960" />
+          <stop stopColor="#F9B776" />
+          <stop offset="1" stopColor="#F47960" />
         </linearGradient>
         <linearGradient
           id="paint43_linear_129_327"
@@ -2985,8 +2985,8 @@ export const PaymentMethodSvg = () => (
           y2="141.536"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#2B3582" />
-          <stop offset="1" stop-color="#150E42" />
+          <stop stopColor="#2B3582" />
+          <stop offset="1" stopColor="#150E42" />
         </linearGradient>
         <linearGradient
           id="paint44_linear_129_327"
@@ -2996,8 +2996,8 @@ export const PaymentMethodSvg = () => (
           y2="137.493"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#53D8FF" />
-          <stop offset="1" stop-color="#3840F7" />
+          <stop stopColor="#53D8FF" />
+          <stop offset="1" stopColor="#3840F7" />
         </linearGradient>
         <linearGradient
           id="paint45_linear_129_327"
@@ -3007,8 +3007,8 @@ export const PaymentMethodSvg = () => (
           y2="104.6"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F9B776" />
-          <stop offset="1" stop-color="#F47960" />
+          <stop stopColor="#F9B776" />
+          <stop offset="1" stopColor="#F47960" />
         </linearGradient>
         <linearGradient
           id="paint46_linear_129_327"
@@ -3018,8 +3018,8 @@ export const PaymentMethodSvg = () => (
           y2="161.418"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#53D8FF" />
-          <stop offset="1" stop-color="#3840F7" />
+          <stop stopColor="#53D8FF" />
+          <stop offset="1" stopColor="#3840F7" />
         </linearGradient>
         <linearGradient
           id="paint47_linear_129_327"
@@ -3029,8 +3029,8 @@ export const PaymentMethodSvg = () => (
           y2="144.546"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F9B776" />
-          <stop offset="1" stop-color="#F47960" />
+          <stop stopColor="#F9B776" />
+          <stop offset="1" stopColor="#F47960" />
         </linearGradient>
         <linearGradient
           id="paint48_linear_129_327"
@@ -3040,8 +3040,8 @@ export const PaymentMethodSvg = () => (
           y2="141.323"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F9B776" />
-          <stop offset="1" stop-color="#F47960" />
+          <stop stopColor="#F9B776" />
+          <stop offset="1" stopColor="#F47960" />
         </linearGradient>
         <linearGradient
           id="paint49_linear_129_327"
@@ -3051,8 +3051,8 @@ export const PaymentMethodSvg = () => (
           y2="138.07"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F9B776" />
-          <stop offset="1" stop-color="#F47960" />
+          <stop stopColor="#F9B776" />
+          <stop offset="1" stopColor="#F47960" />
         </linearGradient>
         <linearGradient
           id="paint50_linear_129_327"
@@ -3062,8 +3062,8 @@ export const PaymentMethodSvg = () => (
           y2="121.077"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F9B776" />
-          <stop offset="1" stop-color="#F47960" />
+          <stop stopColor="#F9B776" />
+          <stop offset="1" stopColor="#F47960" />
         </linearGradient>
         <linearGradient
           id="paint51_linear_129_327"
@@ -3073,8 +3073,8 @@ export const PaymentMethodSvg = () => (
           y2="101.834"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#2B3582" />
-          <stop offset="1" stop-color="#150E42" />
+          <stop stopColor="#2B3582" />
+          <stop offset="1" stopColor="#150E42" />
         </linearGradient>
         <linearGradient
           id="paint52_linear_129_327"
@@ -3084,8 +3084,8 @@ export const PaymentMethodSvg = () => (
           y2="111.775"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F9B776" />
-          <stop offset="1" stop-color="#F47960" />
+          <stop stopColor="#F9B776" />
+          <stop offset="1" stopColor="#F47960" />
         </linearGradient>
         <linearGradient
           id="paint53_linear_129_327"
@@ -3095,8 +3095,8 @@ export const PaymentMethodSvg = () => (
           y2="101.834"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#E92556" />
-          <stop offset="1" stop-color="#F9C342" />
+          <stop stopColor="#E92556" />
+          <stop offset="1" stopColor="#F9C342" />
         </linearGradient>
       </defs>
     </svg>

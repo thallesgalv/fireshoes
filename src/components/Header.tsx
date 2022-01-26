@@ -12,13 +12,20 @@ import {
   MdPerson
 } from 'react-icons/md'
 import { auth } from '../services/firebase'
+import { useCartContext } from '../contexts/CartContext'
 
 const Header = () => {
-  const { isMobile, menuActive, setMenuActive } = useGlobalContext()
+  const { isMobile, menuActive, setMenuActive, setMiniCartActive } =
+    useGlobalContext()
   const { currentUser } = useUserContext()
+  const { currentCart } = useCartContext()
 
   const handleMenu = () => {
     isMobile && setMenuActive(!menuActive)
+  }
+
+  const handleMiniCart = () => {
+    setMiniCartActive(true)
   }
 
   return (
@@ -101,10 +108,13 @@ const Header = () => {
               icon={<MdSearch />}
             />
           </div>
-          <div className="flex text-primary cursor-pointer">
+          <div
+            className="flex text-primary cursor-pointer"
+            onClick={handleMiniCart}
+          >
             <MdOutlineShoppingCart size={40} />
-            <span className="rounded-full h-5 w-5 flex justify-center items-center bg-yellow-400 text-tiny overflow-hidden">
-              99
+            <span className="rounded-full h-5 w-5 flex justify-center items-center bg-yellow-400 text-xs font-semibold overflow-hidden">
+              {currentCart.products?.length || 0}
             </span>
           </div>
           <div className="hidden md:block">

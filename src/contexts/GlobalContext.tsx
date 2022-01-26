@@ -5,6 +5,8 @@ interface GlobalContextProps {
   isMobile: boolean
   menuActive: boolean
   setMenuActive: (bool: boolean) => void
+  miniCartActive: boolean
+  setMiniCartActive: (bool: boolean) => void
 }
 
 interface GlobalContextProviderProps {
@@ -18,13 +20,16 @@ export const GlobalContextProvider = ({
 }: GlobalContextProviderProps) => {
   const isMobile = useMedia('(max-width: 768px)')
   const [menuActive, setMenuActive] = useState(false)
+  const [miniCartActive, setMiniCartActive] = useState(false)
 
   return (
     <GlobalContext.Provider
       value={{
         isMobile,
         menuActive,
-        setMenuActive
+        setMenuActive,
+        miniCartActive,
+        setMiniCartActive
       }}
     >
       {children}

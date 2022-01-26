@@ -42,16 +42,17 @@ const Shelf = ({ data, title }: ShelfProps) => {
           `}
           ref={carousel}
         >
-          {data.map(({ id, name, price, bestPrice, images, mainImg }) => (
-            <ShelfItem
-              key={id}
-              id={id}
-              name={name}
-              price={price}
-              bestPrice={bestPrice}
-              images={images}
-              mainImg={mainImg}
-            />
+          {data.map(({ id, name, price, bestPrice, images, mainImg }, idx) => (
+            <li key={idx}>
+              <ShelfItem
+                id={id}
+                name={name}
+                price={price}
+                bestPrice={bestPrice}
+                images={images}
+                mainImg={mainImg}
+              />
+            </li>
           ))}
         </ul>
       </div>

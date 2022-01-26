@@ -5,13 +5,34 @@
 @tailwind utilities;
 
 @layer utilities {
-  /* Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
 
   .no-scrollbar {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar::-webkit-scrollbar {
+    width: 0.5rem;
+    background-color: transparent;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar::-webkit-scrollbar-button {
+    display: none;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    border-radius: 1rem;
+    background: #fecaca;
+  }
+
+  .scrollbar:hover::-webkit-scrollbar-thumb {
+    background: #f63c3c;
   }
 }

@@ -9,6 +9,8 @@ import Main from '../components/Main'
 import { ProductContextProvider } from '../contexts/ProductContext'
 import { Toaster } from 'react-hot-toast'
 import { UserContextProvider } from '../contexts/UserContext'
+import { CartContextProvider } from '../contexts/CartContext'
+import MiniCart from '../components/MiniCart'
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   showVersion()
@@ -16,13 +18,24 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     <UserContextProvider>
       <GlobalContextProvider>
         <AuthContextProvider>
-          <ProductContextProvider>
-            <Header />
-            <Main>
-              <Component {...pageProps} />
-              <Toaster position="bottom-center" />
-            </Main>
-          </ProductContextProvider>
+          <CartContextProvider>
+            <ProductContextProvider>
+              <Header />
+              <MiniCart />
+              <Main>
+                <Component {...pageProps} />
+                <Toaster
+                  position="bottom-left"
+                  toastOptions={{
+                    style: {
+                      background: '#F63C3C',
+                      color: '#FFF'
+                    }
+                  }}
+                />
+              </Main>
+            </ProductContextProvider>
+          </CartContextProvider>
         </AuthContextProvider>
       </GlobalContextProvider>
     </UserContextProvider>

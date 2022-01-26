@@ -30,6 +30,7 @@ import { firebaseErrorHandler } from '../utils/firebaseErrorHandler'
 export interface Product {
   id?: string
   name?: string
+  brand?: string
   price?: number
   bestPrice?: number
   images?: String[]
@@ -131,6 +132,7 @@ export const ProductContextProvider = ({
     if (auth.currentUser && productDataForm.name) {
       const docRef = await addDoc(collection(db, 'products'), {
         name: productDataForm?.name,
+        brand: productDataForm?.brand,
         price: productDataForm?.price! * 1,
         bestPrice: productDataForm?.bestPrice! * 1,
         timestamp: serverTimestamp()
@@ -196,6 +198,7 @@ export const ProductContextProvider = ({
 
       await updateDoc(docRef, {
         name: productDataForm?.name,
+        brand: productDataForm?.brand,
         price: productDataForm?.price! * 1,
         bestPrice: productDataForm?.bestPrice! * 1,
         timestamp: serverTimestamp()

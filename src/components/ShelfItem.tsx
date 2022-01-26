@@ -5,24 +5,19 @@ import { currency, getDiscount } from '../utils/calculations'
 import { useState } from 'react'
 import { AiFillFire } from 'react-icons/ai'
 import { useGlobalContext } from '../contexts/GlobalContext'
+import { useCartContext } from '../contexts/CartContext'
 
 interface ShelfItemProps extends Product {}
 
-const ShelfItem = ({
-  id,
-  name,
-  price,
-  bestPrice,
-  images,
-  mainImg
-}: ShelfItemProps) => {
+const ShelfItem = (product: ShelfItemProps) => {
   const { getProduct, currentProduct } = useProductContext()
-  const [currentImage, setCurrentImage] = useState(mainImg)
+  const { addToCart } = useCartContext()
+  const [currentImage, setCurrentImage] = useState(product.mainImg)
   const { isMobile } = useGlobalContext()
 
   const handleMouseOver = () => {
-    if (images && images.length > 1) {
-      const altImage = images
+    if (product.images && product.images.length > 1) {
+      const altImage = product.images
         .find((photo) => photo !== currentImage)
         ?.toString()
 
@@ -31,30 +26,29 @@ const ShelfItem = ({
   }
 
   const handleMouseLeave = () => {
-    if (images && images.length > 1) {
-      setCurrentImage(mainImg)
+    if (product.images && product.images.length > 1) {
+      setCurrentImage(product.mainImg)
     }
   }
 
-  const handleProduct = (productId?: string) => {
-    if (productId) {
-      getProduct(productId)
-      console.log(currentProduct)
+  const handleProduct = (product?: Product) => {
+    if (product) {
+      addToCart({ ...product, quantity: 1 })
     }
   }
 
   return (
-    <li
+    <div
       className={`
         flex flex-col gap-0.5
         ${isMobile ? 'w-full' : 'w-64'}
         relative
       `}
     >
-      {bestPrice && price && bestPrice < price && (
+      {product.bestPrice && product.price && product.bestPrice < product.price && (
         <div className="absolute -right-6 -top-8 flex justify-center items-center">
           <p className="absolute text-white font-primary font-semibold tracking-tighter text-xs mt-4">
-            {getDiscount(bestPrice, price)} off
+            {getDiscount(product.bestPrice, product.price)} off
           </p>
           <div className="text-primary">
             <AiFillFire size={75} />
@@ -65,27 +59,36 @@ const ShelfItem = ({
         style={{
           background: `no-repeat center/cover url(${currentImage})`
         }}
-        role={`Image: ${name}. Photo by:`}
+        role={`Image: ${product.name}. Photo by:`}
         className="w-64 h-52 rounded-sm shadow-lg"
         onMouseOver={handleMouseOver}
         onMouseLeave={handleMouseLeave}
       />
-      <p className="font-semibold text-xl font-primary uppercase">{name}</p>
-      {(!bestPrice || (price && bestPrice >= price)) && (
+      <p className="font-semibold text-xl font-primary uppercase">
+        {product.name}
+      </p>
+      {(!product.bestPrice ||
+        (product.price && product.bestPrice >= product.price)) && (
         <p className="text-xl font-primary uppercase text-primary tracking-tighter">
-          <strong className="font-normal "> {`${currency(price)}`}</strong>
+          <strong className="font-normal ">
+            {' '}
+            {`${currency(product.price)}`}
+          </strong>
         </p>
       )}
-      {bestPrice && price && bestPrice < price && (
+      {product.bestPrice && product.price && product.bestPrice < product.price && (
         <p className="font-normal text-xl font-primary text-primary tracking-tighter">
           <span className="text-lg font-light">
             de{' '}
             <span className=" line-through font-light">{`${currency(
-              price
+              product.price
             )}`}</span>{' '}
             por
           </span>
-          <strong className="font-normal "> {`${currency(bestPrice)}`}</strong>
+          <strong className="font-normal ">
+            {' '}
+            {`${currency(product.bestPrice)}`}
+          </strong>
         </p>
       )}
       <div className="mt-4">
@@ -94,10 +97,10 @@ const ShelfItem = ({
           text="Adicionar ao Carrinho"
           icon={<MdOutlineShoppingCart />}
           widthFull
-          onClick={() => handleProduct(id)}
+          onClick={() => handleProduct(product)}
         />
       </div>
-    </li>
+    </div>
   )
 }
 

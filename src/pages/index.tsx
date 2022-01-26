@@ -1,10 +1,10 @@
-import { DocumentData, QuerySnapshot } from 'firebase/firestore'
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import packageInfo from '../../package.json'
 import Heading from '../components/Heading'
 import Shelf from '../components/Shelf'
+
 import { Product, useProductContext } from '../contexts/ProductContext'
 import { getProductsByQuery } from '../utils/getProductsByQuery'
 
@@ -29,6 +29,17 @@ const Index: NextPage<IndexProps> = ({ nikeShelfData, asicsShelfData }) => {
       </Head>
 
       <main className="w-11/12 m-auto ">
+        {/* Remover */}
+        <p
+          className="text-blue-500 font-bold cursor-pointer"
+          onClick={() => {
+            localStorage.removeItem('fireshoescart')
+            location.reload()
+          }}
+        >
+          ZERAR CARRINHO (remover No localStorage)
+        </p>
+
         <section>
           <Heading text="Home" center />
           <p className="text-center">Versão {packageInfo.version}</p>
