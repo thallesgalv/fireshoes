@@ -13,12 +13,15 @@ import {
 } from 'react-icons/md'
 import { auth } from '../services/firebase'
 import { useCartContext } from '../contexts/CartContext'
+import { useEffect, useRef } from 'react'
+import { AnimationFire } from './Lottie'
 
 const Header = () => {
   const { isMobile, menuActive, setMenuActive, setMiniCartActive } =
     useGlobalContext()
   const { currentUser } = useUserContext()
   const { currentCart } = useCartContext()
+  const cartNumber = useRef<HTMLSpanElement>(null)
 
   const handleMenu = () => {
     isMobile && setMenuActive(!menuActive)
@@ -27,6 +30,17 @@ const Header = () => {
   const handleMiniCart = () => {
     setMiniCartActive(true)
   }
+
+  useEffect(() => {
+    if (cartNumber.current) {
+      cartNumber.current.classList.add('animate-bounce')
+    }
+    setTimeout(() => {
+      if (cartNumber.current) {
+        cartNumber.current.classList.remove('animate-bounce')
+      }
+    }, 3000)
+  }, [currentCart])
 
   return (
     <header className="shadow-lg fixed w-full bg-white z-10">
@@ -47,7 +61,8 @@ const Header = () => {
         <div className="flex justify-center items-center">
           <Link href="/">
             <a className="text-4xl" onClick={() => setMenuActive(false)}>
-              🔥
+              {/* 🔥 */}
+              <AnimationFire />
             </a>
           </Link>
 
@@ -109,11 +124,14 @@ const Header = () => {
             />
           </div>
           <div
-            className="flex text-primary cursor-pointer"
+            className="flex text-primary relative cursor-pointer"
             onClick={handleMiniCart}
           >
             <MdOutlineShoppingCart size={40} />
-            <span className="rounded-full h-5 w-5 flex justify-center items-center bg-yellow-400 text-xs font-semibold overflow-hidden">
+            <span
+              className="rounded-full h-5 w-5 flex justify-center items-center bg-yellow-400 text-xs font-semibold overflow-hidden absolute -right-1 -top-1"
+              ref={cartNumber}
+            >
               {currentCart.products?.length || 0}
             </span>
           </div>

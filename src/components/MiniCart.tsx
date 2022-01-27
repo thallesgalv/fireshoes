@@ -10,6 +10,7 @@ import { useGlobalContext } from '../contexts/GlobalContext'
 import { currency } from '../utils/calculations'
 import Button from './Button'
 import Heading from './Heading'
+import { AnimationEmptyCart } from './Lottie'
 
 const MiniCart = () => {
   const { miniCartActive, setMiniCartActive } = useGlobalContext()
@@ -47,7 +48,7 @@ const MiniCart = () => {
       ref={miniCartContainer}
       onClick={handleClick}
     >
-      <div className="w-1/5 bg-white p-4 rounded animate-in">
+      <div className="lg:w-1/5 bg-white p-4 rounded animate-in">
         <div className="flex items-center justify-around">
           <div
             className="text-primary text-4xl cursor-pointer"
@@ -135,12 +136,12 @@ const MiniCart = () => {
               ))}
             </ul>
 
-            <div>
-              <p className="text-right text-primary text-2xl font-semibold">
+            <div className="text-center lg:text-right">
+              <p className=" text-primary text-2xl font-semibold">
                 Total: {`${currency(cartTotalValue)}`}
               </p>
               {savingValue > 0 && (
-                <p className="text-right text-sm">
+                <p className="text-sm">
                   Você economizou: {`${currency(savingValue)}`}
                 </p>
               )}
@@ -160,7 +161,10 @@ const MiniCart = () => {
             </ul>
           </div>
         ) : (
-          <p>Nada no carrinho</p>
+          <div className="grid place-items-center">
+            <AnimationEmptyCart />
+            <p className="text-primary text-center">Seu carrinho está vazio.</p>
+          </div>
         )}
       </div>
     </section>

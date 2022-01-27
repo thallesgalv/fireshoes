@@ -16,6 +16,7 @@ import useFetch from '../hooks/useFetch'
 import { BuildingSvg, OrdersSvg, PaymentMethodSvg } from '../components/Svgs'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import { AnimationAdress, AnimationOrder, AnimationPayment } from '../components/Lottie'
 
 const User: NextPage = () => {
   const { logout } = useAuthContext()
@@ -180,6 +181,7 @@ const User: NextPage = () => {
         className="
           w-11/12 m-auto
           lg:w-full lg:flex
+          pb-8
         "
       >
         <aside className="flex flex-col gap-6">
@@ -264,7 +266,8 @@ const User: NextPage = () => {
                   )
                 ) : (
                   <div className="flex justify-center items-center flex-col gap-4">
-                    <BuildingSvg />
+                    {/* <BuildingSvg /> */}
+                    <AnimationAdress />
                     <p className="text-primary text-center">
                       Nenhum endereço cadastrado.
                     </p>
@@ -314,7 +317,8 @@ const User: NextPage = () => {
                   )
                 ) : (
                   <div className="flex justify-center items-center flex-col gap-4">
-                    <PaymentMethodSvg />
+                    {/* <PaymentMethodSvg /> */}
+                    <AnimationPayment />
                     <p className="text-primary text-center">
                       Nenhum meio de pagamento cadastrado.
                     </p>
@@ -344,7 +348,8 @@ const User: NextPage = () => {
           <div>
             {radio === 'compras' && (
               <div className="flex justify-center items-center flex-col gap-4">
-                <OrdersSvg />
+                {/* <OrdersSvg /> */}
+                <AnimationOrder />
                 <p className="text-primary text-center">
                   Histórico de compras vazio.
                 </p>
