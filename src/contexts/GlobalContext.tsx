@@ -1,17 +1,26 @@
 import { createContext, useContext, useState, ReactNode } from 'react'
+import { ModalStatus } from '../components/Modal'
 import useMedia from '../hooks/useMedia'
 
 interface GlobalContextProps {
   isMobile: boolean
   menuActive: boolean
-  setMenuActive: (bool: boolean) => void
+  setMenuActive: (arg: boolean) => void
   miniCartActive: boolean
-  setMiniCartActive: (bool: boolean) => void
+  setMiniCartActive: (arg: boolean) => void
+  checkoutStep: CheckoutStep
+  setCheckoutStep: (arg: CheckoutStep) => void
+  editMode: boolean
+  setEditMode: (arg: boolean) => void
+  modalStatus: ModalStatus
+  setModalStatus: (arg: ModalStatus) => void
 }
 
 interface GlobalContextProviderProps {
   children: ReactNode
 }
+
+type CheckoutStep = 'cart' | 'adress' | 'payment' | 'sucess'
 
 export const GlobalContext = createContext({} as GlobalContextProps)
 
@@ -21,6 +30,9 @@ export const GlobalContextProvider = ({
   const isMobile = useMedia('(max-width: 768px)')
   const [menuActive, setMenuActive] = useState(false)
   const [miniCartActive, setMiniCartActive] = useState(false)
+  const [checkoutStep, setCheckoutStep] = useState<CheckoutStep>('cart')
+  const [editMode, setEditMode] = useState(false)
+  const [modalStatus, setModalStatus] = useState<ModalStatus>(null)
 
   return (
     <GlobalContext.Provider
@@ -29,7 +41,13 @@ export const GlobalContextProvider = ({
         menuActive,
         setMenuActive,
         miniCartActive,
-        setMiniCartActive
+        setMiniCartActive,
+        checkoutStep,
+        setCheckoutStep,
+        editMode,
+        setEditMode,
+        modalStatus,
+        setModalStatus
       }}
     >
       {children}

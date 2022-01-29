@@ -1,4 +1,4 @@
-import { Product, useProductContext } from '../contexts/ProductContext'
+import { Product } from '../contexts/ProductContext'
 import Button from './Button'
 import { MdOutlineShoppingCart } from 'react-icons/md'
 import { currency, getDiscount } from '../utils/calculations'
@@ -10,7 +10,6 @@ import { useCartContext } from '../contexts/CartContext'
 interface ShelfItemProps extends Product {}
 
 const ShelfItem = (product: ShelfItemProps) => {
-  const { getProduct, currentProduct } = useProductContext()
   const { addToCart } = useCartContext()
   const [currentImage, setCurrentImage] = useState(product.mainImg)
   const { isMobile } = useGlobalContext()
@@ -32,6 +31,7 @@ const ShelfItem = (product: ShelfItemProps) => {
   }
 
   const handleProduct = (product?: Product) => {
+    console.log(product)
     if (product) {
       addToCart({ ...product, quantity: 1 })
     }

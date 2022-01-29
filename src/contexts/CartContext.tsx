@@ -79,6 +79,7 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
       toast.success('Produto adicionado ao carrinho.')
     } else {
       toast.error('Este produto já está no carrinho.')
+      console.log(product)
     }
   }
 

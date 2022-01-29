@@ -18,6 +18,7 @@ const Index: NextPage<IndexProps> = ({ nikeShelfData, asicsShelfData }) => {
 
   useEffect(() => {
     getProducts() // aqui os dados são gerados no cliente não por SSR
+    console.log(asicsShelfData)
   }, [])
 
   return (
@@ -28,7 +29,7 @@ const Index: NextPage<IndexProps> = ({ nikeShelfData, asicsShelfData }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="w-11/12 m-auto ">
+      <section className="w-11/12 m-auto">
         {/* Remover */}
         <p
           className="text-blue-500 font-bold cursor-pointer"
@@ -48,7 +49,7 @@ const Index: NextPage<IndexProps> = ({ nikeShelfData, asicsShelfData }) => {
           <Shelf data={nikeShelfData} title="Só os Nikess" />
           <Shelf data={asicsShelfData} title="Asics? Temos" />
         </section>
-      </main>
+      </section>
     </>
   )
 }

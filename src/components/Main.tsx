@@ -10,7 +10,7 @@ const Main = ({ children }: MainProps) => {
 
   return (
     <main
-      className="container m-auto pt-24"
+      className="container m-auto pt-24 pb-8"
       style={{
         position: menuActive ? 'relative' : 'static',
         zIndex: menuActive ? '-1' : '1'

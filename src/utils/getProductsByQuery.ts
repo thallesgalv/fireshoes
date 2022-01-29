@@ -28,8 +28,10 @@ export const getProductsByQuery = async (field: string, value: string) => {
 
 function parseToJson(doc: DocumentSnapshot) {
   const data = doc.data()
+  console.log(data)
   return {
     ...data,
+    id: doc.id,
     timestamp: data?.timestamp.toMillis() || 0
   }
 }

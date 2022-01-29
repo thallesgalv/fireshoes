@@ -1,46 +1,23 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { FormEvent, useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import Button from '../components/Button'
 import Heading from '../components/Heading'
 import { MdLogout, MdNoAccounts } from 'react-icons/md'
 import { useAuthContext } from '../contexts/AuthContext'
-import Input from '../components/Input'
-import CrudCard from '../components/CrudCard'
 import UserOption from '../components/UserOption'
-import Modal, { ModalStatus } from '../components/Modal'
-import { useGlobalContext } from '../contexts/GlobalContext'
-import { Adress, useUserContext, PaymentMethod } from '../contexts/UserContext'
-import { MdLockOutline } from 'react-icons/md'
-import useFetch from '../hooks/useFetch'
-import { BuildingSvg, OrdersSvg, PaymentMethodSvg } from '../components/Svgs'
+import { useUserContext } from '../contexts/UserContext'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { AnimationAdress, AnimationOrder, AnimationPayment } from '../components/Lottie'
+import { AnimationOrder } from '../components/Lottie'
+import DeliveryAdress from '../components/DeliveryAdress'
+import PaymentMethod from '../components/PaymentMethod'
 
 const User: NextPage = () => {
   const { logout } = useAuthContext()
-  const { isMobile } = useGlobalContext()
-  const {
-    currentUser,
-    setAdress,
-    getUser,
-    setActiveAdress,
-    deleteAdress,
-    adressDataForm,
-    setAdressDataForm,
-    paymentMethodDataForm,
-    setPaymentMethodDataForm,
-    setActivePaymentMethod,
-    deletePaymentMethod,
-    setPaymentMethod,
-    updateAdress,
-    updatePaymentMethod
-  } = useUserContext()
-  const { request, data } = useFetch()
+  const { currentUser, getUser } = useUserContext()
+
   const [radio, setRadio] = useState('entrega')
-  const [editMode, setEditMode] = useState(false)
-  const [modalStatus, setModalStatus] = useState<ModalStatus>(null)
 
   const router = useRouter()
 
@@ -51,121 +28,6 @@ const User: NextPage = () => {
   useEffect(() => {
     getUser()
   }, [])
-
-  const handleAdress = useCallback(
-    (e: FormEvent<HTMLInputElement>) => {
-      setAdressDataForm({
-        ...adressDataForm,
-        [e.currentTarget.name]: e.currentTarget.value
-      })
-    },
-    [adressDataForm]
-  )
-
-  const handlePaymentMethod = useCallback(
-    (e: FormEvent<HTMLInputElement>) => {
-      setPaymentMethodDataForm({
-        ...paymentMethodDataForm,
-        [e.currentTarget.name]: e.currentTarget.value
-      })
-    },
-    [paymentMethodDataForm]
-  )
-
-  useEffect(() => {
-    if (adressDataForm?.postalCode?.length === 9) {
-      let postalCode = adressDataForm?.postalCode.replace(/\D/g, '')
-      request(`https://viacep.com.br/ws/${postalCode}/json/`)
-    }
-  }, [adressDataForm?.postalCode])
-
-  useEffect(() => {
-    setAdressDataForm({
-      ...adressDataForm,
-      street: data?.logradouro,
-      neighborhood: data?.bairro,
-      city: data?.localidade,
-      state: data?.uf
-    })
-  }, [data])
-
-  const handleSubmitAdress = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    editMode ? handleUpdateAdress() : handleCreateAdress()
-  }
-
-  const handleCreateAdress = () => {
-    setAdress()
-    setModalStatus(null)
-  }
-
-  const handleEditAdress = (arg: number) => {
-    setEditMode(true)
-    if (currentUser?.adressList)
-      setAdressDataForm(currentUser?.adressList?.[arg])
-
-    setModalStatus('createAdressModal')
-  }
-
-  const handleUpdateAdress = () => {
-    if (currentUser?.selectedAdress || currentUser?.selectedAdress === 0) {
-      updateAdress(currentUser.selectedAdress)
-    }
-    setModalStatus(null)
-  }
-
-  const handleDeleteAdress = () => {
-    setModalStatus('confirmationModal')
-  }
-
-  const handleSubmitPaymentMethod = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    editMode ? handleUpdatePaymentMethod() : handleCreatePaymentMethod()
-  }
-
-  const handleCreatePaymentMethod = () => {
-    setPaymentMethod()
-    setModalStatus(null)
-  }
-
-  const handleEditPaymentMethod = (arg: number) => {
-    setEditMode(true)
-    if (currentUser?.paymentMethodList)
-      setPaymentMethodDataForm(currentUser?.paymentMethodList?.[arg])
-    setModalStatus('createPaymentMethodModal')
-  }
-
-  const handleUpdatePaymentMethod = () => {
-    if (
-      currentUser?.selectedPaymentMethod ||
-      currentUser?.selectedPaymentMethod === 0
-    ) {
-      updatePaymentMethod(currentUser.selectedPaymentMethod)
-    }
-    setModalStatus(null)
-  }
-
-  const handleDeletePaymentMethod = () => {
-    setModalStatus('confirmationModal')
-  }
-
-  const handleConfirmationModal = () => {
-    if (
-      (radio === 'entrega' && currentUser?.selectedAdress) ||
-      currentUser?.selectedAdress === 0
-    ) {
-      deleteAdress(currentUser.selectedAdress)
-      setModalStatus(null)
-    }
-
-    if (
-      (radio === 'pagamento' && currentUser?.selectedPaymentMethod) ||
-      currentUser?.selectedPaymentMethod === 0
-    ) {
-      deletePaymentMethod(currentUser.selectedPaymentMethod)
-      setModalStatus(null)
-    }
-  }
 
   if (!currentUser?.uid) return null
 
@@ -224,131 +86,14 @@ const User: NextPage = () => {
           </div>
         </aside>
         <article
-          className="lg:absolute left-0 right-0 mt-6 m-auto "
-          style={{ width: 'calc(min(91.666667%,25rem))' }}
+          className="lg:absolute left-0 right-0 mt-6 m-auto w-full md:w-96"
         >
-          <div>
-            {radio === 'entrega' && (
-              <ul className="flex flex-col gap-6">
-                {currentUser?.adressList?.length ? (
-                  currentUser?.adressList?.map(
-                    (
-                      {
-                        street,
-                        number,
-                        complement,
-                        neighborhood,
-                        city,
-                        state,
-                        postalCode
-                      },
-                      idx
-                    ) => {
-                      return (
-                        <CrudCard
-                          key={idx}
-                          isActive={idx === currentUser.selectedAdress}
-                          onClick={() => setActiveAdress(idx)}
-                          handleDeleteButton={handleDeleteAdress}
-                          handleUpdateButton={() => handleEditAdress(idx)}
-                        >
-                          <p>
-                            {street}, {number}, {complement}
-                          </p>
-                          <p>{neighborhood}</p>
-                          <p>
-                            {city}/{state}
-                          </p>
-                          <p>{postalCode}</p>
-                        </CrudCard>
-                      )
-                    }
-                  )
-                ) : (
-                  <div className="flex justify-center items-center flex-col gap-4">
-                    {/* <BuildingSvg /> */}
-                    <AnimationAdress />
-                    <p className="text-primary text-center">
-                      Nenhum endereço cadastrado.
-                    </p>
-                  </div>
-                )}
-                <div
-                  className={`flex ${
-                    currentUser?.adressList?.length
-                      ? 'flex-row-reverse'
-                      : 'justify-center'
-                  }`}
-                >
-                  <Button
-                    primary
-                    text="Cadastrar novo"
-                    onClick={() => {
-                      setEditMode(false)
-                      setAdressDataForm({} as Adress)
-                      setModalStatus('createAdressModal')
-                    }}
-                  />
-                </div>
-              </ul>
-            )}
-          </div>
-          <div>
-            {radio === 'pagamento' && (
-              <ul className="flex flex-col gap-6">
-                {currentUser?.paymentMethodList?.length ? (
-                  currentUser?.paymentMethodList?.map(
-                    ({ alias, cardNumber }, idx) => {
-                      return (
-                        <CrudCard
-                          key={idx}
-                          isActive={idx === currentUser.selectedPaymentMethod}
-                          onClick={() => setActivePaymentMethod(idx)}
-                          handleDeleteButton={handleDeletePaymentMethod}
-                          handleUpdateButton={() =>
-                            handleEditPaymentMethod(idx)
-                          }
-                        >
-                          <p>{alias}</p>
-                          <p>••••{cardNumber?.slice(-4)}</p>
-                        </CrudCard>
-                      )
-                    }
-                  )
-                ) : (
-                  <div className="flex justify-center items-center flex-col gap-4">
-                    {/* <PaymentMethodSvg /> */}
-                    <AnimationPayment />
-                    <p className="text-primary text-center">
-                      Nenhum meio de pagamento cadastrado.
-                    </p>
-                  </div>
-                )}
-                <div
-                  className={`flex ${
-                    currentUser?.paymentMethodList?.length
-                      ? 'flex-row-reverse'
-                      : 'justify-center'
-                  }`}
-                >
-                  <Button
-                    primary
-                    text="Cadastrar novo"
-                    onClick={() => {
-                      setEditMode(false)
-                      setPaymentMethodDataForm({} as PaymentMethod)
-                      setModalStatus('createPaymentMethodModal')
-                    }}
-                  />
-                </div>
-              </ul>
-            )}
-          </div>
+          <div>{radio === 'entrega' && <DeliveryAdress orientation="vertical" />}</div>
+          <div>{radio === 'pagamento' && <PaymentMethod orientation="vertical" />}</div>
 
           <div>
             {radio === 'compras' && (
               <div className="flex justify-center items-center flex-col gap-4">
-                {/* <OrdersSvg /> */}
                 <AnimationOrder />
                 <p className="text-primary text-center">
                   Histórico de compras vazio.
@@ -358,199 +103,6 @@ const User: NextPage = () => {
           </div>
         </article>
       </section>
-      {modalStatus === 'createAdressModal' && (
-        <Modal modalStatus={modalStatus} setModalStatus={setModalStatus}>
-          <form
-            onSubmit={(e) => handleSubmitAdress(e)}
-            className="m-auto flex flex-col gap-6"
-            style={{ width: 'calc(min(91.666667%, 20rem))' }}
-          >
-            <Heading
-              text={editMode ? 'Editar endereço' : 'Novo endereço'}
-              small
-              center
-            />
-            <Input
-              text="CEP:"
-              maxLength={9}
-              name="postalCode"
-              htmlFor="adressPostalCode"
-              required
-              widthFull
-              placeholder="00000-000"
-              onChange={handleAdress}
-              mask="postalCodeMask"
-              value={adressDataForm?.postalCode}
-            />
-            <Input
-              text="Logradouro:"
-              name="street"
-              htmlFor="adressStreet"
-              required
-              widthFull
-              onChange={handleAdress}
-              value={adressDataForm?.street}
-            />
-
-            <div
-              className="grid gap-6"
-              style={{
-                gridTemplateColumns: isMobile ? '1fr 1fr' : '2fr 2fr 8fr'
-              }}
-            >
-              <Input
-                text="Número:"
-                name="number"
-                htmlFor="adressNumber"
-                required
-                widthFull
-                onChange={handleAdress}
-                value={adressDataForm?.number}
-              />
-              <Input
-                text="Complemento:"
-                name="complement"
-                htmlFor="adressComplement"
-                widthFull
-                onChange={handleAdress}
-                value={adressDataForm?.complement}
-              />
-              <div className="col-span-2 lg:col-auto flex items-center">
-                <Input
-                  text="Bairro:"
-                  name="neighborhood"
-                  htmlFor="adressNeighborhood"
-                  required
-                  widthFull
-                  onChange={handleAdress}
-                  value={adressDataForm?.neighborhood}
-                />
-              </div>
-            </div>
-            <div
-              className="grid gap-6"
-              style={{ gridTemplateColumns: '10fr 2fr' }}
-            >
-              <Input
-                text="Cidade:"
-                name="city"
-                htmlFor="adressCity"
-                required
-                widthFull
-                onChange={handleAdress}
-                value={adressDataForm?.city}
-              />
-              <Input
-                text="UF:"
-                maxLength={2}
-                name="state"
-                htmlFor="adressState"
-                required
-                widthFull
-                onChange={handleAdress}
-                value={adressDataForm?.state}
-              />
-            </div>
-            <div className="flex justify-center flex-wrap gap-4 flex-1">
-              <Button
-                primary
-                text={editMode ? 'Editar' : 'Cadastrar'}
-                widthFull={isMobile}
-              />
-            </div>
-          </form>
-        </Modal>
-      )}
-      {modalStatus === 'createPaymentMethodModal' && (
-        <Modal modalStatus={modalStatus} setModalStatus={setModalStatus}>
-          <form
-            onSubmit={(e) => handleSubmitPaymentMethod(e)}
-            className="m-auto flex flex-col gap-6"
-            style={{ width: 'calc(min(91.666667%, 20rem))' }}
-          >
-            <Heading
-              text={editMode ? 'Editar cartão' : 'Novo cartão'}
-              small
-              center
-            />
-
-            <Input
-              text="Apelido do cartão:"
-              name="alias"
-              htmlFor="paymentMethodAlias"
-              required
-              widthFull
-              placeholder="Banco X"
-              onChange={handlePaymentMethod}
-              value={paymentMethodDataForm?.alias}
-            />
-            <Input
-              text="Número do cartão:"
-              name="cardNumber"
-              htmlFor="paymentMethodCardNumber"
-              required
-              widthFull
-              icon={<MdLockOutline />}
-              onChange={handlePaymentMethod}
-              value={paymentMethodDataForm?.cardNumber}
-            />
-            <div
-              className="grid gap-6"
-              style={{ gridTemplateColumns: '6fr 6fr' }}
-            >
-              <Input
-                text="Validade:"
-                maxLength={5}
-                name="expirationDate"
-                htmlFor="paymentMethodExpirationDate"
-                required
-                widthFull
-                placeholder="00/00"
-                onChange={handlePaymentMethod}
-                value={paymentMethodDataForm?.expirationDate}
-              />
-              <Input
-                text="CVV:"
-                maxLength={3}
-                name="securityCode"
-                htmlFor="paymentMethodSecurityCode"
-                required
-                widthFull
-                icon={<MdLockOutline />}
-                onChange={handlePaymentMethod}
-                value={paymentMethodDataForm?.securityCode}
-              />
-            </div>
-
-            <div className="flex justify-center flex-wrap gap-4 flex-1">
-              <Button
-                primary
-                text={editMode ? 'Editar' : 'Cadastrar'}
-                widthFull={isMobile}
-              />
-            </div>
-          </form>
-        </Modal>
-      )}
-      {modalStatus === 'confirmationModal' && (
-        <Modal modalStatus={modalStatus} setModalStatus={setModalStatus}>
-          <Heading text="Tem certeza?" small center />
-          <div className="flex justify-center gap-6 mt-6">
-            <Button
-              secondary
-              text="Sim"
-              widthFull
-              onClick={handleConfirmationModal}
-            />
-            <Button
-              primary
-              text="Não"
-              widthFull
-              onClick={() => setModalStatus(null)}
-            />
-          </div>
-        </Modal>
-      )}
     </>
   )
 }

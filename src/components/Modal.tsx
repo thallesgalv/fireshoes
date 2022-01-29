@@ -32,10 +32,7 @@ const Modal = ({ children, modalStatus, setModalStatus }: ModalProps) => {
       onClick={handleModal}
       ref={modalContainer}
     >
-      <div
-        className="bg-white p-8 m-auto rounded relative animate-show"
-        style={{ width: 'calc(min(91.666667%, 30rem))' }}
-      >
+      <div className="bg-white p-8 m-auto rounded relative animate-show w-11/12 md:w-96">
         <div
           className="text-primary text-3xl absolute right-0 top-0 m-2 cursor-pointer"
           onClick={() => setModalStatus(null)}

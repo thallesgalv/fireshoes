@@ -4,6 +4,7 @@ import Adress from '../assets/animationAdress.json'
 import Payment from '../assets/animationPayment.json'
 import Order from '../assets/animationOrder.json'
 import EmptyCart from '../assets/animationEmptyCart.json'
+import Celebration from '../assets/animationCelebration.json'
 import Fire from '../assets/animationFire.json'
 
 export const AnimationAdress = () => {
@@ -23,7 +24,7 @@ export const AnimationAdress = () => {
   }, [])
 
   return (
-    <div className="opacity-70">
+    <div className="opacity-70 max-w-xs">
       <div ref={containerLottie} />
     </div>
   )
@@ -46,7 +47,7 @@ export const AnimationPayment = () => {
   }, [])
 
   return (
-    <div className="opacity-70 h-64 w-64">
+    <div className="opacity-70 h-52 w-52 max-w-xs">
       <div ref={containerLottie} />
     </div>
   )
@@ -93,6 +94,29 @@ export const AnimationEmptyCart = () => {
 
   return (
     <div className="h-64 w-64">
+      <div ref={containerLottie} />
+    </div>
+  )
+}
+
+export const AnimationCelebration = () => {
+  const containerLottie = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (containerLottie.current) {
+      lottie.loadAnimation({
+        container: containerLottie.current,
+        renderer: 'svg',
+        loop: false,
+        autoplay: true,
+        animationData: Celebration
+      })
+    }
+    lottie.setSpeed(0.8)
+  }, [])
+
+  return (
+    <div className="w-3/4 m-auto">
       <div ref={containerLottie} />
     </div>
   )
