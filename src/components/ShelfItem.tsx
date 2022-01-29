@@ -3,9 +3,9 @@ import Button from './Button'
 import { MdOutlineShoppingCart } from 'react-icons/md'
 import { currency, getDiscount } from '../utils/calculations'
 import { useState } from 'react'
-import { AiFillFire } from 'react-icons/ai'
 import { useGlobalContext } from '../contexts/GlobalContext'
 import { useCartContext } from '../contexts/CartContext'
+import { Flag } from './Flag'
 
 interface ShelfItemProps extends Product {}
 
@@ -47,10 +47,13 @@ const ShelfItem = (product: ShelfItemProps) => {
       {product.bestPrice && product.price && product.bestPrice < product.price && (
         <div className="absolute -right-6 -top-8 flex justify-center items-center">
           <p className="absolute text-white font-primary font-semibold tracking-tighter text-xs mt-4">
-            {getDiscount(product.bestPrice, product.price)} off
+            {getDiscount(product.bestPrice, product.price)}% off
           </p>
           <div className="text-primary">
-            <AiFillFire size={75} />
+            <Flag
+              intensity={getDiscount(product.bestPrice, product.price)}
+              productId={product.id ? product.id : 'nouid'}
+            />
           </div>
         </div>
       )}

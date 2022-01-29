@@ -9,6 +9,7 @@ export const currency = (number?: number) => {
 
 export const getDiscount = (bestPrice?: number, price?: number) => {
   if (bestPrice && price) {
-    return Math.round(((price - bestPrice) / price) * 100) + '%'
+    return Math.round(((price - bestPrice) / price) * 100)
   }
+  return 0
 }

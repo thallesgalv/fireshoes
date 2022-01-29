@@ -199,6 +199,7 @@ const Checkout: NextPage = () => {
         )}
         {checkoutStep === 'sucess' && (
           <>
+            <Heading text="Pedido confirmado!"/>
             <p className="text-center">Detalher da compra que vai no user...</p>
             <AnimationCelebration />
           </>
