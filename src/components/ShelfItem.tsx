@@ -5,7 +5,7 @@ import { currency, getDiscount } from '../utils/calculations'
 import { useState } from 'react'
 import { useGlobalContext } from '../contexts/GlobalContext'
 import { useCartContext } from '../contexts/CartContext'
-import { Flag } from './Flag'
+import Flag from './Flag'
 
 interface ShelfItemProps extends Product {}
 

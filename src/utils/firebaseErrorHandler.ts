@@ -1,4 +1,4 @@
-export function firebaseErrorHandler(codeError: string) {
+export const firebaseErrorHandler = (codeError: string) => {
   switch (codeError) {
     case 'auth/missing-email':
       return 'Por favor, digite suas credenciais.'

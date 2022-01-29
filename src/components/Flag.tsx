@@ -3,7 +3,7 @@ interface FlagProps {
   productId: string
 }
 
-export function Flag({ intensity, productId }: FlagProps) {
+const Flag = ({ intensity, productId }: FlagProps) => {
   return (
     <svg
       stroke="currentColor"
@@ -36,3 +36,5 @@ export function Flag({ intensity, productId }: FlagProps) {
     </svg>
   )
 }
+
+export default Flag
