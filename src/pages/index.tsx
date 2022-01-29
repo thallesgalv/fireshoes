@@ -29,25 +29,12 @@ const Index: NextPage<IndexProps> = ({ nikeShelfData, asicsShelfData }) => {
       </Head>
 
       <section className="w-11/12 m-auto">
-        {/* Remover */}
-        <p
-          className="text-blue-500 font-bold cursor-pointer"
-          onClick={() => {
-            localStorage.removeItem('fireshoescart')
-            location.reload()
-          }}
-        >
-          ZERAR CARRINHO (remover No localStorage)
-        </p>
+        <Heading text="Home" center />
+        <p className="text-center">Versão {packageInfo.version}</p>
 
-        <section>
-          <Heading text="Home" center />
-          <p className="text-center">Versão {packageInfo.version}</p>
-
-          <Shelf data={currentProducts} title="Todos os Produtos" />
-          <Shelf data={nikeShelfData} title="Só os Nikess" />
-          <Shelf data={asicsShelfData} title="Asics? Temos" />
-        </section>
+        <Shelf data={currentProducts} title="Todos os Produtos" />
+        <Shelf data={nikeShelfData} title="Só os Nikess" />
+        <Shelf data={asicsShelfData} title="Asics? Temos" />
       </section>
     </>
   )

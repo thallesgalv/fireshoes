@@ -124,6 +124,7 @@ const Header = () => {
           <div className=" hidden md:block">
             <Input
               placeholder="O que você está procurando?"
+              type="search"
               icon={<MdSearch />}
             />
           </div>

@@ -8,13 +8,14 @@ import Button from '../components/Button'
 import Modal, { ModalStatus } from '../components/Modal'
 import { MdLockOutline } from 'react-icons/md'
 import { useAuthContext } from '../contexts/AuthContext'
-import Router from 'next/router'
+import { useRouter } from 'next/router'
 import { useUserContext } from '../contexts/UserContext'
 import { auth } from '../services/firebase'
 
 const Login: NextPage = () => {
   const { isMobile } = useGlobalContext()
   const [modalStatus, setModalStatus] = useState<ModalStatus>(null)
+  const router = useRouter()
 
   const {
     signInWithGoogle,
@@ -29,7 +30,7 @@ const Login: NextPage = () => {
   const { currentUser, setCurrentUser } = useUserContext()
 
   useEffect(() => {
-    if (auth.currentUser?.uid) Router.push('/')
+    if (auth.currentUser?.uid) router.push('/')
   }, [currentUser])
 
   const handleChange = useCallback(

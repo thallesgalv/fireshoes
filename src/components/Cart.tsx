@@ -46,7 +46,7 @@ const Cart = ({ children, heightScreen }: CartProps) => {
                 className="border-b-2 pb-4 flex justify-between items-center"
               >
                 <div className="flex gap-6 items-center">
-                  <p className="text-primary font-semibold">
+                  <p className="w-4 text-primary font-semibold ">
                     x{product.quantity}
                   </p>
                   <div>
@@ -90,17 +90,18 @@ const Cart = ({ children, heightScreen }: CartProps) => {
                 </div>
                 <ul className="flex gap-2">
                   <li
-                    className="border border-primary bg-primary text-white rounded-full p-1 cursor-pointer"
-                    onClick={() => product.id && handleIncrement(product.id)}
-                  >
-                    <MdOutlineExposurePlus1 />
-                  </li>
-                  <li
                     className="border border-primary bg-white text-primary rounded-full p-1 cursor-pointer"
                     onClick={() => product.id && handleDecrement(product.id)}
                   >
                     <MdOutlineExposureNeg1 />
                   </li>
+                  <li
+                    className="border border-primary bg-primary text-white rounded-full p-1 cursor-pointer"
+                    onClick={() => product.id && handleIncrement(product.id)}
+                  >
+                    <MdOutlineExposurePlus1 />
+                  </li>
+
                   <li
                     className="text-primary text-lg p-1 cursor-pointer"
                     onClick={() => handleDeleteFromCart(product)}

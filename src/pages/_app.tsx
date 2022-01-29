@@ -15,10 +15,10 @@ import MiniCart from '../components/MiniCart'
 const MyApp = ({ Component, pageProps }: AppProps) => {
   showVersion()
   return (
-    <UserContextProvider>
-      <GlobalContextProvider>
-        <AuthContextProvider>
-          <CartContextProvider>
+    <GlobalContextProvider>
+      <CartContextProvider>
+        <UserContextProvider>
+          <AuthContextProvider>
             <ProductContextProvider>
               <Header />
               <MiniCart />
@@ -35,10 +35,10 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
                 />
               </Main>
             </ProductContextProvider>
-          </CartContextProvider>
-        </AuthContextProvider>
-      </GlobalContextProvider>
-    </UserContextProvider>
+          </AuthContextProvider>
+        </UserContextProvider>
+      </CartContextProvider>
+    </GlobalContextProvider>
   )
 }
 

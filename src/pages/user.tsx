@@ -12,6 +12,7 @@ import Link from 'next/link'
 import { AnimationOrder } from '../components/Lottie'
 import DeliveryAdress from '../components/DeliveryAdress'
 import PaymentMethod from '../components/PaymentMethod'
+import Order from '../components/Order'
 
 const User: NextPage = () => {
   const { logout } = useAuthContext()
@@ -46,7 +47,7 @@ const User: NextPage = () => {
           pb-8
         "
       >
-        <aside className="flex flex-col gap-6">
+        <aside className="flex flex-col gap-6 lg:fixed">
           <UserOption
             radio={radio}
             setRadio={setRadio}
@@ -85,22 +86,46 @@ const User: NextPage = () => {
             <Link href="/admin">Admin</Link>
           </div>
         </aside>
-        <article
-          className="lg:absolute left-0 right-0 mt-6 m-auto w-full md:w-96"
-        >
-          <div>{radio === 'entrega' && <DeliveryAdress orientation="vertical" />}</div>
-          <div>{radio === 'pagamento' && <PaymentMethod orientation="vertical" />}</div>
-
+        <article className="lg:absolute left-0 right-0 mt-6 m-auto w-full md:w-96">
           <div>
-            {radio === 'compras' && (
-              <div className="flex justify-center items-center flex-col gap-4">
-                <AnimationOrder />
-                <p className="text-primary text-center">
-                  Histórico de compras vazio.
-                </p>
-              </div>
-            )}
+            {radio === 'entrega' && <DeliveryAdress orientation="vertical" />}
           </div>
+          <div>
+            {radio === 'pagamento' && <PaymentMethod orientation="vertical" />}
+          </div>
+
+          {radio === 'compras' && (
+            <div className="flex flex-col gap-6">
+              {currentUser?.orders?.length ? (
+                currentUser?.orders.slice().reverse().map(
+                  ({
+                    products,
+                    totalValue,
+                    adress,
+                    paymentMethod,
+                    timestamp
+                  }) => (
+                    <div className="border-b-2 pb-4">
+                      <Order
+                        products={products}
+                        totalValue={totalValue}
+                        adress={adress}
+                        paymentMethod={paymentMethod}
+                        timestamp={timestamp}
+                      />
+                    </div>
+                  )
+                )
+              ) : (
+                <div className="flex justify-center items-center flex-col gap-4">
+                  <AnimationOrder />
+                  <p className="text-primary text-center">
+                    Histórico de compras vazio.
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
         </article>
       </section>
     </>

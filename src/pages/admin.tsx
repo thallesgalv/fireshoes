@@ -113,66 +113,76 @@ const Admin: NextPage = () => {
           {currentProducts && currentProducts?.length > 0 && (
             <div className="overflow-x-auto">
               <table className="border border-primary ">
-              <thead>
-                <tr className="border border-primary bg-primary text-white">
-                  <th className="text-center p-2 border border-white">
-                    Editar
-                  </th>
-                  <th className="text-center p-2 border border-white">
-                    Excluir
-                  </th>
-                  <th className="text-center p-2 border border-white">Id</th>
-                  <th className="text-center p-2 border border-white">Nome</th>
-                  <th className="text-center p-2 border border-white">
-                    Foto Principal
-                  </th>
-                  <th className="text-center p-2 border border-white">Preço</th>
-                  <th className="text-center p-2 border border-white">
-                    Melhor Preço
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentProducts?.map(
-                  ({ id, name, price, bestPrice, mainImg }) => (
-                    <tr key={id} className="border border-primary">
-                      <td
-                        className="p-4 text-3xl text-center text-primary cursor-pointer border border-primary"
-                        onClick={() => handleEditProduct(id)}
-                      >
-                        <MdOutlineEdit />
-                      </td>
-                      <td
-                        className="p-4 text-3xl text-center text-primary cursor-pointer border border-primary"
-                        onClick={() => handleDeleteProduct(id)}
-                      >
-                        <MdDeleteOutline />
-                      </td>
-                      <td className="border border-primary p-2 text-center">
-                        {id}
-                      </td>
-                      <td className="border border-primary p-2 text-center">
-                        {name}
-                      </td>
-                      <td className="flex justify-center p-2 text-center">
-                        <div
-                          className="w-20 h-20"
-                          style={{
-                            background: `no-repeat center/cover url(${mainImg})`
-                          }}
-                        ></div>
-                      </td>
-                      <td className="border border-primary p-2 text-center">
-                        {currency(price)}
-                      </td>
-                      <td className="border border-primary p-2 text-center">
-                        {currency(bestPrice)}
-                      </td>
-                    </tr>
-                  )
-                )}
-              </tbody>
-            </table>
+                <thead>
+                  <tr className="border border-primary bg-primary text-white">
+                    <th className="text-center p-2 border border-white">
+                      Editar
+                    </th>
+                    <th className="text-center p-2 border border-white">
+                      Excluir
+                    </th>
+                    <th className="text-center p-2 border border-white">Id</th>
+                    <th className="text-center p-2 border border-white">
+                      Marca
+                    </th>
+                    <th className="text-center p-2 border border-white">
+                      Nome
+                    </th>
+                    <th className="text-center p-2 border border-white">
+                      Foto Principal
+                    </th>
+                    <th className="text-center p-2 border border-white">
+                      Preço
+                    </th>
+                    <th className="text-center p-2 border border-white">
+                      Melhor Preço
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {currentProducts?.map(
+                    ({ id, name, brand, price, bestPrice, mainImg }) => (
+                      <tr key={id} className="border border-primary">
+                        <td
+                          className="p-4 text-3xl text-center text-primary cursor-pointer border border-primary"
+                          onClick={() => handleEditProduct(id)}
+                        >
+                          <MdOutlineEdit />
+                        </td>
+                        <td
+                          className="p-4 text-3xl text-center text-primary cursor-pointer border border-primary"
+                          onClick={() => handleDeleteProduct(id)}
+                        >
+                          <MdDeleteOutline />
+                        </td>
+                        <td className="border border-primary p-2 text-center">
+                          {id}
+                        </td>
+                        <td className="border border-primary p-2 text-center">
+                          {brand}
+                        </td>
+                        <td className="border border-primary p-2 text-center">
+                          {name}
+                        </td>
+                        <td className="flex justify-center p-2 text-center">
+                          <div
+                            className="w-20 h-20"
+                            style={{
+                              background: `no-repeat center/cover url(${mainImg})`
+                            }}
+                          ></div>
+                        </td>
+                        <td className="border border-primary p-2 text-center">
+                          {currency(price)}
+                        </td>
+                        <td className="border border-primary p-2 text-center">
+                          {currency(bestPrice)}
+                        </td>
+                      </tr>
+                    )
+                  )}
+                </tbody>
+              </table>
             </div>
           )}
         </div>

@@ -25,6 +25,7 @@ interface CartContextProps {
   removeFromCart: (product: ProductInCart) => void
   incrementQuantity: (productId: string) => void
   decrementQuantity: (productId: string) => void
+  emptyCart: () => void
 }
 
 interface CartContextProviderProps {
@@ -79,7 +80,6 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
       toast.success('Produto adicionado ao carrinho.')
     } else {
       toast.error('Este produto já está no carrinho.')
-      console.log(product)
     }
   }
 
@@ -103,6 +103,11 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
   const decrementQuantity = (productId: string) => {
     handleQuantity(productId, 'decrement')
+  }
+
+  const emptyCart = () => {
+    localStorage.removeItem('fireshoescart')
+    setCurrentCart({} as Cart)
   }
 
   function getTotalValue() {
@@ -129,8 +134,23 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
     if (checkIfProductIsInCart(productId)) {
       const modified = currentCart.products.map((p) => {
         if (p.id === productId) {
-          if (operation === 'increment') p.quantity++
-          if (operation === 'decrement') p.quantity--
+          if (operation === 'increment') {
+            if (p.quantity < 10) {
+              p.quantity++
+              toast.success('Produto adicionado ao carrinho.')
+            } else {
+              toast.error('Quantidade máxima de itens de um produto atingida.')
+            }
+          }
+
+          if (operation === 'decrement') {
+            if (p.quantity > 1) {
+              p.quantity--
+              toast.success('Produto removido do carrinho.')
+            } else {
+              toast.error('Para remover um item do carrinho clique na lixeira.')
+            }
+          }
         }
         return p
       })
@@ -148,7 +168,8 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
         addToCart,
         removeFromCart,
         incrementQuantity,
-        decrementQuantity
+        decrementQuantity,
+        emptyCart
       }}
     >
       {children}

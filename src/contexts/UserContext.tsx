@@ -4,12 +4,15 @@ import {
   updateDoc,
   arrayUnion,
   onSnapshot,
-  arrayRemove
+  arrayRemove,
+  Timestamp
 } from 'firebase/firestore'
 import { createContext, useContext, useState, ReactNode } from 'react'
 import toast from 'react-hot-toast'
 import { auth, db } from '../services/firebase'
 import { firebaseErrorHandler } from '../utils/firebaseErrorHandler'
+import { ProductInCart, useCartContext } from './CartContext'
+import { useGlobalContext } from './GlobalContext'
 
 export interface User {
   uid?: string
@@ -21,6 +24,7 @@ export interface User {
   selectedAdress?: number
   paymentMethodList?: PaymentMethod[]
   selectedPaymentMethod?: number
+  orders?: Order[]
 }
 
 export interface Adress {
@@ -41,6 +45,18 @@ export interface PaymentMethod {
   cardHolder?: string
 }
 
+export interface Order {
+  products: ProductInCart[]
+  totalValue: number
+  adress?: Adress
+  adressList?: Adress[]
+  selectedAdress?: number
+  paymentMethod?: PaymentMethod
+  paymentMethodList?: PaymentMethod[]
+  selectedPaymentMethod?: number
+  timestamp?: Timestamp
+}
+
 interface UserContextProps {
   currentUser?: User
   setCurrentUser: (arg?: User) => void
@@ -58,6 +74,7 @@ interface UserContextProps {
   setPaymentMethod: () => void
   deletePaymentMethod: (arg: number) => void
   updatePaymentMethod: (arg: number) => void
+  setOrder: () => void
 }
 
 interface UserContextProviderProps {
@@ -74,6 +91,9 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
   )
   const currentUserRef = doc(db, 'users', currentUser?.uid || 'noUid')
 
+  const { currentCart, cartTotalValue, emptyCart } = useCartContext()
+  const { setSucessOrder } = useGlobalContext()
+
   const createUser = async () => {
     if (auth.currentUser) {
       await setDoc(doc(db, 'users', auth.currentUser.uid), {
@@ -81,7 +101,8 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
         email: currentUser?.email || auth.currentUser.email,
         photo: auth.currentUser.photoURL || '',
         adressList: [],
-        paymentMethodList: []
+        paymentMethodList: [],
+        orders: []
       })
 
       toast.success(`Conta criada com sucesso`)
@@ -102,7 +123,8 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
             adressList: data?.adressList,
             selectedAdress: data?.selectedAdress,
             paymentMethodList: data?.paymentMethodList,
-            selectedPaymentMethod: data?.selectedPaymentMethod
+            selectedPaymentMethod: data?.selectedPaymentMethod,
+            orders: data?.orders
           })
         })
       }
@@ -230,6 +252,37 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
     }
   }
 
+  const setOrder = async () => {
+    try {
+      if (currentCart.products && cartTotalValue) {
+        await updateDoc(currentUserRef, {
+          orders: arrayUnion({
+            products: currentCart?.products,
+            totalValue: cartTotalValue,
+            adress:
+              currentUser?.adressList &&
+              typeof currentUser.selectedAdress === 'number' &&
+              currentUser?.adressList[currentUser.selectedAdress],
+            paymentMethod:
+              currentUser?.paymentMethodList &&
+              typeof currentUser.selectedPaymentMethod === 'number' &&
+              currentUser?.paymentMethodList[currentUser.selectedPaymentMethod],
+            timestamp: Timestamp.now()
+          })
+        })
+        toast.success(`Compra realizada com sucesso.`)
+        emptyCart()
+        setSucessOrder(true)
+      } else {
+        toast.error(`Erro na compra.`)
+      }
+    } catch (error: any) {
+      toast.error(firebaseErrorHandler(error.code))
+      console.error(error)
+      console.error(error.code)
+    }
+  }
+
   return (
     <UserContext.Provider
       value={{
@@ -248,7 +301,8 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
         setActivePaymentMethod,
         setPaymentMethod,
         deletePaymentMethod,
-        updatePaymentMethod
+        updatePaymentMethod,
+        setOrder
       }}
     >
       {children}

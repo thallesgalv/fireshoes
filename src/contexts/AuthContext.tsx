@@ -15,7 +15,7 @@ import {
   useState,
   useEffect
 } from 'react'
-import Router from 'next/router'
+import { useRouter } from 'next/router'
 
 import { auth, db } from '../services/firebase'
 import toast from 'react-hot-toast'
@@ -51,6 +51,8 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [loginDataForm, setLoginDataForm] = useState({} as LoginDataFormProps)
   const [recoverUserEmail, setRecoverUserEmail] = useState('')
 
+  const router = useRouter()
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -78,7 +80,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 
       if (result.user) {
         toast.success('Login realizado com sucesso')
-        Router.push('/')
+        router.push('/')
         const currentUserRef = doc(db, 'users', result.user.uid)
         const currentUserSnap = await getDoc(currentUserRef)
         if (!currentUserSnap.exists()) createUser()
@@ -130,7 +132,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     await signOut(auth)
     toast.success('Logout realizado com sucesso')
     setCurrentUser({} as User)
-    Router.push('/')
+    router.push('/')
   }
 
   const forgotPassword = async () => {

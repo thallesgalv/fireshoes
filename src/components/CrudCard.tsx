@@ -24,9 +24,15 @@ const CrudCard = ({
         flex flex-col
         font-primary text-primary font-semibold
         shadow-lg relative
+        w-full md:w-80
       `}
       onClick={onClick}
     >
+      {isActive && (
+        <p className="absolute top-1 right-1 text-xs uppercase opacity-80">
+          Ativo
+        </p>
+      )}
       {children}
       <ul className="flex text-2xl absolute bottom-2 right-2 cursor-pointer">
         <li onClick={isActive ? handleUpdateButton : undefined}>

@@ -84,8 +84,9 @@ const PaymentMethod = ({ orientation }: PaymentMethodProps) => {
         <ul
           className={`
             flex gap-6
-              ${orientation === 'vertical' && 'flex-col'}
-              ${orientation === 'horizontal' && 'flex-row my-6 justify-center '}
+              ${orientation === 'vertical' && 'flex-col items-end'}
+              ${orientation === 'horizontal' && 'flex-row my-6 justify-center'}
+              ${isMobile && 'flex-col items-center'}
           `}
         >
           {currentUser?.paymentMethodList?.map(({ alias, cardNumber }, idx) => {

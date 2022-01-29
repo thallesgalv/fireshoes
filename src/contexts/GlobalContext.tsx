@@ -14,13 +14,15 @@ interface GlobalContextProps {
   setEditMode: (arg: boolean) => void
   modalStatus: ModalStatus
   setModalStatus: (arg: ModalStatus) => void
+  sucessOrder: boolean
+  setSucessOrder: (arg: boolean) => void
 }
 
 interface GlobalContextProviderProps {
   children: ReactNode
 }
 
-type CheckoutStep = 'cart' | 'adress' | 'payment' | 'sucess'
+type CheckoutStep = 'cart' | 'adress' | 'payment' | 'confirmation' | 'sucess'
 
 export const GlobalContext = createContext({} as GlobalContextProps)
 
@@ -33,6 +35,7 @@ export const GlobalContextProvider = ({
   const [checkoutStep, setCheckoutStep] = useState<CheckoutStep>('cart')
   const [editMode, setEditMode] = useState(false)
   const [modalStatus, setModalStatus] = useState<ModalStatus>(null)
+  const [sucessOrder, setSucessOrder] = useState(false)
 
   return (
     <GlobalContext.Provider
@@ -47,7 +50,9 @@ export const GlobalContextProvider = ({
         editMode,
         setEditMode,
         modalStatus,
-        setModalStatus
+        setModalStatus,
+        sucessOrder,
+        setSucessOrder
       }}
     >
       {children}

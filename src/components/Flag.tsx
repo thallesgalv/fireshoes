@@ -8,7 +8,7 @@ const Flag = ({ intensity, productId }: FlagProps) => {
     <svg
       stroke="currentColor"
       fill="currentColor"
-      stroke-width="0"
+      strokeWidth="0"
       viewBox="0 0 1024 1024"
       height="75"
       width="75"

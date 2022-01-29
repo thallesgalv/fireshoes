@@ -107,7 +107,7 @@ export const AnimationCelebration = () => {
       lottie.loadAnimation({
         container: containerLottie.current,
         renderer: 'svg',
-        loop: false,
+        loop: true,
         autoplay: true,
         animationData: Celebration
       })

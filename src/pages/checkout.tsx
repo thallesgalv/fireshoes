@@ -14,28 +14,32 @@ import Button from '../components/Button'
 import { useCartContext } from '../contexts/CartContext'
 import Link from 'next/link'
 import { auth } from '../services/firebase'
-import Router from 'next/router'
+import { useRouter } from 'next/router'
 import DeliveryAdress from '../components/DeliveryAdress'
 import PaymentMethod from '../components/PaymentMethod'
-import { AnimationCelebration } from '../components/Lottie'
 import { useUserContext } from '../contexts/UserContext'
+import Order from '../components/Order'
 
 const Checkout: NextPage = () => {
-  const { setMiniCartActive, checkoutStep, setCheckoutStep } =
+  const { setMiniCartActive, checkoutStep, setCheckoutStep, sucessOrder } =
     useGlobalContext()
-  const { currentCart } = useCartContext()
-  const { currentUser } = useUserContext()
+  const { currentCart, cartTotalValue } = useCartContext()
+  const { currentUser, setOrder } = useUserContext()
+
+  const router = useRouter()
 
   useEffect(() => {
     setMiniCartActive(false)
     setCheckoutStep('cart')
-    console.log('boolean', !!currentUser?.adressList?.length)
-    console.log('boolean', currentUser?.adressList?.length)
   }, [])
+
+  useEffect(() => {
+    if (sucessOrder) router.push('/sucess')
+  }, [sucessOrder])
 
   const handleContinueFromCart = () => {
     if (!auth.currentUser?.uid) {
-      Router.push('/login')
+      router.push('/login')
     } else {
       setCheckoutStep('adress')
     }
@@ -47,7 +51,7 @@ const Checkout: NextPage = () => {
 
   const handleContinueFromAdress = () => {
     if (!auth.currentUser?.uid) {
-      Router.push('/login')
+      router.push('/login')
     }
 
     if (currentUser?.adressList?.length) {
@@ -61,12 +65,16 @@ const Checkout: NextPage = () => {
 
   const handleContinueFromPayment = () => {
     if (!auth.currentUser?.uid) {
-      Router.push('/login')
+      router.push('/login')
     }
 
     if (currentUser?.paymentMethodList?.length) {
-      setCheckoutStep('sucess')
+      setCheckoutStep('confirmation')
     }
+  }
+
+  const handleOrderConfirmation = () => {
+    setOrder()
   }
 
   return (
@@ -116,93 +124,100 @@ const Checkout: NextPage = () => {
           </ul>
         </div>
         {checkoutStep === 'cart' && (
-          <>
-            <div className="w-full md:w-1/2 m-auto animate-show">
-              <Cart />
-              {currentCart?.products?.length ? (
-                <div className="flex justify-center lg:justify-end my-8">
-                  <Button
-                    primary
-                    text="Continuar"
-                    onClick={handleContinueFromCart}
-                  />
-                </div>
-              ) : (
-                <div className="flex justify-center my-8">
-                  <Link href="/">
-                    <a>
-                      <Button primary text="Ir às compras" />
-                    </a>
-                  </Link>
-                </div>
-              )}
-            </div>
-          </>
+          <div className="w-full md:w-1/2 m-auto animate-show">
+            <Cart />
+            {currentCart?.products?.length ? (
+              <div className="flex justify-center lg:justify-end my-8">
+                <Button
+                  primary
+                  text="Continuar"
+                  onClick={handleContinueFromCart}
+                />
+              </div>
+            ) : (
+              <div className="flex justify-center my-8">
+                <Link href="/">
+                  <a>
+                    <Button primary text="Ir às compras" />
+                  </a>
+                </Link>
+              </div>
+            )}
+          </div>
         )}
         {checkoutStep === 'adress' && (
-          <>
-            <div className="w-full lg:w-1/3 m-auto animate-show">
-              <Heading text="Endereço de entrega:" center small />
-              <DeliveryAdress orientation="horizontal" />
+          <div className="w-full m-auto animate-show">
+            <Heading text="Endereço de entrega:" center small />
+            <DeliveryAdress orientation="horizontal" />
 
-              <div
-                className="
-                  flex justify-center flex-col-reverse gap-6 w-1/2 md:w-96 mx-auto mt-20
-                   md:flex-row md:lg-full
+            <div
+              className="
+                  flex justify-center flex-col-reverse gap-6 w-2/3  mx-auto mt-20
+                   md:flex-row md:w-96
                 "
-              >
-                <Button
-                  secondary
-                  widthFull
-                  text="Voltar para o carinho"
-                  onClick={handleBackToCart}
-                />
-                <Button
-                  widthFull
-                  primary
-                  text="Confirmar Endereço"
-                  disabled={!currentUser?.adressList?.length}
-                  onClick={handleContinueFromAdress}
-                />
-              </div>
+            >
+              <Button
+                secondary
+                widthFull
+                text="Voltar para o carinho"
+                onClick={handleBackToCart}
+              />
+              <Button
+                widthFull
+                primary
+                text="Confirmar Endereço"
+                disabled={!currentUser?.adressList?.length}
+                onClick={handleContinueFromAdress}
+              />
             </div>
-          </>
+          </div>
         )}
         {checkoutStep === 'payment' && (
-          <>
-            <div className="w-full lg:w-1/3 m-auto animate-show">
-              <Heading text="Meio de pagamento:" center small />
-              <PaymentMethod orientation="horizontal" />
+          <div className="w-full m-auto animate-show">
+            <Heading text="Meio de pagamento:" center small />
+            <PaymentMethod orientation="horizontal" />
 
-              <div
-                className="
-                  flex justify-center flex-col-reverse gap-6 w-1/2 md:w-96 mx-auto mt-20
+            <div
+              className="
+                  flex justify-center flex-col-reverse gap-6 w-2/3 md:w-96 mx-auto mt-20
                    md:flex-row md:lg-full
                 "
-              >
-                <Button
-                  secondary
-                  widthFull
-                  text="Voltar para Endereço"
-                  onClick={handleBackToAdress}
-                />
-                <Button
-                  widthFull
-                  primary
-                  text="Confirmar Pagamento"
-                  disabled={!currentUser?.paymentMethodList?.length}
-                  onClick={handleContinueFromPayment}
-                />
-              </div>
+            >
+              <Button
+                secondary
+                widthFull
+                text="Voltar para Endereço"
+                onClick={handleBackToAdress}
+              />
+              <Button
+                widthFull
+                primary
+                text="Confirmar Pagamento"
+                disabled={!currentUser?.paymentMethodList?.length}
+                onClick={handleContinueFromPayment}
+              />
             </div>
-          </>
+          </div>
         )}
-        {checkoutStep === 'sucess' && (
-          <>
-            <Heading text="Pedido confirmado!"/>
-            <p className="text-center">Detalher da compra que vai no user...</p>
-            <AnimationCelebration />
-          </>
+        {checkoutStep === 'confirmation' && (
+          <div className="w-full m-auto animate-show">
+            <Heading text="Confirmar pedido" center small />
+            <Order
+              products={currentCart.products}
+              totalValue={cartTotalValue}
+              adressList={currentUser?.adressList}
+              selectedAdress={currentUser?.selectedAdress}
+              paymentMethodList={currentUser?.paymentMethodList}
+              selectedPaymentMethod={currentUser?.selectedPaymentMethod}
+            />
+            <div className="flex justify-center my-6">
+              <Button
+                primary
+                text="Confirmar pedido"
+                onClick={handleOrderConfirmation}
+              />
+            </div>
+          </div>
         )}
       </section>
     </>
