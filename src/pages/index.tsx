@@ -18,7 +18,6 @@ const Index: NextPage<IndexProps> = ({ nikeShelfData, asicsShelfData }) => {
 
   useEffect(() => {
     getProducts() // aqui os dados são gerados no cliente não por SSR
-    console.log(asicsShelfData)
   }, [])
 
   return (

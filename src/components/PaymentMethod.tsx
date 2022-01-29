@@ -122,7 +122,11 @@ const PaymentMethod = ({ orientation }: PaymentMethodProps) => {
       <div
         className={`
           flex my-6
-          ${currentUser?.adressList?.length ? 'justify-end' : 'justify-center'}
+          ${
+            currentUser?.paymentMethodList?.length
+              ? 'justify-end'
+              : 'justify-center'
+          }
           ${orientation === 'horizontal' && 'justify-center lg:mr-6'}
         `}
       >

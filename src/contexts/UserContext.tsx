@@ -67,11 +67,11 @@ interface UserContextProviderProps {
 export const UserContext = createContext({} as UserContextProps)
 
 export const UserContextProvider = ({ children }: UserContextProviderProps) => {
+  const [currentUser, setCurrentUser] = useState<User>()
   const [adressDataForm, setAdressDataForm] = useState({} as Adress)
   const [paymentMethodDataForm, setPaymentMethodDataForm] = useState(
     {} as PaymentMethod
   )
-  const [currentUser, setCurrentUser] = useState<User>()
   const currentUserRef = doc(db, 'users', currentUser?.uid || 'noUid')
 
   const createUser = async () => {

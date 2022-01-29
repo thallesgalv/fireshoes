@@ -99,9 +99,13 @@ const Header = () => {
               </Link>
             </li>
             <li className="md:hidden">
-              <Link href={auth.currentUser?.uid ? 'user' : 'login'}>
+              <Link
+                href={
+                  auth.currentUser && auth.currentUser?.uid ? 'user' : 'login'
+                }
+              >
                 <div onClick={handleMenu}>
-                  {auth.currentUser?.uid ? (
+                  {auth.currentUser && auth.currentUser?.uid ? (
                     <Button
                       primary
                       text={currentUser?.name}
@@ -136,9 +140,13 @@ const Header = () => {
             </span>
           </div>
           <div className="hidden md:block">
-            <Link href={auth.currentUser?.uid ? 'user' : 'login'}>
+            <Link
+              href={
+                auth.currentUser && auth.currentUser?.uid ? 'user' : 'login'
+              }
+            >
               <div>
-                {auth.currentUser?.uid ? (
+                {auth.currentUser && auth.currentUser?.uid ? (
                   <Button
                     primary
                     text={currentUser?.name}

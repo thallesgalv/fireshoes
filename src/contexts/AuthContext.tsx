@@ -79,10 +79,9 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       if (result.user) {
         toast.success('Login realizado com sucesso')
         Router.push('/')
-        const currentUserRef = doc(db, 'users', currentUser?.uid || 'noUid')
+        const currentUserRef = doc(db, 'users', result.user.uid)
         const currentUserSnap = await getDoc(currentUserRef)
-        if(!currentUserSnap.exists()) createUser()
-
+        if (!currentUserSnap.exists()) createUser()
       }
     } catch (error: any) {
       toast.error(firebaseErrorHandler(error.code))

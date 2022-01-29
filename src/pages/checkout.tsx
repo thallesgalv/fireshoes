@@ -18,15 +18,19 @@ import Router from 'next/router'
 import DeliveryAdress from '../components/DeliveryAdress'
 import PaymentMethod from '../components/PaymentMethod'
 import { AnimationCelebration } from '../components/Lottie'
+import { useUserContext } from '../contexts/UserContext'
 
 const Checkout: NextPage = () => {
   const { setMiniCartActive, checkoutStep, setCheckoutStep } =
     useGlobalContext()
   const { currentCart } = useCartContext()
+  const { currentUser } = useUserContext()
 
   useEffect(() => {
     setMiniCartActive(false)
     setCheckoutStep('cart')
+    console.log('boolean', !!currentUser?.adressList?.length)
+    console.log('boolean', currentUser?.adressList?.length)
   }, [])
 
   const handleContinueFromCart = () => {
@@ -44,7 +48,9 @@ const Checkout: NextPage = () => {
   const handleContinueFromAdress = () => {
     if (!auth.currentUser?.uid) {
       Router.push('/login')
-    } else {
+    }
+
+    if (currentUser?.adressList?.length) {
       setCheckoutStep('payment')
     }
   }
@@ -56,7 +62,9 @@ const Checkout: NextPage = () => {
   const handleContinueFromPayment = () => {
     if (!auth.currentUser?.uid) {
       Router.push('/login')
-    } else {
+    }
+
+    if (currentUser?.paymentMethodList?.length) {
       setCheckoutStep('sucess')
     }
   }
@@ -70,7 +78,7 @@ const Checkout: NextPage = () => {
       </Head>
       <Heading text="Checkout" center />
 
-      <section>
+      <section className="w-11/12 lg:w-full m-auto">
         <div>
           <ul className="flex justify-center my-12 gap-8 text-5xl text-primary ">
             <li
@@ -109,10 +117,10 @@ const Checkout: NextPage = () => {
         </div>
         {checkoutStep === 'cart' && (
           <>
-            <div className="w-full md:w-1/2 m-auto animate-in">
+            <div className="w-full md:w-1/2 m-auto animate-show">
               <Cart />
               {currentCart?.products?.length ? (
-                <div className="flex justify-end my-8">
+                <div className="flex justify-center lg:justify-end my-8">
                   <Button
                     primary
                     text="Continuar"
@@ -133,7 +141,7 @@ const Checkout: NextPage = () => {
         )}
         {checkoutStep === 'adress' && (
           <>
-            <div className="w-full md:w-1/3 m-auto animate-in">
+            <div className="w-full lg:w-1/3 m-auto animate-show">
               <Heading text="Endereço de entrega:" center small />
               <DeliveryAdress orientation="horizontal" />
 
@@ -153,6 +161,7 @@ const Checkout: NextPage = () => {
                   widthFull
                   primary
                   text="Confirmar Endereço"
+                  disabled={!currentUser?.adressList?.length}
                   onClick={handleContinueFromAdress}
                 />
               </div>
@@ -161,7 +170,7 @@ const Checkout: NextPage = () => {
         )}
         {checkoutStep === 'payment' && (
           <>
-            <div className="w-full md:w-1/3 m-auto animate-in ">
+            <div className="w-full lg:w-1/3 m-auto animate-show">
               <Heading text="Meio de pagamento:" center small />
               <PaymentMethod orientation="horizontal" />
 
@@ -181,6 +190,7 @@ const Checkout: NextPage = () => {
                   widthFull
                   primary
                   text="Confirmar Pagamento"
+                  disabled={!currentUser?.paymentMethodList?.length}
                   onClick={handleContinueFromPayment}
                 />
               </div>

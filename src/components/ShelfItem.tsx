@@ -31,7 +31,6 @@ const ShelfItem = (product: ShelfItemProps) => {
   }
 
   const handleProduct = (product?: Product) => {
-    console.log(product)
     if (product) {
       addToCart({ ...product, quantity: 1 })
     }
