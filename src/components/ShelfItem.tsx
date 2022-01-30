@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { useGlobalContext } from '../contexts/GlobalContext'
 import { useCartContext } from '../contexts/CartContext'
 import Flag from './Flag'
+import Link from 'next/link'
 
 interface ShelfItemProps extends Product {}
 
@@ -57,15 +58,18 @@ const ShelfItem = (product: ShelfItemProps) => {
           </div>
         </div>
       )}
-      <div
-        style={{
-          background: `no-repeat center/cover url(${currentImage})`
-        }}
-        role={`Image: ${product.name}. Photo by:`}
-        className="w-64 h-52 rounded-sm shadow-lg"
-        onMouseOver={handleMouseOver}
-        onMouseLeave={handleMouseLeave}
-      />
+      <Link href={`products/${product.id}`}>
+        <div
+          style={{
+            background: `no-repeat center/cover url(${currentImage})`
+          }}
+          role={`Image: ${product.name}. Photo by:`}
+          className="w-64 h-52 rounded-sm shadow-lg cursor-pointer"
+          onMouseOver={handleMouseOver}
+          onMouseLeave={handleMouseLeave}
+        />
+      </Link>
+
       <p className="font-semibold text-xl font-primary uppercase text-secondary">
         {product.name}
       </p>

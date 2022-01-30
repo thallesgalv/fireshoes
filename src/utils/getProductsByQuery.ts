@@ -26,7 +26,7 @@ export const getProductsByQuery = async (field: string, value: string) => {
   }
 }
 
-const parseToJson = (doc: DocumentSnapshot) => {
+export const parseToJson = (doc: DocumentSnapshot) => {
   const data = doc.data()
   return {
     ...data,
