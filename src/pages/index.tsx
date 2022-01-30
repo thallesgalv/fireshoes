@@ -1,4 +1,4 @@
-import type { GetServerSideProps, NextPage } from 'next'
+import type { GetServerSideProps, GetStaticProps, NextPage } from 'next'
 import Head from 'next/head'
 import { useEffect } from 'react'
 import packageInfo from '../../package.json'
@@ -40,7 +40,7 @@ const Index: NextPage<IndexProps> = ({ nikeShelfData, asicsShelfData }) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
       nikeShelfData: await getProductsByQuery('brand', 'Nike'),
