@@ -1,4 +1,4 @@
-import type { GetServerSideProps, GetStaticProps, NextPage } from 'next'
+import type { GetServerSideProps, GetStaticProps, NextPage } from 'next/types'
 import Head from 'next/head'
 import { useEffect } from 'react'
 import packageInfo from '../../package.json'
