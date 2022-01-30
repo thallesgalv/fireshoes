@@ -74,7 +74,7 @@ const DeliveryAdress = ({ orientation }: DeliveryAdressProps) => {
   }
 
   const handleUpdateAdress = () => {
-    if (currentUser?.selectedAdress || currentUser?.selectedAdress === 0) {
+    if (typeof currentUser?.selectedAdress === 'number') {
       updateAdress(currentUser.selectedAdress)
     }
     setModalStatus(null)
@@ -86,7 +86,7 @@ const DeliveryAdress = ({ orientation }: DeliveryAdressProps) => {
   }
 
   const handleConfirmationModal = () => {
-    if (currentUser?.selectedAdress || currentUser?.selectedAdress === 0) {
+    if (typeof currentUser?.selectedAdress === 'number') {
       deleteAdress(currentUser.selectedAdress)
       setModalStatus(null)
     }

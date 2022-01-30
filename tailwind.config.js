@@ -10,7 +10,8 @@ module.exports = {
         primary: ['Inter']
       },
       colors: {
-        primary: '#F63C3C'
+        primary: '#F63C3C',
+        secondary: '#310c0c'
       },
       keyframes: {
         show: {

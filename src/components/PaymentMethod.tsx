@@ -54,10 +54,7 @@ const PaymentMethod = ({ orientation }: PaymentMethodProps) => {
   }
 
   const handleUpdatePaymentMethod = () => {
-    if (
-      currentUser?.selectedPaymentMethod ||
-      currentUser?.selectedPaymentMethod === 0
-    ) {
+    if (typeof currentUser?.selectedPaymentMethod === 'number') {
       updatePaymentMethod(currentUser.selectedPaymentMethod)
     }
     setModalStatus(null)
@@ -69,10 +66,7 @@ const PaymentMethod = ({ orientation }: PaymentMethodProps) => {
   }
 
   const handleConfirmationModal = () => {
-    if (
-      currentUser?.selectedPaymentMethod ||
-      currentUser?.selectedPaymentMethod === 0
-    ) {
+    if (typeof currentUser?.selectedPaymentMethod === 'number') {
       deletePaymentMethod(currentUser.selectedPaymentMethod)
       setModalStatus(null)
     }

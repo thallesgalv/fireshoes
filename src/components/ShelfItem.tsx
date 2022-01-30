@@ -66,7 +66,7 @@ const ShelfItem = (product: ShelfItemProps) => {
         onMouseOver={handleMouseOver}
         onMouseLeave={handleMouseLeave}
       />
-      <p className="font-semibold text-xl font-primary uppercase">
+      <p className="font-semibold text-xl font-primary uppercase text-secondary">
         {product.name}
       </p>
       {(!product.bestPrice ||

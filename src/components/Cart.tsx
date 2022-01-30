@@ -57,7 +57,7 @@ const Cart = ({ children, heightScreen }: CartProps) => {
                       role={`Image: ${product.name}. Photo by:`}
                       className="w-24 h-16 rounded-sm shadow-lg"
                     />
-                    <p className="font-semibold text-sm font-primary uppercase mt-2">
+                    <p className="font-semibold text-sm font-primary uppercase mt-2 text-secondary">
                       {product.name}
                     </p>
                     {(!product.bestPrice ||
@@ -118,7 +118,7 @@ const Cart = ({ children, heightScreen }: CartProps) => {
               Total: {`${currency(cartTotalValue)}`}
             </p>
             {savingValue > 0 && (
-              <p className="text-sm">
+              <p className="text-sm text-secondary">
                 Você economizou: {`${currency(savingValue)}`}
               </p>
             )}

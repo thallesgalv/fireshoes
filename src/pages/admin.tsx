@@ -155,13 +155,13 @@ const Admin: NextPage = () => {
                         >
                           <MdDeleteOutline />
                         </td>
-                        <td className="border border-primary p-2 text-center">
+                        <td className="border border-primary p-2 text-center text-secondary">
                           {id}
                         </td>
-                        <td className="border border-primary p-2 text-center">
+                        <td className="border border-primary p-2 text-center text-secondary">
                           {brand}
                         </td>
-                        <td className="border border-primary p-2 text-center">
+                        <td className="border border-primary p-2 text-center text-secondary">
                           {name}
                         </td>
                         <td className="flex justify-center p-2 text-center">
@@ -172,10 +172,10 @@ const Admin: NextPage = () => {
                             }}
                           ></div>
                         </td>
-                        <td className="border border-primary p-2 text-center">
+                        <td className="border border-primary p-2 text-center text-secondary">
                           {currency(price)}
                         </td>
-                        <td className="border border-primary p-2 text-center">
+                        <td className="border border-primary p-2 text-center text-secondary">
                           {currency(bestPrice)}
                         </td>
                       </tr>

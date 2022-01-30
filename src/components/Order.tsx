@@ -45,7 +45,7 @@ const Order = ({
                 className="w-24 h-20 rounded-sm shadow-lg"
               />
               <div className="flex flex-col gap-1">
-                <p className="font-semibold text-sm font-primary uppercase ">
+                <p className="font-semibold text-sm font-primary uppercase text-secondary">
                   {name}
                 </p>
                 <p className="text-sm font-primary uppercase tracking-tighter">
@@ -54,10 +54,10 @@ const Order = ({
                       ? currency(bestPrice)
                       : currency(price)}
                   </strong>
-                  <span className="text-black lowercase"> un.</span>
+                  <span className="text-secondary lowercase"> un.</span>
                 </p>
                 <div className="flex gap-4 items-center">
-                  <p className="text-xs border w-fit p-1 rounded-sm border-black  ">
+                  <p className="text-xs border w-fit p-1 rounded-sm border-black text-secondary">
                     {quantity}x
                   </p>
                   <p className="font-semibold text-primary text-sm font-primary tracking-tighter">
@@ -72,7 +72,7 @@ const Order = ({
           ))}
       </ul>
 
-      <p className="text-lg font-semibold text-right">
+      <p className="text-lg font-semibold text-right text-secondary">
         Subtotal: {currency(totalValue)}
       </p>
 
@@ -84,14 +84,14 @@ const Order = ({
             <p className="text-sm font-primary tracking-tighter text-primary font-semibold">
               Endereço de Entrega:
             </p>
-            <p className="text-sm font-primary tracking-tighter">
+            <p className="text-sm font-primary tracking-tighter text-secondary">
               {adressObject.street}, {adressObject.number}
               {adressObject.complement && `, ${adressObject.complement}`}
             </p>
-            <p className="text-sm font-primary tracking-tighter">
+            <p className="text-sm font-primary tracking-tighter text-secondary">
               {adressObject.neighborhood}
             </p>
-            <p className="text-sm font-primary tracking-tighter">
+            <p className="text-sm font-primary tracking-tighter text-secondary">
               {adressObject.city}/{adressObject.state}
             </p>
             <p>{adressObject.postalCode}</p>
@@ -103,7 +103,7 @@ const Order = ({
             <p className="text-sm font-primary tracking-tighter text-primary font-semibold">
               Meio de pagamento:
             </p>
-            <p className="text-sm font-primary tracking-tighter">
+            <p className="text-sm font-primary tracking-tighter text-secondary">
               {paymentMethodObject.alias} ••••
               {paymentMethodObject.cardNumber?.slice(-4)}
             </p>
