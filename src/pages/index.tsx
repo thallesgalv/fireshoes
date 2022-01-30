@@ -45,7 +45,8 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       nikeShelfData: await getProductsByQuery('brand', 'Nike'),
       asicsShelfData: await getProductsByQuery('brand', 'Asics')
-    }
+    },
+    revalidate: 10
   }
 }
 
