@@ -6,7 +6,7 @@ import Heading from '../components/Heading'
 import Shelf from '../components/Shelf'
 
 import { Product, useProductContext } from '../contexts/ProductContext'
-import { getProductsByQuery } from '../utils/getProductsByQuery'
+import { getProductsByQuery } from '../utils/firebaseRequests'
 
 interface IndexProps {
   nikeShelfData: Product[]
@@ -40,13 +40,12 @@ const Index: NextPage<IndexProps> = ({ nikeShelfData, asicsShelfData }) => {
   )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   return {
     props: {
       nikeShelfData: await getProductsByQuery('brand', 'Nike'),
       asicsShelfData: await getProductsByQuery('brand', 'Asics')
-    },
-    revalidate: 10
+    }
   }
 }
 

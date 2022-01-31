@@ -1,18 +1,12 @@
-import { collection, doc, getDoc, getDocs } from 'firebase/firestore'
-import { useRouter } from 'next/router'
-import { GetStaticPaths, GetStaticProps } from 'next/types'
-import { db } from '../../services/firebase'
-import { parseToJson } from '../../utils/getProductsByQuery'
+import { getProduct } from '../../utils/firebaseRequests'
 
 const Product = ({ product }: any) => {
-  const router = useRouter()
-  const { slug } = router.query
-  const { name, mainImg } = product
+  const { name, mainImg, price } = product
 
   return (
     <section>
-      <p>Slug: {slug}</p>
       <p>Nome: {name}</p>
+      <p>Price: {price}</p>
       <img src={mainImg} alt={name} />
     </section>
   )
@@ -24,28 +18,10 @@ interface PathProps {
   params: { id: string; slug: string }
 }
 
-export const getStaticProps = async (props: PathProps) => {
-  const docRef = doc(db, 'products', props.params.slug)
-  const docSnap = await getDoc(docRef)
-  const productData = parseToJson(docSnap)
-
+export const getServerSideProps = async (props: PathProps) => {
   return {
-    props: { product: productData },
-    revalidate: 5000
-  }
-}
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  const productsCollectionRef = collection(db, 'products')
-  const querySnapshot = await getDocs(productsCollectionRef)
-
-  const paths = querySnapshot.docs.map((doc) => {
-    const id = doc.id
-    const slug = doc.id
-    return {
-      params: { id, slug }
+    props: {
+      product: await getProduct(props.params.slug)
     }
-  })
-
-  return { paths, fallback: false }
+  }
 }

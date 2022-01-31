@@ -101,7 +101,7 @@ const Header = () => {
             <li className="md:hidden">
               <Link
                 href={
-                  auth.currentUser && auth.currentUser?.uid ? 'user' : 'login'
+                  auth.currentUser && auth.currentUser?.uid ? '/user' : '/login'
                 }
               >
                 <div onClick={handleMenu}>
@@ -143,7 +143,7 @@ const Header = () => {
           <div className="hidden md:block">
             <Link
               href={
-                auth.currentUser && auth.currentUser?.uid ? 'user' : 'login'
+                auth.currentUser && auth.currentUser?.uid ? '/user' : '/login'
               }
             >
               <div>

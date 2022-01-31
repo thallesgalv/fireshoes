@@ -1,6 +1,8 @@
 import {
   collection,
+  doc,
   DocumentSnapshot,
+  getDoc,
   getDocs,
   limit,
   orderBy,
@@ -33,4 +35,10 @@ export const parseToJson = (doc: DocumentSnapshot) => {
     id: doc.id,
     timestamp: data?.timestamp.toMillis() || 0
   }
+}
+
+export const getProduct = async (productId: string) => {
+  const docRef = doc(db, 'products', productId)
+  const docSnap = await getDoc(docRef)
+  return parseToJson(docSnap)
 }

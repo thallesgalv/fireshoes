@@ -49,6 +49,7 @@ const Admin: NextPage = () => {
     setProductDataForm({
       id: currentProduct?.id,
       name: currentProduct?.name,
+      brand: currentProduct?.brand,
       price: currentProduct?.price,
       bestPrice: currentProduct?.bestPrice
     })
@@ -129,6 +130,7 @@ const Admin: NextPage = () => {
                       Nome
                     </th>
                     <th className="text-center p-2 border border-white">
+                      Foto Principal
                       Foto Principal
                     </th>
                     <th className="text-center p-2 border border-white">
