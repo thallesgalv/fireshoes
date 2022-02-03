@@ -46,7 +46,7 @@ const Header = () => {
     <header className="shadow-lg fixed w-full bg-white z-10">
       <nav
         className="
-          container m-auto
+          max-w-screen-xl m-auto
           flex justify-between
           py-4
           px-4 2xl:px-0

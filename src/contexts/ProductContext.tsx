@@ -35,6 +35,7 @@ export interface Product {
   bestPrice?: number
   images?: String[]
   mainImg?: string
+  description?: string
   timestamp?: string
 }
 

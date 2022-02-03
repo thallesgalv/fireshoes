@@ -7,13 +7,14 @@ import { useGlobalContext } from '../contexts/GlobalContext'
 import { useCartContext } from '../contexts/CartContext'
 import Flag from './Flag'
 import Link from 'next/link'
+import { normalizeString } from '../utils/normalizeString'
 
 interface ShelfItemProps extends Product {}
 
 const ShelfItem = (product: ShelfItemProps) => {
   const { addToCart } = useCartContext()
-  const [currentImage, setCurrentImage] = useState(product.mainImg)
   const { isMobile } = useGlobalContext()
+  const [currentImage, setCurrentImage] = useState(product.mainImg)
 
   const handleMouseOver = () => {
     if (product.images && product.images.length > 1) {
@@ -45,20 +46,12 @@ const ShelfItem = (product: ShelfItemProps) => {
         relative
       `}
     >
-      {product.bestPrice && product.price && product.bestPrice < product.price && (
-        <div className="absolute -right-6 -top-8 flex justify-center items-center">
-          <p className="absolute text-white font-primary font-semibold tracking-tighter text-xs mt-4">
-            {getDiscount(product.bestPrice, product.price)}% off
-          </p>
-          <div className="text-primary">
-            <Flag
-              intensity={getDiscount(product.bestPrice, product.price)}
-              productId={product.id ? product.id : 'nouid'}
-            />
-          </div>
-        </div>
-      )}
-      <Link href={`products/${product.id}`}>
+      <Flag
+        price={product.price}
+        bestPrice={product.bestPrice}
+        productId={product.id}
+      />
+      <Link href={`/product/${normalizeString(product?.name)}/${product.id}`}>
         <div
           style={{
             background: `no-repeat center/cover url(${currentImage})`

@@ -124,7 +124,7 @@ const Checkout: NextPage = () => {
           </ul>
         </div>
         {checkoutStep === 'cart' && (
-          <div className="w-full md:w-1/2 m-auto animate-show">
+          <div className="w-full md:w-max m-auto animate-show">
             <Cart />
             {currentCart?.products?.length ? (
               <div className="flex justify-center lg:justify-end my-8">

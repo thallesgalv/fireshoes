@@ -41,7 +41,7 @@ const Order = ({
                 style={{
                   background: `no-repeat center/cover url(${mainImg})`
                 }}
-                role={`Image: ${name}. Photo by:`}
+                role={`Image: ${name}. Image by Unspash`}
                 className="w-24 h-20 rounded-sm shadow-lg"
               />
               <div className="flex flex-col gap-1">
@@ -77,8 +77,6 @@ const Order = ({
       </p>
 
       <div className="md:flex justify-between">
-        {/* {adress && <div>Endereço de entrega:</div>} */}
-
         {adressObject && (
           <div>
             <p className="text-sm font-primary tracking-tighter text-primary font-semibold">

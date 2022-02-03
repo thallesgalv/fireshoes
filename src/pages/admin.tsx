@@ -130,8 +130,7 @@ const Admin: NextPage = () => {
                       Nome
                     </th>
                     <th className="text-center p-2 border border-white">
-                      Foto Principal
-                      Foto Principal
+                      Foto Principal Foto Principal
                     </th>
                     <th className="text-center p-2 border border-white">
                       Preço

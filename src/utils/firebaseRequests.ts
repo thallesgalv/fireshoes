@@ -11,15 +11,39 @@ import {
 } from 'firebase/firestore'
 import { db } from '../services/firebase'
 
-export const getProductsByQuery = async (field: string, value: string) => {
-  const productsCollectionRef = collection(db, 'products')
+const productsCollectionRef = collection(db, 'products')
+
+// export const getAllProducts = async () => {
+//   try {
+//     const queryOrderByReleaseDate = query(
+//       productsCollectionRef,
+//       orderBy('timestamp', 'desc')
+//     )
+//     const querySnapshot = await getDocs(queryOrderByReleaseDate)
+
+//     return querySnapshot.docs.map(parseToJson)
+//   } catch (error: any) {
+//     console.error(error)
+//   }
+// }
+
+export const getProductsByQuery = async (field?: string, value?: string) => {
   try {
-    const givenQuery = query(
-      productsCollectionRef,
-      where(field, '==', value),
-      orderBy('timestamp', 'desc'),
-      limit(10)
-    )
+    let givenQuery
+    if (field && value) {
+      givenQuery = query(
+        productsCollectionRef,
+        where(field, '==', value),
+        orderBy('timestamp', 'desc'),
+        limit(10)
+      )
+    } else {
+      givenQuery = query(
+        productsCollectionRef,
+        orderBy('timestamp', 'desc'),
+        limit(10)
+      )
+    }
 
     const querySnapshot = await getDocs(givenQuery)
     return querySnapshot.docs.map(parseToJson)
