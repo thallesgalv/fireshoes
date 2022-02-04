@@ -9,6 +9,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   htmlFor?: string
   mask?: string
   reference?: MutableRefObject<HTMLInputElement | null>
+  textareaLike?: boolean
 }
 
 const Input = (props: InputProps) => {

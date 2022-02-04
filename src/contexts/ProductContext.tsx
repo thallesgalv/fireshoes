@@ -136,6 +136,7 @@ export const ProductContextProvider = ({
         brand: productDataForm?.brand,
         price: productDataForm?.price! * 1,
         bestPrice: productDataForm?.bestPrice! * 1,
+        description: productDataForm?.description,
         timestamp: serverTimestamp()
       })
 
@@ -202,6 +203,7 @@ export const ProductContextProvider = ({
         brand: productDataForm?.brand,
         price: productDataForm?.price! * 1,
         bestPrice: productDataForm?.bestPrice! * 1,
+        description: productDataForm?.description,
         timestamp: serverTimestamp()
       })
       toast.success(`Produto atualizado com sucesso`)

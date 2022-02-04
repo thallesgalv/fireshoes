@@ -13,20 +13,6 @@ import { db } from '../services/firebase'
 
 const productsCollectionRef = collection(db, 'products')
 
-// export const getAllProducts = async () => {
-//   try {
-//     const queryOrderByReleaseDate = query(
-//       productsCollectionRef,
-//       orderBy('timestamp', 'desc')
-//     )
-//     const querySnapshot = await getDocs(queryOrderByReleaseDate)
-
-//     return querySnapshot.docs.map(parseToJson)
-//   } catch (error: any) {
-//     console.error(error)
-//   }
-// }
-
 export const getProductsByQuery = async (field?: string, value?: string) => {
   try {
     let givenQuery

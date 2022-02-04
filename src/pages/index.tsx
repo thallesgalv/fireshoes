@@ -4,7 +4,6 @@ import { useEffect } from 'react'
 import packageInfo from '../../package.json'
 import Heading from '../components/Heading'
 import Shelf from '../components/Shelf'
-
 import { Product, useProductContext } from '../contexts/ProductContext'
 import { getProductsByQuery } from '../utils/firebaseRequests'
 

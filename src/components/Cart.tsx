@@ -1,8 +1,10 @@
+import Link from 'next/link'
 import { ReactNode } from 'react'
 import { HiPlusSm, HiMinusSm } from 'react-icons/hi'
 import { MdDeleteOutline } from 'react-icons/md'
 import { useCartContext, ProductInCart } from '../contexts/CartContext'
 import { currency } from '../utils/calculations'
+import { normalizeString } from '../utils/normalizeString'
 import { AnimationEmptyCart } from './Lottie'
 
 interface CartProps {
@@ -42,13 +44,19 @@ const Cart = ({ children, heightScreen }: CartProps) => {
                 key={product.id}
                 className="border-b-2 pb-4 flex items-center"
               >
-                <div
-                  style={{
-                    background: `no-repeat center/cover url(${product.mainImg})`
-                  }}
-                  role={`Image: ${product.name}. Image by Unsplash`}
-                  className="w-20 h-16 rounded-sm shadow-lg"
-                />
+                <Link
+                  href={`/product/${normalizeString(product.name)}/${
+                    product.id
+                  }`}
+                >
+                  <div
+                    style={{
+                      background: `no-repeat center/cover url(${product.mainImg})`
+                    }}
+                    role={`Image: ${product.name}. Image by Unsplash`}
+                    className="w-20 h-16 rounded-sm shadow-lg cursor-pointer"
+                  />
+                </Link>
 
                 <div className="flex flex-col justify-between gap-2 w-28 lg:w-28 ml-4">
                   <p className="font-semibold text-sm font-primary uppercase text-secondary whitespace-nowrap">
@@ -111,7 +119,9 @@ const Cart = ({ children, heightScreen }: CartProps) => {
                         <strong className="text-sm font-primary uppercase text-primary tracking-tighter font-semibold">
                           {' '}
                           {`${currency(product.bestPrice)}`}
-                          <span className="lowercase ml-1 font-normal">un.</span>
+                          <span className="lowercase ml-1 font-normal">
+                            un.
+                          </span>
                         </strong>
                       </>
                     )}

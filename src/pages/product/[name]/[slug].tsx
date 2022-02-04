@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { useCartContext } from '../../../contexts/CartContext'
 import Shelf from '../../../components/Shelf'
 import Flag from '../../../components/Flag'
+import ZoomOnHover from '../../../components/ZoomOnHover'
 
 interface ProductProps {
   product: Product
@@ -31,34 +32,31 @@ const Product = ({ product, newReleases }: ProductProps) => {
 
   return (
     <section className="mx-auto w-11/12 lg:w-full">
-      <article className="flex flex-wrap justify-center lg:gap-16 gap-8 my-4 lg:h-[70vh]">
-        <div className="w-full lg:w-fit flex gap-4 lg:gap-8 flex-col-reverse lg:flex-row relative">
-          <Flag price={price} bestPrice={bestPrice} productId={id} />
-          <div className="flex lg:flex-col gap-2">
+      <article className="lg:flex justify-center gap-16 mx-auto lg:my-16 ">
+        <div className="flex flex-col-reverse gap-4 lg:flex-row lg:gap-8">
+          {/* <Flag price={price} bestPrice={bestPrice} productId={id} /> */}
+          <ul className="flex lg:flex-col gap-2">
             {images &&
               images?.map((image, idx) => (
-                <div
-                  key={idx}
-                  style={{
-                    background: `no-repeat center/cover url(${image})`
-                  }}
-                  role={`Image: ${name}. Image by Unspash`}
-                  className={`w-16 h-16 lg:w-24 lg:h-24 rounded-sm shadow-lg cursor-pointer  ${
-                    activeImage === image && 'border-4 border-red-400'
-                  }`}
-                  onClick={() => setActiveImage(image.toString())}
-                ></div>
+                <li key={idx}>
+                  <div
+                    style={{
+                      background: `no-repeat center/cover url(${image})`
+                    }}
+                    role={`Image: ${name}. Image by Unspash`}
+                    className={`w-16 h-16 lg:w-20 lg:h-20 rounded-sm shadow-lg cursor-pointer  ${
+                      activeImage === image && 'border-4 border-red-400'
+                    }`}
+                    onClick={() => setActiveImage(image.toString())}
+                  ></div>
+                </li>
               ))}
+          </ul>
+          <div>
+            {activeImage && (
+              <ZoomOnHover imageSrc={activeImage} imageName={name || ''} />
+            )}
           </div>
-          <img
-            src={activeImage}
-            role={`Image: ${name}. Image by Unspash`}
-            className="
-              w-full self-baseline
-              max-h-[30vh] lg:max-h-[70vh] lg:min-w-[464px]
-              object-contain lg:object-none
-            "
-          />
         </div>
         <div>
           <p className="uppercase text-gray-800">{brand}</p>
@@ -83,7 +81,7 @@ const Product = ({ product, newReleases }: ProductProps) => {
               </strong>
             </p>
           )}
-          <h2 className="max-w-xs my-4">
+          <h2 className="lg:max-w-xs my-4">
             {description ||
               'Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel numquamvoluptatibus eaque, quam ipsa cum sapiente similique asperiores, aperiam, pariatur odit dolores repudiandae quos dolorum busdam molestiae fuga officia'}
           </h2>

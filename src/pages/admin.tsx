@@ -9,6 +9,9 @@ import Modal, { ModalStatus } from '../components/Modal'
 import { Product, useProductContext } from '../contexts/ProductContext'
 import { currency } from '../utils/calculations'
 import { useGlobalContext } from '../contexts/GlobalContext'
+import TextArea from '../components/TextArea'
+import Link from 'next/link'
+import { normalizeString } from '../utils/normalizeString'
 
 const Admin: NextPage = () => {
   const [modalStatus, setModalStatus] = useState<ModalStatus>(null)
@@ -36,7 +39,7 @@ const Admin: NextPage = () => {
   }, [])
 
   const handleProduct = useCallback(
-    (e: FormEvent<HTMLInputElement>) => {
+    (e: FormEvent<HTMLInputElement> | FormEvent<HTMLTextAreaElement>) => {
       setProductDataForm({
         ...productDataForm,
         [e.currentTarget.name]: e.currentTarget.value
@@ -51,7 +54,8 @@ const Admin: NextPage = () => {
       name: currentProduct?.name,
       brand: currentProduct?.brand,
       price: currentProduct?.price,
-      bestPrice: currentProduct?.bestPrice
+      bestPrice: currentProduct?.bestPrice,
+      description: currentProduct?.description
     })
   }, [currentProduct])
 
@@ -124,6 +128,9 @@ const Admin: NextPage = () => {
                     </th>
                     <th className="text-center p-2 border border-white">Id</th>
                     <th className="text-center p-2 border border-white">
+                      Link
+                    </th>
+                    <th className="text-center p-2 border border-white">
                       Marca
                     </th>
                     <th className="text-center p-2 border border-white">
@@ -158,6 +165,13 @@ const Admin: NextPage = () => {
                         </td>
                         <td className="border border-primary p-2 text-center text-secondary">
                           {id}
+                        </td>
+                        <td className="border border-primary p-2 text-center text-secondary">
+                          <Link
+                            href={`/product/${normalizeString(name)}/${id}`}
+                          >
+                            <a>Link</a>
+                          </Link>
                         </td>
                         <td className="border border-primary p-2 text-center text-secondary">
                           {brand}
@@ -236,6 +250,15 @@ const Admin: NextPage = () => {
                   value={productDataForm?.bestPrice}
                 />
               </fieldset>
+              <TextArea
+                text="Descrição:"
+                name="description"
+                htmlFor="productDescription"
+                required
+                widthFull
+                onChange={handleProduct}
+                value={productDataForm?.description}
+              />
               <Input
                 text="Fotos:"
                 name="mainImg"
