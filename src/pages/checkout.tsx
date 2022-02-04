@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Heading from '../components/Heading'
 import Cart from '../components/Cart'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useGlobalContext } from '../contexts/GlobalContext'
 import {
   MdDone,
@@ -18,7 +18,7 @@ import { useRouter } from 'next/router'
 import DeliveryAdress from '../components/DeliveryAdress'
 import PaymentMethod from '../components/PaymentMethod'
 import { useUserContext } from '../contexts/UserContext'
-import Order from '../components/Order'
+import OrderResume from '../components/OrderResume'
 
 const Checkout: NextPage = () => {
   const { setMiniCartActive, checkoutStep, setCheckoutStep, sucessOrder } =
@@ -202,7 +202,7 @@ const Checkout: NextPage = () => {
         {checkoutStep === 'confirmation' && (
           <div className="w-full m-auto animate-show">
             <Heading text="Confirmar pedido" center small />
-            <Order
+            <OrderResume
               products={currentCart.products}
               totalValue={cartTotalValue}
               adressList={currentUser?.adressList}

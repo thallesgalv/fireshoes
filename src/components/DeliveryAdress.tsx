@@ -6,7 +6,7 @@ import Button from './Button'
 import CrudCard from './CrudCard'
 import Heading from './Heading'
 import Input from './Input'
-import { AnimationAdress } from './Lottie'
+import AnimationAdress from './Lottie/AnimationAdress'
 import Modal from './Modal'
 
 interface DeliveryAdressProps {

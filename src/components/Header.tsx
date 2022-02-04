@@ -14,7 +14,7 @@ import {
 import { auth } from '../services/firebase'
 import { useCartContext } from '../contexts/CartContext'
 import { useEffect, useRef } from 'react'
-import { AnimationFire } from './Lottie'
+import AnimationFire from './Lottie/AnimationFire'
 
 const Header = () => {
   const { isMobile, menuActive, setMenuActive, setMiniCartActive } =

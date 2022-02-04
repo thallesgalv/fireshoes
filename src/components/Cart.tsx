@@ -5,7 +5,8 @@ import { MdDeleteOutline } from 'react-icons/md'
 import { useCartContext, ProductInCart } from '../contexts/CartContext'
 import { currency } from '../utils/calculations'
 import { normalizeString } from '../utils/normalizeString'
-import { AnimationEmptyCart } from './Lottie'
+import AnimationEmptyCart from './Lottie/AnimationEmptyCart'
+
 
 interface CartProps {
   children?: ReactNode

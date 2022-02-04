@@ -2,7 +2,7 @@ import { Order } from '../contexts/UserContext'
 import { currency } from '../utils/calculations'
 import { formatDate } from '../utils/formatDate'
 
-const Order = ({
+const OrderResume = ({
   products,
   totalValue,
   adress,
@@ -112,4 +112,4 @@ const Order = ({
   )
 }
 
-export default Order
+export default OrderResume

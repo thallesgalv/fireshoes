@@ -11,6 +11,7 @@ import { Toaster } from 'react-hot-toast'
 import { UserContextProvider } from '../contexts/UserContext'
 import { CartContextProvider } from '../contexts/CartContext'
 import MiniCart from '../components/MiniCart'
+import NextNProgress from 'nextjs-progressbar'
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   showVersion()
@@ -21,6 +22,11 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           <AuthContextProvider>
             <ProductContextProvider>
               <Header />
+              <NextNProgress
+                color="#F63C3C"
+                height={6}
+                options={{ showSpinner: false }}
+              />
               <MiniCart />
               <Main>
                 <Component {...pageProps} />

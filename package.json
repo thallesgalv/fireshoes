@@ -1,15 +1,17 @@
 {
   "name": "fireshoes",
-  "version": "0.0.48",
+  "version": "0.0.49",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "git": "yarn version --patch --no-git-tag-version && git add . && git commit -m release/$npm_package_version && git push"
+    "git": "yarn version --patch --no-git-tag-version && git add . && git commit -m release/$npm_package_version && git push",
+    "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
+    "@next/bundle-analyzer": "^12.0.10",
     "@typescript-eslint/eslint-plugin": "^5.4.1-alpha.36",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.25.3",
@@ -20,6 +22,7 @@
     "firebase": "^9.6.4",
     "lottie-web": "^5.8.1",
     "next": "^12.0.9",
+    "nextjs-progressbar": "^0.0.13",
     "prettier": "^2.5.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",

@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import Button from '../components/Button'
 import Heading from '../components/Heading'
-import { AnimationCelebration } from '../components/Lottie'
+import AnimationCelebration from '../components/Lottie/AnimationCelebration'
 import { useGlobalContext } from '../contexts/GlobalContext'
 
 const Sucess = () => {

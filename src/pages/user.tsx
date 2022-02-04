@@ -8,11 +8,9 @@ import { useAuthContext } from '../contexts/AuthContext'
 import UserOption from '../components/UserOption'
 import { useUserContext } from '../contexts/UserContext'
 import { useRouter } from 'next/router'
-import Link from 'next/link'
-import { AnimationOrder } from '../components/Lottie'
 import DeliveryAdress from '../components/DeliveryAdress'
 import PaymentMethod from '../components/PaymentMethod'
-import Order from '../components/Order'
+import OrderHistory from '../components/OrderHistory'
 
 const User: NextPage = () => {
   const { logout } = useAuthContext()
@@ -91,41 +89,7 @@ const User: NextPage = () => {
             {radio === 'pagamento' && <PaymentMethod orientation="vertical" />}
           </div>
 
-          {radio === 'compras' && (
-            <div className="flex flex-col gap-6">
-              {currentUser?.orders?.length ? (
-                currentUser?.orders
-                  .slice()
-                  .reverse()
-                  .map(
-                    ({
-                      products,
-                      totalValue,
-                      adress,
-                      paymentMethod,
-                      timestamp
-                    }) => (
-                      <div className="border-b-2 pb-4">
-                        <Order
-                          products={products}
-                          totalValue={totalValue}
-                          adress={adress}
-                          paymentMethod={paymentMethod}
-                          timestamp={timestamp}
-                        />
-                      </div>
-                    )
-                  )
-              ) : (
-                <div className="flex justify-center items-center flex-col gap-4">
-                  <AnimationOrder />
-                  <p className="text-primary text-center">
-                    Histórico de compras vazio.
-                  </p>
-                </div>
-              )}
-            </div>
-          )}
+          {radio === 'compras' && <OrderHistory />}
         </article>
       </section>
     </>
