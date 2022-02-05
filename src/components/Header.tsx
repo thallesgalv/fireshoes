@@ -43,7 +43,7 @@ const Header = () => {
   }, [currentCart])
 
   return (
-    <header className="shadow-lg fixed w-full bg-white z-10">
+    <header className="shadow-lg fixed w-full bg-white z-20">
       <nav
         className="
           max-w-screen-xl m-auto

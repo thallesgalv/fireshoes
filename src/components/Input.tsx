@@ -53,7 +53,7 @@ const Input = (props: InputProps) => {
               ${props.widthFull && 'w-full'}
             `}
           />
-          <span className="text-lg absolute right-2 opacity-60 z-10">
+          <span className="text-lg absolute right-2 opacity-60 z-20">
             {props.icon}
           </span>
         </div>

@@ -12,6 +12,7 @@ import { useGlobalContext } from '../contexts/GlobalContext'
 import TextArea from '../components/TextArea'
 import Link from 'next/link'
 import { normalizeString } from '../utils/normalizeString'
+import Image from 'next/image'
 
 const Admin: NextPage = () => {
   const [modalStatus, setModalStatus] = useState<ModalStatus>(null)
@@ -285,20 +286,20 @@ const Admin: NextPage = () => {
                 <div className="flex gap-2">
                   {currentProduct &&
                     currentProduct.images?.map((image, index) => (
-                      <div
+                      <Image
                         key={index}
-                        style={{
-                          background: `no-repeat center/cover url(${image})`
-                        }}
+                        src={image.toString()}
+                        width={80}
+                        height={80}
                         className={`
-                          w-20 h-20 rounded-sm
+                          rounded-sm object-cover
                           ${
                             image === currentProduct.mainImg &&
                             'border-4 border-primary'
                           }
                         `}
                         onClick={() => handleChangeMainImg(image.toString())}
-                      ></div>
+                      />
                     ))}
                 </div>
               )}

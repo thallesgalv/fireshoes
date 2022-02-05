@@ -8,6 +8,7 @@ import { useCartContext } from '../contexts/CartContext'
 import Flag from './Flag'
 import Link from 'next/link'
 import { normalizeString } from '../utils/normalizeString'
+import Image from 'next/image'
 
 interface ShelfItemProps extends Product {}
 
@@ -46,23 +47,26 @@ const ShelfItem = (product: ShelfItemProps) => {
         relative
       `}
     >
-      <Flag
-        price={product.price}
-        bestPrice={product.bestPrice}
-        productId={product.id}
-      />
-      <Link href={`/product/${normalizeString(product?.name)}/${product.id}`}>
-        <div
-          style={{
-            background: `no-repeat center/cover url(${currentImage})`
-          }}
-          role={`Image: ${product.name}. Photo by:`}
-          className="w-64 h-52 rounded-sm shadow-lg cursor-pointer"
-          onMouseOver={handleMouseOver}
-          onMouseLeave={handleMouseLeave}
+      <div className="relative">
+        <Flag
+          price={product.price}
+          bestPrice={product.bestPrice}
+          productId={product.id}
         />
-      </Link>
-
+        <Link href={`/product/${normalizeString(product?.name)}/${product.id}`}>
+          <a>
+            <Image
+              src={currentImage || ''}
+              width={256}
+              height={208}
+              onMouseOver={handleMouseOver}
+              onMouseLeave={handleMouseLeave}
+              alt={`${product.name}. Image by Unsplash`}
+              className="object-cover rounded-sm shadow-lg cursor-pointer"
+            />
+          </a>
+        </Link>
+      </div>
       <p className="font-semibold text-xl font-primary uppercase text-secondary">
         {product.name}
       </p>

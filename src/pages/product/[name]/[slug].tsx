@@ -15,7 +15,7 @@ interface ProductProps {
 }
 
 const Product = ({ product, newReleases }: ProductProps) => {
-  const { id, name, mainImg, price, bestPrice, images, brand, description } =
+  const { name, mainImg, price, bestPrice, images, brand, description } =
     product
   const [activeImage, setActiveImage] = useState(mainImg)
   const { addToCart } = useCartContext()
@@ -29,7 +29,6 @@ const Product = ({ product, newReleases }: ProductProps) => {
       addToCart({ ...product, quantity: 1 })
     }
   }
-
   return (
     <section className="mx-auto w-11/12 lg:w-full">
       <article className="lg:flex justify-center gap-16 mx-auto lg:my-16 ">

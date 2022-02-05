@@ -18,7 +18,7 @@ const MiniCart = () => {
 
   return (
     <section
-      className=" w-screen h-screen bg-black bg-opacity-50 fixed top-0 left-0 z-10 flex justify-end"
+      className=" w-screen h-screen bg-black bg-opacity-50 fixed top-0 left-0 z-20 flex justify-end"
       ref={miniCartContainer}
       onClick={handleClick}
     >

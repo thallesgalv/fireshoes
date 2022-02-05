@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { ReactNode } from 'react'
 import { HiPlusSm, HiMinusSm } from 'react-icons/hi'
@@ -50,12 +51,12 @@ const Cart = ({ children, heightScreen }: CartProps) => {
                     product.id
                   }`}
                 >
-                  <div
-                    style={{
-                      background: `no-repeat center/cover url(${product.mainImg})`
-                    }}
-                    role={`Image: ${product.name}. Image by Unsplash`}
-                    className="w-20 h-16 rounded-sm shadow-lg cursor-pointer"
+                  <Image
+                    width={80}
+                    height={64}
+                    src={product.mainImg || ''}
+                    alt={`${product.name}. Image by Unsplash`}
+                    className="object-cover rounded-sm shadow-lg cursor-pointer"
                   />
                 </Link>
 

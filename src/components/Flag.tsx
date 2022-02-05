@@ -9,7 +9,7 @@ interface FlagProps {
 const Flag = ({ price, bestPrice, productId }: FlagProps) => {
   if (!bestPrice || !price || bestPrice >= price) return null
   return (
-    <div className="absolute -right-6 -top-8 flex justify-center items-center">
+    <div className="absolute -right-6 -top-8 flex justify-center items-center z-10">
       <p className="absolute text-white font-primary font-semibold tracking-tighter text-xs mt-4">
         {getDiscount(bestPrice, price)}% off
       </p>

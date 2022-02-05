@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { Order } from '../contexts/UserContext'
 import { currency } from '../utils/calculations'
 import { formatDate } from '../utils/formatDate'
@@ -37,12 +38,12 @@ const OrderResume = ({
         {products &&
           products?.map(({ quantity, name, mainImg, price, bestPrice, id }) => (
             <li className="flex gap-4" key={id}>
-              <div
-                style={{
-                  background: `no-repeat center/cover url(${mainImg})`
-                }}
-                role={`Image: ${name}. Image by Unspash`}
-                className="w-24 h-20 rounded-sm shadow-lg"
+              <Image
+                width={96}
+                height={80}
+                src={mainImg || ''}
+                alt={`${name}. Image by Unspash`}
+                className="rounded-sm shadow-lg object-cover"
               />
               <div className="flex flex-col gap-1">
                 <p className="font-semibold text-sm font-primary uppercase text-secondary">
