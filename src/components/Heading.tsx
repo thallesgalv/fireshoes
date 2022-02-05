@@ -1,3 +1,5 @@
+import { primary } from '../utils/colorVariables'
+
 interface HeadingProps {
   text: string
   center?: boolean
@@ -14,8 +16,7 @@ const Heading = ({ text, center, small }: HeadingProps) => {
         w-max relative my-4
         ${center && 'm-auto'}`}
         style={{
-          textShadow:
-            '-1px -1px 0 #F63C3C, 1px -1px 0 #F63c3c, -1px 1px 0 #f63c3c, 1px 1px 0 #f63c3c'
+          textShadow: `-1px -1px 0 ${primary}, 1px -1px 0 ${primary}, -1px 1px 0 ${primary}, 1px 1px 0 ${primary}`
         }}
       >
         {text}

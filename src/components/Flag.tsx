@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import { getDiscount } from '../utils/calculations'
+import { primary, analogous } from '../utils/colorVariables'
 
 interface FlagProps {
   price?: number
@@ -7,6 +9,8 @@ interface FlagProps {
 }
 
 const Flag = ({ price, bestPrice, productId }: FlagProps) => {
+  const [value, setValue] = useState(getDiscount(bestPrice, price))
+
   if (!bestPrice || !price || bestPrice >= price) return null
   return (
     <div className="absolute -right-6 -top-8 flex justify-center items-center z-10">
@@ -27,17 +31,22 @@ const Flag = ({ price, bestPrice, productId }: FlagProps) => {
             <linearGradient
               id={`${productId}gradient`}
               x1="0%"
-              y1="0%"
               x2="0%"
+              y1="0%"
               y2="100%"
             >
               <stop
-                offset="0%"
-                style={{ stopColor: '#F6993C', stopOpacity: 1 }}
+                offset={`${40 - value}%`}
+                style={{ stopColor: analogous, stopOpacity: 1 }}
               />
               <stop
-                offset={`${100 - getDiscount(bestPrice, price)}%`}
-                style={{ stopColor: '#F63C3C', stopOpacity: 1 }}
+                offset={`${80 - value}%`}
+                style={{ stopColor: analogous, stopOpacity: 1 }}
+              />
+
+              <stop
+                offset={`${110 - value}%`}
+                style={{ stopColor: primary, stopOpacity: 1 }}
               />
             </linearGradient>
           </defs>

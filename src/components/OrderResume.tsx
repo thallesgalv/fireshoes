@@ -46,7 +46,7 @@ const OrderResume = ({
                 className="rounded-sm shadow-lg object-cover"
               />
               <div className="flex flex-col gap-1">
-                <p className="font-semibold text-sm font-primary uppercase text-secondary">
+                <p className="font-semibold text-sm font-primary uppercase text-dark">
                   {name}
                 </p>
                 <p className="text-sm font-primary uppercase tracking-tighter">
@@ -55,10 +55,10 @@ const OrderResume = ({
                       ? currency(bestPrice)
                       : currency(price)}
                   </strong>
-                  <span className="text-secondary lowercase"> un.</span>
+                  <span className="text-dark lowercase"> un.</span>
                 </p>
                 <div className="flex gap-4 items-center">
-                  <p className="text-xs border w-fit p-1 rounded-sm border-black text-secondary">
+                  <p className="text-xs border w-fit p-1 rounded-sm border-black text-dark">
                     {quantity}x
                   </p>
                   <p className="font-semibold text-primary text-sm font-primary tracking-tighter">
@@ -73,7 +73,7 @@ const OrderResume = ({
           ))}
       </ul>
 
-      <p className="text-lg font-semibold text-right text-secondary">
+      <p className="text-lg font-semibold text-right text-dark">
         Subtotal: {currency(totalValue)}
       </p>
 
@@ -83,14 +83,14 @@ const OrderResume = ({
             <p className="text-sm font-primary tracking-tighter text-primary font-semibold">
               Endereço de Entrega:
             </p>
-            <p className="text-sm font-primary tracking-tighter text-secondary">
+            <p className="text-sm font-primary tracking-tighter text-dark">
               {adressObject.street}, {adressObject.number}
               {adressObject.complement && `, ${adressObject.complement}`}
             </p>
-            <p className="text-sm font-primary tracking-tighter text-secondary">
+            <p className="text-sm font-primary tracking-tighter text-dark">
               {adressObject.neighborhood}
             </p>
-            <p className="text-sm font-primary tracking-tighter text-secondary">
+            <p className="text-sm font-primary tracking-tighter text-dark">
               {adressObject.city}/{adressObject.state}
             </p>
             <p>{adressObject.postalCode}</p>
@@ -102,7 +102,7 @@ const OrderResume = ({
             <p className="text-sm font-primary tracking-tighter text-primary font-semibold">
               Meio de pagamento:
             </p>
-            <p className="text-sm font-primary tracking-tighter text-secondary">
+            <p className="text-sm font-primary tracking-tighter text-dark">
               {paymentMethodObject.alias} ••••
               {paymentMethodObject.cardNumber?.slice(-4)}
             </p>

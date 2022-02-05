@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import {
   getProduct,
   getProductsByQuery
-} from '../../../../firebase/firebaseRequests'
+} from '../../../firebase/firebaseRequests'
 import { Product } from '../../../contexts/ProductContext'
 import { useCartContext } from '../../../contexts/CartContext'
 import { currency } from '../../../utils/calculations'
@@ -18,8 +18,17 @@ interface ProductProps {
 }
 
 const Product = ({ product, newReleases }: ProductProps) => {
-  const { name, mainImg, price, bestPrice, images, brand, description } =
-    product
+  const {
+    id,
+    name,
+    mainImg,
+    price,
+    bestPrice,
+    images,
+    brand,
+    description,
+    colors
+  } = product
   const [activeImage, setActiveImage] = useState(mainImg)
   const { addToCart } = useCartContext()
 
@@ -34,9 +43,8 @@ const Product = ({ product, newReleases }: ProductProps) => {
   }
   return (
     <section className="mx-auto w-11/12 lg:w-full">
-      <article className="lg:flex justify-center gap-16 mx-auto lg:my-16 ">
+      <article className="lg:flex justify-center gap-16 mx-auto lg:mt-8 lg:h-[70vh]">
         <div className="flex flex-col-reverse gap-4 lg:flex-row lg:gap-8">
-          {/* <Flag price={price} bestPrice={bestPrice} productId={id} /> */}
           <ul className="flex lg:flex-col gap-2">
             {images &&
               images?.map((image, idx) => (
@@ -49,7 +57,7 @@ const Product = ({ product, newReleases }: ProductProps) => {
                     className={`w-16 h-16 lg:w-20 lg:h-20 rounded-sm shadow-lg cursor-pointer  ${
                       activeImage === image && 'border-4 border-red-400'
                     }`}
-                    onClick={() => setActiveImage(image.toString())}
+                    onClick={() => setActiveImage(image)}
                   ></div>
                 </li>
               ))}
@@ -60,27 +68,36 @@ const Product = ({ product, newReleases }: ProductProps) => {
             )}
           </div>
         </div>
-        <div>
-          <p className="uppercase text-gray-800">{brand}</p>
-          <h1 className="text-gray-800 font-semibold text-6xl">{name}</h1>
-          {(!bestPrice || (price && bestPrice >= price)) && (
-            <p className="text-3xl font-primary uppercase text-gray-800 tracking-tighter my-4">
-              <strong className="font-light ">{`${currency(price)}`}</strong>
-            </p>
-          )}
-          {bestPrice && price && bestPrice < price && (
-            <p className="font-normal font-primary text-gray-800 tracking-tighter flex flex-col my-4">
-              <span className="font-light text-md">
-                de{' '}
-                <span className=" line-through font-light text-md">{`${currency(
-                  price
-                )}`}</span>{' '}
-                por
-              </span>
-              <strong className="font-light text-3xl ">
-                {' '}
-                {`${currency(bestPrice)}`}
-              </strong>
+        <div className="relative">
+          {/* <Flag price={price} bestPrice={bestPrice} productId={id} /> */}
+          <p className="uppercase text-dark">{brand}</p>
+          <h1 className="text-dark font-semibold text-6xl">{name}</h1>
+          <div>
+            {(!bestPrice || (price && bestPrice >= price)) && (
+              <p className="text-3xl font-primary uppercase text-dark tracking-tighter my-4">
+                <strong className="font-light ">{`${currency(price)}`}</strong>
+              </p>
+            )}
+            {bestPrice && price && bestPrice < price && (
+              <p className="font-normal font-primary text-dark tracking-tighter flex flex-col my-4">
+                <span className="font-light text-md">
+                  de{' '}
+                  <span className=" line-through font-light text-md">{`${currency(
+                    price
+                  )}`}</span>{' '}
+                  por
+                </span>
+                <strong className="font-light text-3xl ">
+                  {' '}
+                  {`${currency(bestPrice)}`}
+                </strong>
+              </p>
+            )}
+          </div>
+          {colors && (
+            <p>
+              {colors.length > 1 ? 'Cores: ' : 'Cor: '}
+              {colors.join(', ')}
             </p>
           )}
           <h2 className="lg:max-w-xs my-4">
@@ -103,7 +120,7 @@ const Product = ({ product, newReleases }: ProductProps) => {
         </div>
       </article>
 
-      <div className="mt-16">
+      <div className="mt-4">
         <Shelf titleCenter title="Veja também" data={newReleases} />
       </div>
     </section>

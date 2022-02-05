@@ -8,12 +8,12 @@ import {
 } from 'react'
 import toast from 'react-hot-toast'
 import { collection } from 'firebase/firestore'
-import { auth } from '../../firebase/auth'
-import { db } from '../../firebase/firestore'
-import { storage } from '../../firebase/storage'
-const getFirestore = () => import('../../firebase/firestore')
-const getStorage = () => import('../../firebase/storage')
-import { firebaseErrorHandler } from '../../firebase/firebaseErrorHandler'
+import { auth } from '../firebase/auth'
+import { db } from '../firebase/firestore'
+import { storage } from '../firebase/storage'
+const getFirestore = () => import('../firebase/firestore')
+const getStorage = () => import('../firebase/storage')
+import { firebaseErrorHandler } from '../firebase/firebaseErrorHandler'
 
 export interface Product {
   id?: string
@@ -21,9 +21,10 @@ export interface Product {
   brand?: string
   price?: number
   bestPrice?: number
-  images?: String[]
+  images?: string[]
   mainImg?: string
   description?: string
+  colors?: string[]
   timestamp?: string
 }
 
@@ -137,6 +138,7 @@ export const ProductContextProvider = ({
         price: productDataForm?.price! * 1,
         bestPrice: productDataForm?.bestPrice! * 1,
         description: productDataForm?.description,
+        colors: productDataForm?.colors,
         timestamp: serverTimestamp()
       })
 
@@ -212,6 +214,7 @@ export const ProductContextProvider = ({
         price: productDataForm?.price! * 1,
         bestPrice: productDataForm?.bestPrice! * 1,
         description: productDataForm?.description,
+        colors: productDataForm?.colors,
         timestamp: serverTimestamp()
       })
       toast.success(`Produto atualizado com sucesso`)

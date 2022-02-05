@@ -1,5 +1,5 @@
 import { getStorage } from 'firebase/storage'
-import { app } from '../firebase/app'
+import { app } from './app'
 
 export { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 

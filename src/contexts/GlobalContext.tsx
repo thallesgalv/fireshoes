@@ -8,6 +8,8 @@ interface GlobalContextProps {
   setMenuActive: (arg: boolean) => void
   miniCartActive: boolean
   setMiniCartActive: (arg: boolean) => void
+  userOption: UserOption
+  setUserOption: (arg: UserOption) => void
   checkoutStep: CheckoutStep
   setCheckoutStep: (arg: CheckoutStep) => void
   editMode: boolean
@@ -22,6 +24,7 @@ interface GlobalContextProviderProps {
   children: ReactNode
 }
 
+export type UserOption = 'adress' | 'payment' | 'orderHistory'
 type CheckoutStep = 'cart' | 'adress' | 'payment' | 'confirmation' | 'sucess'
 
 export const GlobalContext = createContext({} as GlobalContextProps)
@@ -32,6 +35,7 @@ export const GlobalContextProvider = ({
   const isMobile = useMedia('(max-width: 768px)')
   const [menuActive, setMenuActive] = useState(false)
   const [miniCartActive, setMiniCartActive] = useState(false)
+  const [userOption, setUserOption] = useState<UserOption>('adress')
   const [checkoutStep, setCheckoutStep] = useState<CheckoutStep>('cart')
   const [editMode, setEditMode] = useState(false)
   const [modalStatus, setModalStatus] = useState<ModalStatus>(null)
@@ -45,6 +49,8 @@ export const GlobalContextProvider = ({
         setMenuActive,
         miniCartActive,
         setMiniCartActive,
+        userOption,
+        setUserOption,
         checkoutStep,
         setCheckoutStep,
         editMode,

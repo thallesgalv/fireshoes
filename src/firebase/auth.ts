@@ -1,5 +1,5 @@
 import { getAuth } from 'firebase/auth'
-import { app } from '../firebase/app'
+import { app } from './app'
 
 export {
   GoogleAuthProvider,

@@ -1,8 +1,9 @@
+import dynamic from 'next/dynamic'
 import { useUserContext } from '../contexts/UserContext'
-import OrderResume from './OrderResume'
 import AnimationOrder from '../components/Lottie/AnimationOrder'
 
 const OrderHistory = () => {
+  const OrderResume = dynamic(() => import('../components/OrderResume'))
   const { currentUser } = useUserContext()
 
   return (

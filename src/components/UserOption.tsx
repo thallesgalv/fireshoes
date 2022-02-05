@@ -1,31 +1,26 @@
+import { useGlobalContext, UserOption } from '../contexts/GlobalContext'
+
 interface UserOptionProps {
   text: string
-  isActive?: boolean
-  value: string
-  radio: string
-  setRadio: (value: string) => void
+  option: UserOption
 }
 
-const UserOption = ({ text, value, radio, setRadio }: UserOptionProps) => {
+const UserOption = ({ text, option }: UserOptionProps) => {
+  const { userOption, setUserOption } = useGlobalContext()
+
   return (
-    <label
-      htmlFor={value}
-      className={`
-        font-primary text-lg font-semibold
-        ${radio === value ? 'text-primary' : 'cursor-pointer text-gray-400'}
-      `}
+    <p
+      className={`font-primary text-lg font-semibold
+               ${
+                 userOption === option
+                   ? 'text-primary'
+                   : 'cursor-pointer text-gray-400'
+               }
+             `}
+      onClick={() => userOption !== option && setUserOption(option)}
     >
       {text}
-      <input
-        type="radio"
-        value={value}
-        name={value}
-        id={value}
-        checked={radio === value}
-        onChange={({ target }) => setRadio(target.value)}
-        className="hidden"
-      />
-    </label>
+    </p>
   )
 }
 

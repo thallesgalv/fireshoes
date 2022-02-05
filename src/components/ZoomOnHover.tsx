@@ -26,8 +26,9 @@ const ZoomOnHover = ({ imageSrc, imageName }: ZoomOnHoverProps) => {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       className="
-      w-full h-full max-h-[50vh] lg:max-h-[70vh] lg:max-w-2xl
+      w-full h-min max-h-[50vh] lg:max-h-[70vh] lg:max-w-2xl
       overflow-hidden hover:cursor-zoom-in
+      rounded-sm shadow-lg
       "
     >
       <img
@@ -37,7 +38,7 @@ const ZoomOnHover = ({ imageSrc, imageName }: ZoomOnHoverProps) => {
           transform: transform,
           transition: 'transform 0.3s ease-out'
         }}
-        className="w-full h-full object-cover origin-center"
+        className="w-full h-full object-cover origin-center rounded-sm shadow-lg"
         role={`Image: ${imageName}. Image by Unspash`}
       />
     </div>
@@ -45,4 +46,7 @@ const ZoomOnHover = ({ imageSrc, imageName }: ZoomOnHoverProps) => {
 }
 
 export default ZoomOnHover
-// self-baseline
+
+
+
+// className="object-cover rounded-sm shadow-lg cursor-pointer"

@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
 import type { NextPage } from 'next'
-import { MdDeleteOutline, MdOutlineEdit } from 'react-icons/md'
+import { MdDeleteOutline, MdOutlineEdit, MdNotInterested } from 'react-icons/md'
 import { FormEvent, useCallback, useEffect, useState } from 'react'
 import { useGlobalContext } from '../contexts/GlobalContext'
 import { Product, useProductContext } from '../contexts/ProductContext'
@@ -17,6 +17,7 @@ import { normalizeString } from '../utils/normalizeString'
 const Admin: NextPage = () => {
   const [modalStatus, setModalStatus] = useState<ModalStatus>(null)
   const [editMode, setEditMode] = useState(false)
+  const [currentColor, setCurrentColor] = useState('')
   const { isMobile } = useGlobalContext()
 
   const {
@@ -49,6 +50,24 @@ const Admin: NextPage = () => {
     [productDataForm]
   )
 
+  const handleInsertColor = () => {
+    setProductDataForm({
+      ...productDataForm,
+      colors: productDataForm.colors
+        ? [...productDataForm.colors, currentColor]
+        : [currentColor]
+    })
+  }
+
+  const handleDeleteColor = (colorIndex: number) => {
+    setProductDataForm({
+      ...productDataForm,
+      colors:
+        productDataForm.colors &&
+        [...productDataForm.colors].filter((item, idx) => idx !== colorIndex)
+    })
+  }
+
   useEffect(() => {
     setProductDataForm({
       id: currentProduct?.id,
@@ -56,12 +75,14 @@ const Admin: NextPage = () => {
       brand: currentProduct?.brand,
       price: currentProduct?.price,
       bestPrice: currentProduct?.bestPrice,
-      description: currentProduct?.description
+      description: currentProduct?.description,
+      colors: currentProduct?.colors
     })
   }, [currentProduct])
 
   useEffect(() => {
     setProductDataForm({} as Product)
+    setCurrentColor('')
     setCurrentProduct(undefined)
   }, [modalStatus])
 
@@ -138,7 +159,10 @@ const Admin: NextPage = () => {
                       Nome
                     </th>
                     <th className="text-center p-2 border border-white">
-                      Foto Principal Foto Principal
+                      Cores
+                    </th>
+                    <th className="text-center p-2 border border-white">
+                      Foto Principal
                     </th>
                     <th className="text-center p-2 border border-white">
                       Preço
@@ -150,7 +174,15 @@ const Admin: NextPage = () => {
                 </thead>
                 <tbody>
                   {currentProducts?.map(
-                    ({ id, name, brand, price, bestPrice, mainImg }) => (
+                    ({
+                      id,
+                      name,
+                      brand,
+                      price,
+                      bestPrice,
+                      mainImg,
+                      colors
+                    }) => (
                       <tr key={id} className="border border-primary">
                         <td
                           className="p-4 text-3xl text-center text-primary cursor-pointer border border-primary"
@@ -164,29 +196,37 @@ const Admin: NextPage = () => {
                         >
                           <MdDeleteOutline />
                         </td>
-                        <td className="border border-primary p-2 text-center text-secondary">
+                        <td className="border border-primary p-2 text-center text-dark">
                           {id}
                         </td>
-                        <td className="border border-primary p-2 text-center text-secondary">
+                        <td className="border border-primary p-2 text-center text-dark">
                           <Link
                             href={`/product/${normalizeString(name)}/${id}`}
                           >
                             <a>Link</a>
                           </Link>
                         </td>
-                        <td className="border border-primary p-2 text-center text-secondary">
+                        <td className="border border-primary p-2 text-center text-dark">
                           {brand}
                         </td>
-                        <td className="border border-primary p-2 text-center text-secondary">
+                        <td className="border border-primary p-2 text-center text-dark">
                           {name}
                         </td>
-                        <td className="flex justify-center p-2 text-center">
-                          <Image src={mainImg || ''} width={80} height={80} className="object-cover" />
+                        <td className="border border-primary p-2 text-center text-dark">
+                          {colors?.join(', ') || ''}
                         </td>
-                        <td className="border border-primary p-2 text-center text-secondary">
+                        <td className="flex justify-center p-2 text-center">
+                          <Image
+                            src={mainImg || ''}
+                            width={80}
+                            height={80}
+                            className="object-cover"
+                          />
+                        </td>
+                        <td className="border border-primary p-2 text-center text-dark">
                           {currency(price)}
                         </td>
-                        <td className="border border-primary p-2 text-center text-secondary">
+                        <td className="border border-primary p-2 text-center text-dark">
                           {currency(bestPrice)}
                         </td>
                       </tr>
@@ -199,9 +239,13 @@ const Admin: NextPage = () => {
         </div>
 
         {modalStatus === 'createProductModal' && (
-          <Modal modalStatus={modalStatus} setModalStatus={setModalStatus}>
+          <Modal
+            widthFit
+            modalStatus={modalStatus}
+            setModalStatus={setModalStatus}
+          >
             <form
-              className="m-auto flex flex-col gap-6 w-full md:w-80"
+              className="m-auto flex flex-col gap-6 w-full md:w-fit"
               onSubmit={(e) => handleSubmit(e)}
             >
               <Heading
@@ -209,95 +253,146 @@ const Admin: NextPage = () => {
                 small
                 center
               />
-              <Input
-                text="Nome:"
-                name="name"
-                htmlFor="productName"
-                required
-                widthFull
-                onChange={handleProduct}
-                value={productDataForm?.name}
-              />
-              <Input
-                text="Marca:"
-                name="brand"
-                htmlFor="productBrand"
-                required
-                widthFull
-                onChange={handleProduct}
-                value={productDataForm?.brand}
-              />
-              <fieldset className="flex gap-6">
-                <Input
-                  text="Preço:"
-                  name="price"
-                  type="number"
-                  widthFull
-                  onChange={handleProduct}
-                  value={productDataForm?.price}
-                />
-                <Input
-                  text="Melhor Preço:"
-                  name="bestPrice"
-                  type="number"
-                  htmlFor="productBestPrice"
-                  widthFull
-                  onChange={handleProduct}
-                  value={productDataForm?.bestPrice}
-                />
-              </fieldset>
-              <TextArea
-                text="Descrição:"
-                name="description"
-                htmlFor="productDescription"
-                required
-                widthFull
-                onChange={handleProduct}
-                value={productDataForm?.description}
-              />
-              <Input
-                text="Fotos:"
-                name="mainImg"
-                type="file"
-                htmlFor="productMainImg"
-                widthFull
-                onChange={handleProduct}
-                value={productDataForm?.mainImg}
-                reference={inputFileRef}
-                accept="image/x-png,image/gif,image/jpeg"
-              />
-              {editMode && (
-                <Button
-                  primary
-                  text="Upload"
-                  widthFull={isMobile}
-                  onClick={() => {
-                    currentProduct?.id && uploadFile(currentProduct?.id)
-                  }}
-                />
-              )}
-
-              {editMode && (
-                <div className="flex gap-2">
-                  {currentProduct &&
-                    currentProduct.images?.map((image, index) => (
-                      <Image
-                        key={index}
-                        src={image.toString()}
-                        width={80}
-                        height={80}
-                        className={`
-                          rounded-sm object-cover
-                          ${
-                            image === currentProduct.mainImg &&
-                            'border-4 border-primary'
-                          }
-                        `}
-                        onClick={() => handleChangeMainImg(image.toString())}
-                      />
-                    ))}
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="flex flex-col gap-4">
+                  <Input
+                    text="Nome:"
+                    name="name"
+                    htmlFor="productName"
+                    required
+                    widthFull
+                    onChange={handleProduct}
+                    value={productDataForm?.name}
+                  />
+                  <Input
+                    text="Marca:"
+                    name="brand"
+                    htmlFor="productBrand"
+                    required
+                    widthFull
+                    onChange={handleProduct}
+                    value={productDataForm?.brand}
+                  />
+                  <fieldset className="flex gap-6 max-w-xs">
+                    <Input
+                      text="Preço:"
+                      name="price"
+                      type="number"
+                      widthFull
+                      onChange={handleProduct}
+                      value={productDataForm?.price}
+                    />
+                    <Input
+                      text="Melhor Preço:"
+                      name="bestPrice"
+                      type="number"
+                      htmlFor="productBestPrice"
+                      widthFull
+                      onChange={handleProduct}
+                      value={productDataForm?.bestPrice}
+                    />
+                  </fieldset>
                 </div>
-              )}
+                <div className="flex flex-col gap-4 h-full">
+                  <TextArea
+                    text="Descrição:"
+                    name="description"
+                    htmlFor="productDescription"
+                    required
+                    widthFull
+                    onChange={handleProduct}
+                    value={productDataForm?.description}
+                  />
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="flex flex-col gap-4">
+                  <Input
+                    text="Cores:"
+                    name="currentColor"
+                    htmlFor="productCurrentColor"
+                    required
+                    widthFull
+                    onChange={(e) => setCurrentColor(e.target.value)}
+                    value={currentColor}
+                  />
+                  <div className="flex flex-col md:flex-row items-center gap-4">
+                    <Button
+                      primary
+                      text="Inserir cor"
+                      widthFull={isMobile}
+                      onClick={handleInsertColor}
+                    />
+                    {productDataForm && (
+                      <div className="flex flex-wrap gap-2 text-secondary">
+                        {productDataForm?.colors?.map((color, idx) => (
+                          <div className="flex">
+                            <div key={idx}>{color} </div>
+                            <span
+                              className="text-primary cursor-pointer"
+                              onClick={() => handleDeleteColor(idx)}
+                            >
+                              <MdNotInterested size={12} />
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-4">
+                  <Input
+                    text={editMode ? 'Nova foto:' : 'Foto principal:'}
+                    name="mainImg"
+                    type="file"
+                    htmlFor="productMainImg"
+                    widthFull
+                    onChange={handleProduct}
+                    value={productDataForm?.mainImg}
+                    reference={inputFileRef}
+                    accept="image/x-png,image/gif,image/jpeg"
+                  />
+
+                  {editMode && (
+                    <div>
+                      <Button
+                        primary
+                        text="Upload"
+                        widthFull={isMobile}
+                        onClick={() => {
+                          currentProduct?.id && uploadFile(currentProduct?.id)
+                        }}
+                      />
+                    </div>
+                  )}
+
+                  {editMode && (
+                    <div className="flex gap-2">
+                      {currentProduct &&
+                        currentProduct.images?.map((image, index) => (
+                          <div
+                            key={index}
+                            style={{
+                              background: `no-repeat center/cover url(${image})`
+                            }}
+                            className={`
+                        w-20 h-20 rounded-sm
+                        ${
+                          image === currentProduct.mainImg &&
+                          'border-4 border-primary'
+                        }
+                      `}
+                            onClick={() =>
+                              handleChangeMainImg(image.toString())
+                            }
+                          ></div>
+                        ))}
+                    </div>
+                  )}
+                </div>
+              </div>
 
               <div className="flex justify-center flex-wrap gap-4 flex-1">
                 <Button

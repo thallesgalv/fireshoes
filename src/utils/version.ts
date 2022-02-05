@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { primary } from '../utils/colorVariables'
 import packageInfo from '../../package.json'
 
 export const showVersion = () => {
@@ -6,8 +7,8 @@ export const showVersion = () => {
     const version = packageInfo.version
     console.log(
       `\n\n%c 🔥 Current Version: %c   ${version}  \n`,
-      'background: #eee; color: #F63C3C',
-      'background: #F63C3C; color: #fff'
+      `background: #eee; color: ${primary}`,
+      `background: ${primary}; color: #fff`
     )
   }, [])
 }

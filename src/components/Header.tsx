@@ -8,7 +8,7 @@ import {
   MdClose,
   MdPerson
 } from 'react-icons/md'
-import { auth } from '../../firebase/auth'
+import { auth } from '../firebase/auth'
 import { useGlobalContext } from '../contexts/GlobalContext'
 import { useUserContext } from '../contexts/UserContext'
 import { useCartContext } from '../contexts/CartContext'

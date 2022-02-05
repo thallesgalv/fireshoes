@@ -6,7 +6,7 @@ interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   htmlFor?: string
 }
 
-const Input = (props: TextAreaProps) => {
+const TextArea = (props: TextAreaProps) => {
   return (
     <>
       <label
@@ -30,6 +30,7 @@ const Input = (props: TextAreaProps) => {
               focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent
               resize-none
               ${props.widthFull && 'w-full'}
+              md:h-48
             `}
           />
         </div>
@@ -38,4 +39,4 @@ const Input = (props: TextAreaProps) => {
   )
 }
 
-export default Input
+export default TextArea

@@ -62,12 +62,12 @@ const Cart = ({ children, heightScreen }: CartProps) => {
                 </Link>
 
                 <div className="flex flex-col justify-between gap-2 w-28 lg:w-28 ml-4">
-                  <p className="font-semibold text-sm font-primary uppercase text-secondary whitespace-nowrap">
+                  <p className="font-semibold text-sm font-primary uppercase text-dark whitespace-nowrap">
                     {product.name}
                   </p>
                   <div className="flex justify-center items-center w-16 bg-red-100 rounded-sm">
                     <button
-                      className={`rounded-sm p-1 text-secondary ${
+                      className={`rounded-sm p-1 text-dark ${
                         product.quantity === 1 && 'text-gray-400'
                       }`}
                       disabled={product.quantity === 1}
@@ -75,11 +75,11 @@ const Cart = ({ children, heightScreen }: CartProps) => {
                     >
                       <HiMinusSm size={14} />
                     </button>
-                    <p className="p-1 text-secondary w-6 text-center text-sm">
+                    <p className="p-1 text-dark w-6 text-center text-sm">
                       {product.quantity}
                     </p>
                     <button
-                      className={`rounded-sm p-1 text-secondary ${
+                      className={`rounded-sm p-1 text-dark ${
                         product.quantity === 10 && 'text-gray-400'
                       }`}
                       onClick={() => product.id && handleIncrement(product.id)}
@@ -138,7 +138,7 @@ const Cart = ({ children, heightScreen }: CartProps) => {
               Total: {`${currency(cartTotalValue)}`}
             </p>
             {savingValue > 0 && (
-              <p className="text-sm text-secondary">
+              <p className="text-sm text-dark">
                 Você economizou: {`${currency(savingValue)}`}
               </p>
             )}

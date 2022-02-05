@@ -8,11 +8,11 @@ import {
 } from 'react'
 import { onAuthStateChanged } from 'firebase/auth'
 import toast from 'react-hot-toast'
-import { db } from '../../firebase/firestore'
-import { auth } from '../../firebase/auth'
-const getFirestore = () => import('../../firebase/firestore')
-const getFirebase = () => import('../../firebase/auth')
-import { firebaseErrorHandler } from '../../firebase/firebaseErrorHandler'
+import { db } from '../firebase/firestore'
+import { auth } from '../firebase/auth'
+const getFirestore = () => import('../firebase/firestore')
+const getFirebase = () => import('../firebase/auth')
+import { firebaseErrorHandler } from '../firebase/firebaseErrorHandler'
 import { User, useUserContext } from './UserContext'
 
 interface AuthContextProps {

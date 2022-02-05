@@ -1,4 +1,5 @@
 import type { NextPage } from 'next'
+import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -9,18 +10,19 @@ import {
   MdOutlineShoppingCart
 } from 'react-icons/md'
 import { useEffect } from 'react'
-import { auth } from '../../firebase/auth'
+import { auth } from '../firebase/auth'
 import { useGlobalContext } from '../contexts/GlobalContext'
 import { useUserContext } from '../contexts/UserContext'
 import { useCartContext } from '../contexts/CartContext'
-import DeliveryAdress from '../components/DeliveryAdress'
 import Heading from '../components/Heading'
-import Cart from '../components/Cart'
 import Button from '../components/Button'
-import OrderResume from '../components/OrderResume'
-import PaymentMethod from '../components/PaymentMethod'
 
 const Checkout: NextPage = () => {
+  const Cart = dynamic(() => import('../components/Cart'))
+  const DeliveryAdress = dynamic(() => import('../components/DeliveryAdress'))
+  const PaymentMethod = dynamic(() => import('../components/PaymentMethod'))
+  const OrderResume = dynamic(() => import('../components/OrderResume'))
+
   const { setMiniCartActive, checkoutStep, setCheckoutStep, sucessOrder } =
     useGlobalContext()
   const { currentCart, cartTotalValue } = useCartContext()
@@ -30,7 +32,6 @@ const Checkout: NextPage = () => {
 
   useEffect(() => {
     setMiniCartActive(false)
-    setCheckoutStep('cart')
   }, [])
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import type { GetServerSideProps, NextPage } from 'next/types'
 import { useEffect } from 'react'
-import { getProductsByQuery } from '../../firebase/firebaseRequests'
+import { getProductsByQuery } from '../firebase/firebaseRequests'
 import packageInfo from '../../package.json'
 import { Product, useProductContext } from '../contexts/ProductContext'
 import Heading from '../components/Heading'

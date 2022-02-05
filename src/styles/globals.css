@@ -32,7 +32,8 @@
     background: #fecaca;
   }
 
-  .scrollbar:hover::-webkit-scrollbar-thumb, .scrollbar:active::-webkit-scrollbar-thumb {
+  .scrollbar:hover::-webkit-scrollbar-thumb,
+  .scrollbar:active::-webkit-scrollbar-thumb {
     background: #f63c3c;
   }
 }

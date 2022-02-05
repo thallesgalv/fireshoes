@@ -1,22 +1,28 @@
-import lottie from 'lottie-web'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import type { LottiePlayer } from 'lottie-web'
 import Adress from '../../assets/animationAdress.json'
 
 const AnimationAdress = () => {
   const containerLottie = useRef<HTMLDivElement>(null)
+  const [lottie, setLottie] = useState<LottiePlayer | null>(null)
 
   useEffect(() => {
-    if (containerLottie.current) {
-      lottie.loadAnimation({
+    import('lottie-web').then((Lottie) => setLottie(Lottie.default))
+  }, [])
+
+  useEffect(() => {
+    if (lottie && containerLottie.current) {
+      const animation = lottie.loadAnimation({
         container: containerLottie.current,
         renderer: 'svg',
         loop: false,
         autoplay: true,
         animationData: Adress
       })
+      lottie.setSpeed(1.3)
+      return () => animation.destroy()
     }
-    lottie.setSpeed(1.3)
-  }, [])
+  }, [lottie])
 
   return (
     <div className="opacity-70  max-w-xs">

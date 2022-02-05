@@ -11,7 +11,7 @@ module.exports = {
       },
       colors: {
         primary: '#F63C3C',
-        secondary: '#310c0c'
+        dark: '#310c0c'
       },
       keyframes: {
         show: {
