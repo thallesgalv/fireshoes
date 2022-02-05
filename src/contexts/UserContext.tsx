@@ -1,18 +1,25 @@
-import {
-  setDoc,
-  doc,
-  updateDoc,
-  arrayUnion,
-  onSnapshot,
-  arrayRemove,
-  Timestamp
-} from 'firebase/firestore'
 import { createContext, useContext, useState, ReactNode } from 'react'
 import toast from 'react-hot-toast'
-import { auth, db } from '../services/firebase'
-import { firebaseErrorHandler } from '../utils/firebaseErrorHandler'
-import { ProductInCart, useCartContext } from './CartContext'
 import { useGlobalContext } from './GlobalContext'
+import { ProductInCart, useCartContext } from './CartContext'
+
+// import {
+// setDoc,
+// doc,
+// updateDoc,
+// arrayUnion,
+// onSnapshot,
+// arrayRemove,
+// Timestamp
+// } from 'firebase/firestore'
+// import { auth, db } from '../services/firebase'
+
+import { auth } from '../../firebase/auth'
+import { db } from '../../firebase/firestore'
+const getFirestore = () => import('../../firebase/firestore')
+import { doc, Timestamp } from 'firebase/firestore'
+
+import { firebaseErrorHandler } from '../utils/firebaseErrorHandler'
 
 export interface User {
   uid?: string
@@ -95,6 +102,8 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
   const { setSucessOrder } = useGlobalContext()
 
   const createUser = async () => {
+    const { setDoc } = await getFirestore()
+
     if (auth.currentUser) {
       await setDoc(doc(db, 'users', auth.currentUser.uid), {
         name: currentUser?.name || auth.currentUser.displayName,
@@ -110,6 +119,8 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
   }
 
   const getUser = async () => {
+    const { onSnapshot } = await getFirestore()
+
     try {
       if (auth.currentUser) {
         onSnapshot(doc(db, 'users', auth.currentUser.uid), (doc) => {
@@ -134,6 +145,8 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
   }
 
   const setActiveAdress = async (arg: number) => {
+    const { updateDoc } = await getFirestore()
+
     try {
       await updateDoc(currentUserRef, {
         selectedAdress: arg
@@ -144,6 +157,8 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
   }
 
   const setAdress = async () => {
+    const { updateDoc, arrayUnion } = await getFirestore()
+
     try {
       if (currentUser?.adressList && currentUser.adressList.length < 3) {
         await updateDoc(currentUserRef, {
@@ -160,6 +175,8 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
   }
 
   const deleteAdress = async (arg: number) => {
+    const { updateDoc, arrayRemove } = await getFirestore()
+
     try {
       await updateDoc(currentUserRef, {
         adressList: arrayRemove(currentUser?.adressList?.[arg])
@@ -173,6 +190,8 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
   }
 
   const updateAdress = async (arg: number) => {
+    const { updateDoc, arrayRemove, arrayUnion } = await getFirestore()
+
     try {
       await updateDoc(currentUserRef, {
         adressList: arrayRemove(currentUser?.adressList?.[arg])
@@ -191,6 +210,8 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
   }
 
   const setActivePaymentMethod = async (arg: number) => {
+    const { updateDoc } = await getFirestore()
+
     try {
       await updateDoc(currentUserRef, {
         selectedPaymentMethod: arg
@@ -201,6 +222,8 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
   }
 
   const setPaymentMethod = async () => {
+    const { updateDoc, arrayUnion } = await getFirestore()
+
     try {
       if (
         currentUser?.paymentMethodList &&
@@ -222,6 +245,8 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
   }
 
   const deletePaymentMethod = async (arg: number) => {
+    const { updateDoc, arrayRemove } = await getFirestore()
+
     try {
       await updateDoc(currentUserRef, {
         paymentMethodList: arrayRemove(currentUser?.paymentMethodList?.[arg])
@@ -235,6 +260,8 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
   }
 
   const updatePaymentMethod = async (arg: number) => {
+    const { updateDoc, arrayRemove, arrayUnion } = await getFirestore()
+
     try {
       await updateDoc(currentUserRef, {
         paymentMethodList: arrayRemove(currentUser?.paymentMethodList?.[arg])
@@ -253,6 +280,8 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
   }
 
   const setOrder = async () => {
+    const { updateDoc, arrayUnion } = await getFirestore()
+
     try {
       if (currentCart.products && cartTotalValue) {
         await updateDoc(currentUserRef, {

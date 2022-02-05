@@ -8,7 +8,6 @@ import { currency } from '../utils/calculations'
 import { normalizeString } from '../utils/normalizeString'
 import AnimationEmptyCart from './Lottie/AnimationEmptyCart'
 
-
 interface CartProps {
   children?: ReactNode
   heightScreen?: boolean
@@ -51,13 +50,15 @@ const Cart = ({ children, heightScreen }: CartProps) => {
                     product.id
                   }`}
                 >
-                  <Image
-                    width={80}
-                    height={64}
-                    src={product.mainImg || ''}
-                    alt={`${product.name}. Image by Unsplash`}
-                    className="object-cover rounded-sm shadow-lg cursor-pointer"
-                  />
+                  <a>
+                    <Image
+                      width={80}
+                      height={64}
+                      src={product.mainImg || ''}
+                      alt={`${product.name}. Image by Unsplash`}
+                      className="object-cover rounded-sm shadow-lg cursor-pointer"
+                    />
+                  </a>
                 </Link>
 
                 <div className="flex flex-col justify-between gap-2 w-28 lg:w-28 ml-4">

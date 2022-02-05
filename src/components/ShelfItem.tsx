@@ -1,7 +1,7 @@
 import { Product } from '../contexts/ProductContext'
 import Button from './Button'
 import { MdOutlineShoppingCart } from 'react-icons/md'
-import { currency, getDiscount } from '../utils/calculations'
+import { currency } from '../utils/calculations'
 import { useState } from 'react'
 import { useGlobalContext } from '../contexts/GlobalContext'
 import { useCartContext } from '../contexts/CartContext'
@@ -63,6 +63,9 @@ const ShelfItem = (product: ShelfItemProps) => {
               onMouseLeave={handleMouseLeave}
               alt={`${product.name}. Image by Unsplash`}
               className="object-cover rounded-sm shadow-lg cursor-pointer"
+              layout="fixed"
+              placeholder="blur"
+              blurDataURL={currentImage}
             />
           </a>
         </Link>

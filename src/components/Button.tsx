@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { ButtonHTMLAttributes } from 'react'
 import { FaGoogle } from 'react-icons/fa'
 
@@ -43,10 +44,12 @@ const Button = ({
     >
       {google && <FaGoogle />}
       {userPhoto && (
-        <img
+        <Image
+          height={20}
+          width={20}
           src={userPhoto}
           alt="Foto do usuário"
-          className="rounded-full h-5 w-5"
+          className="rounded-full object-cover"
         />
       )}
       {text}

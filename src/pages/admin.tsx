@@ -181,12 +181,7 @@ const Admin: NextPage = () => {
                           {name}
                         </td>
                         <td className="flex justify-center p-2 text-center">
-                          <div
-                            className="w-20 h-20"
-                            style={{
-                              background: `no-repeat center/cover url(${mainImg})`
-                            }}
-                          ></div>
+                          <Image src={mainImg || ''} width={80} height={80} className="object-cover" />
                         </td>
                         <td className="border border-primary p-2 text-center text-secondary">
                           {currency(price)}

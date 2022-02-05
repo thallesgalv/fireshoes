@@ -1,14 +1,4 @@
 import {
-  GoogleAuthProvider,
-  onAuthStateChanged,
-  signInWithPopup,
-  createUserWithEmailAndPassword,
-  signOut,
-  signInWithEmailAndPassword,
-  updateProfile,
-  sendPasswordResetEmail
-} from 'firebase/auth'
-import {
   createContext,
   ReactNode,
   useContext,
@@ -16,12 +6,27 @@ import {
   useEffect
 } from 'react'
 import { useRouter } from 'next/router'
-
-import { auth, db } from '../services/firebase'
 import toast from 'react-hot-toast'
 import { firebaseErrorHandler } from '../utils/firebaseErrorHandler'
 import { User, useUserContext } from './UserContext'
-import { doc, getDoc } from 'firebase/firestore'
+
+// import { auth, db } from '../services/firebase'
+// import { doc, getDoc } from 'firebase/firestore'
+// import {
+//   GoogleAuthProvider,
+//   onAuthStateChanged,
+//   signInWithPopup,
+//   createUserWithEmailAndPassword,
+//   signOut,
+//   signInWithEmailAndPassword,
+//   updateProfile,
+//   sendPasswordResetEmail
+// } from 'firebase/auth'
+import { onAuthStateChanged } from 'firebase/auth'
+import { auth } from '../../firebase/auth'
+import { db } from '../../firebase/firestore'
+const getFirestore = () => import('../../firebase/firestore')
+const getFirebase = () => import('../../firebase/auth')
 
 interface AuthContextProps {
   signInWithGoogle: () => void
@@ -50,7 +55,6 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const { currentUser, setCurrentUser, createUser, getUser } = useUserContext()
   const [loginDataForm, setLoginDataForm] = useState({} as LoginDataFormProps)
   const [recoverUserEmail, setRecoverUserEmail] = useState('')
-
   const router = useRouter()
 
   useEffect(() => {
@@ -74,9 +78,12 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   }, [])
 
   const signInWithGoogle = async () => {
+    const { GoogleAuthProvider, signInWithPopup } = await getFirebase()
+
     try {
       const provider = new GoogleAuthProvider()
       const result = await signInWithPopup(auth, provider)
+      const { doc, getDoc } = await getFirestore()
 
       if (result.user) {
         toast.success('Login realizado com sucesso')
@@ -91,6 +98,9 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   }
 
   const signUp = async () => {
+    const { createUserWithEmailAndPassword, updateProfile } =
+      await getFirebase()
+
     try {
       if (currentUser?.email && currentUser?.password) {
         const result = await createUserWithEmailAndPassword(
@@ -116,6 +126,8 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   }
 
   const login = async () => {
+    const { signInWithEmailAndPassword } = await getFirebase()
+
     try {
       await signInWithEmailAndPassword(
         auth,
@@ -129,6 +141,8 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   }
 
   const logout = async () => {
+    const { signOut } = await getFirebase()
+
     await signOut(auth)
     toast.success('Logout realizado com sucesso')
     setCurrentUser({} as User)
@@ -136,6 +150,8 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   }
 
   const forgotPassword = async () => {
+    const { sendPasswordResetEmail } = await getFirebase()
+
     try {
       await sendPasswordResetEmail(auth, recoverUserEmail)
       toast.success('E-mail enviado com sucesso')

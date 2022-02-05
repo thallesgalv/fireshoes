@@ -1,19 +1,23 @@
-import {
-  collection,
-  doc,
-  DocumentSnapshot,
-  getDoc,
-  getDocs,
-  limit,
-  orderBy,
-  query,
-  where
-} from 'firebase/firestore'
-import { db } from '../services/firebase'
+// import {
+//   collection,
+//   doc,
+//   DocumentSnapshot,
+//   getDoc,
+//   getDocs,
+//   limit,
+//   orderBy,
+//   query,
+//   where
+// } from 'firebase/firestore'
+// import { db } from '../services/firebase'
+import { db } from '../../firebase/firestore'
+const getFirestore = () => import('../../firebase/firestore')
+import { collection, DocumentSnapshot } from 'firebase/firestore'
 
 const productsCollectionRef = collection(db, 'products')
 
 export const getProductsByQuery = async (field?: string, value?: string) => {
+  const { query, where, orderBy, limit, getDocs } = await getFirestore()
   try {
     let givenQuery
     if (field && value) {
@@ -48,6 +52,8 @@ export const parseToJson = (doc: DocumentSnapshot) => {
 }
 
 export const getProduct = async (productId: string) => {
+  const { doc, getDoc } = await getFirestore()
+
   const docRef = doc(db, 'products', productId)
   const docSnap = await getDoc(docRef)
   return parseToJson(docSnap)

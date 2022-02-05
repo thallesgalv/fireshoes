@@ -10,11 +10,16 @@ import { ProductContextProvider } from '../contexts/ProductContext'
 import { Toaster } from 'react-hot-toast'
 import { UserContextProvider } from '../contexts/UserContext'
 import { CartContextProvider } from '../contexts/CartContext'
-import MiniCart from '../components/MiniCart'
+// import MiniCart from '../components/MiniCart'
 import NextNProgress from 'nextjs-progressbar'
+import dynamic from 'next/dynamic'
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
+  const DynamicMinicart = dynamic(() => import('../components/MiniCart'))
+  // const DynamicNextNProgress = dynamic(() => import('nextjs-progressbar'))
+
   showVersion()
+
   return (
     <GlobalContextProvider>
       <CartContextProvider>
@@ -27,7 +32,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
                 height={6}
                 options={{ showSpinner: false }}
               />
-              <MiniCart />
+              <DynamicMinicart />
               <Main>
                 <Component {...pageProps} />
                 <Toaster

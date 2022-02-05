@@ -27,7 +27,7 @@ const Modal = ({ children, modalStatus, setModalStatus }: ModalProps) => {
     <div
       className={`
           ${modalStatus ? 'block' : 'hidden'}
-          w-screen h-screen bg-black bg-opacity-50 fixed top-0 left-0 grid place-items-center z-20
+          w-screen h-screen bg-black bg-opacity-50 fixed top-0 left-0 grid place-items-center z-20 overflow-scroll
         `}
       onClick={handleModal}
       ref={modalContainer}

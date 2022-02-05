@@ -10,7 +10,8 @@ import { MdLockOutline } from 'react-icons/md'
 import { useAuthContext } from '../contexts/AuthContext'
 import { useRouter } from 'next/router'
 import { useUserContext } from '../contexts/UserContext'
-import { auth } from '../services/firebase'
+// import { auth } from '../services/firebase'
+import { auth } from '../../firebase/auth'
 
 const Login: NextPage = () => {
   const { isMobile } = useGlobalContext()

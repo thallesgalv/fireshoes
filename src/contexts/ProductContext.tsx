@@ -1,21 +1,4 @@
 import {
-  addDoc,
-  arrayUnion,
-  collection,
-  deleteDoc,
-  doc,
-  getDoc,
-  getDocs,
-  limit,
-  onSnapshot,
-  orderBy,
-  query,
-  serverTimestamp,
-  updateDoc,
-  where
-} from 'firebase/firestore'
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
-import {
   createContext,
   useContext,
   useState,
@@ -24,7 +7,32 @@ import {
   MutableRefObject
 } from 'react'
 import toast from 'react-hot-toast'
-import { auth, db, storage } from '../services/firebase'
+
+// import {
+  // addDoc,
+  // arrayUnion,
+  // collection,
+  // deleteDoc,
+  // doc,
+  // getDoc,
+  // getDocs,
+  // limit,
+  // onSnapshot,
+  // orderBy,
+  // query,
+  // serverTimestamp,
+  // updateDoc,
+  // where
+// } from 'firebase/firestore'
+// import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
+// import { auth, db, storage } from '../services/firebase'
+import { auth } from '../../firebase/auth'
+import { db } from '../../firebase/firestore'
+import { storage } from '../../firebase/storage'
+const getFirestore = () => import('../../firebase/firestore')
+const getStorage = () => import('../../firebase/storage')
+import { collection } from 'firebase/firestore'
+
 import { firebaseErrorHandler } from '../utils/firebaseErrorHandler'
 
 export interface Product {
@@ -55,7 +63,10 @@ interface ProductContextProps {
   handleChangeMainImg: (newImage: string) => void
   updateProduct: () => void
   deleteProduct: () => void
-  getProductsByQuery: (field: string, value: string) => Promise<Product[] | undefined>
+  getProductsByQuery: (
+    field: string,
+    value: string
+  ) => Promise<Product[] | undefined>
 }
 
 interface ProductContextProviderProps {
@@ -75,6 +86,8 @@ export const ProductContextProvider = ({
   const productsCollectionRef = collection(db, 'products')
 
   const getProducts = async () => {
+    const { query, orderBy, getDocs } = await getFirestore()
+
     try {
       const queryOrderByReleaseDate = query(
         productsCollectionRef,
@@ -92,6 +105,7 @@ export const ProductContextProvider = ({
   }
 
   const getProductsByQuery = async (field: string, value: string) => {
+    const { query, where, orderBy, limit, getDocs } = await getFirestore()
     try {
       const givenQuery = query(
         productsCollectionRef,
@@ -114,6 +128,8 @@ export const ProductContextProvider = ({
   }
 
   const getProduct = async (productId: string) => {
+    const { doc, getDoc } = await getFirestore()
+
     const docRef = doc(db, 'products', productId)
     const docSnap = await getDoc(docRef)
     if (docSnap.exists()) {
@@ -122,6 +138,8 @@ export const ProductContextProvider = ({
   }
 
   const getProductOnTime = async (productId: string) => {
+    const { doc, onSnapshot } = await getFirestore()
+
     const docRef = doc(db, 'products', productId)
 
     onSnapshot(docRef, (docSnap) => {
@@ -130,6 +148,8 @@ export const ProductContextProvider = ({
   }
 
   const createProduct = async () => {
+    const { addDoc, serverTimestamp } = await getFirestore()
+
     if (auth.currentUser && productDataForm.name) {
       const docRef = await addDoc(collection(db, 'products'), {
         name: productDataForm?.name,
@@ -149,6 +169,8 @@ export const ProductContextProvider = ({
   }
 
   const uploadFile = async (productId: string) => {
+    const { ref, uploadBytesResumable, getDownloadURL } = await getStorage()
+
     if (inputFileRef.current !== null) {
       const file = inputFileRef.current
       const image = file.files && file.files[0]
@@ -176,6 +198,8 @@ export const ProductContextProvider = ({
   }
 
   const pushImgUrl = async (url: string, productId: string) => {
+    const { doc, updateDoc, arrayUnion } = await getFirestore()
+
     const docRef = doc(db, 'products', productId)
     await updateDoc(docRef, {
       mainImg: url,
@@ -184,6 +208,8 @@ export const ProductContextProvider = ({
   }
 
   const handleChangeMainImg = async (newImage: string) => {
+    const { doc, updateDoc } = await getFirestore()
+
     if (currentProduct?.id) {
       const docRef = doc(db, 'products', currentProduct?.id)
 
@@ -195,6 +221,8 @@ export const ProductContextProvider = ({
   }
 
   const updateProduct = async () => {
+    const { doc, updateDoc, serverTimestamp } = await getFirestore()
+
     if (currentProduct?.id) {
       const docRef = doc(db, 'products', currentProduct?.id)
 
@@ -211,6 +239,8 @@ export const ProductContextProvider = ({
   }
 
   const deleteProduct = async () => {
+    const { doc, deleteDoc } = await getFirestore()
+
     if (currentProduct?.id) {
       const docRef = doc(db, 'products', currentProduct?.id)
 

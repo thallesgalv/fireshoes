@@ -11,7 +11,8 @@ import {
   MdClose,
   MdPerson
 } from 'react-icons/md'
-import { auth } from '../services/firebase'
+// import { auth } from '../services/firebase'
+import { auth } from '../../firebase/auth'
 import { useCartContext } from '../contexts/CartContext'
 import { useEffect, useRef } from 'react'
 import AnimationFire from './Lottie/AnimationFire'
