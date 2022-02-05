@@ -1,4 +1,4 @@
-import Image from 'next/image'
+// import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import { MdOutlineShoppingCart } from 'react-icons/md'
@@ -55,7 +55,7 @@ const ShelfItem = (product: ShelfItemProps) => {
         />
         <Link href={`/product/${normalizeString(product?.name)}/${product.id}`}>
           <a>
-            <Image
+            {/* <Image
               src={currentImage || ''}
               width={256}
               height={208}
@@ -66,6 +66,15 @@ const ShelfItem = (product: ShelfItemProps) => {
               layout="fixed"
               placeholder="blur"
               blurDataURL={currentImage}
+            /> */}
+            <div
+              style={{
+                background: `no-repeat center/cover url(${currentImage})`
+              }}
+              role={`${product.name}. Photo by:`}
+              className="w-64 h-52 rounded-sm shadow-lg cursor-pointer"
+              onMouseOver={handleMouseOver}
+              onMouseLeave={handleMouseLeave}
             />
           </a>
         </Link>
