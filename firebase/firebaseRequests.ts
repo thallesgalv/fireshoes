@@ -1,18 +1,6 @@
-// import {
-//   collection,
-//   doc,
-//   DocumentSnapshot,
-//   getDoc,
-//   getDocs,
-//   limit,
-//   orderBy,
-//   query,
-//   where
-// } from 'firebase/firestore'
-// import { db } from '../services/firebase'
-import { db } from '../../firebase/firestore'
-const getFirestore = () => import('../../firebase/firestore')
 import { collection, DocumentSnapshot } from 'firebase/firestore'
+import { db } from './firestore'
+const getFirestore = () => import('./firestore')
 
 const productsCollectionRef = collection(db, 'products')
 

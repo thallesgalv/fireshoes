@@ -1,6 +1,5 @@
 import lottie from 'lottie-web'
 import { useEffect, useRef } from 'react'
-
 import Order from '../../assets/animationOrder.json'
 
 const AnimationOrder = () => {

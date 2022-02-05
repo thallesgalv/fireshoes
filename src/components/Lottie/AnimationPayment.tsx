@@ -1,6 +1,5 @@
 import lottie from 'lottie-web'
 import { useEffect, useRef } from 'react'
-
 import Payment from '../../assets/animationPayment.json'
 
 const AnimationPayment = () => {

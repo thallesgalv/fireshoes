@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import {
   createContext,
   ReactNode,
@@ -5,28 +6,14 @@ import {
   useState,
   useEffect
 } from 'react'
-import { useRouter } from 'next/router'
-import toast from 'react-hot-toast'
-import { firebaseErrorHandler } from '../utils/firebaseErrorHandler'
-import { User, useUserContext } from './UserContext'
-
-// import { auth, db } from '../services/firebase'
-// import { doc, getDoc } from 'firebase/firestore'
-// import {
-//   GoogleAuthProvider,
-//   onAuthStateChanged,
-//   signInWithPopup,
-//   createUserWithEmailAndPassword,
-//   signOut,
-//   signInWithEmailAndPassword,
-//   updateProfile,
-//   sendPasswordResetEmail
-// } from 'firebase/auth'
 import { onAuthStateChanged } from 'firebase/auth'
-import { auth } from '../../firebase/auth'
+import toast from 'react-hot-toast'
 import { db } from '../../firebase/firestore'
+import { auth } from '../../firebase/auth'
 const getFirestore = () => import('../../firebase/firestore')
 const getFirebase = () => import('../../firebase/auth')
+import { firebaseErrorHandler } from '../../firebase/firebaseErrorHandler'
+import { User, useUserContext } from './UserContext'
 
 interface AuthContextProps {
   signInWithGoogle: () => void

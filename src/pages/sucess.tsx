@@ -2,10 +2,10 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import Button from '../components/Button'
-import Heading from '../components/Heading'
 import AnimationCelebration from '../components/Lottie/AnimationCelebration'
 import { useGlobalContext } from '../contexts/GlobalContext'
+import Button from '../components/Button'
+import Heading from '../components/Heading'
 
 const Sucess = () => {
   const { sucessOrder, isMobile } = useGlobalContext()

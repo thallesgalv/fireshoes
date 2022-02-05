@@ -1,8 +1,5 @@
-import { useGlobalContext } from '../contexts/GlobalContext'
-import { useUserContext } from '../contexts/UserContext'
 import Link from 'next/link'
-import Input from '../components/Input'
-import Button from '../components/Button'
+import { useEffect, useRef } from 'react'
 import {
   MdLogin,
   MdOutlineShoppingCart,
@@ -11,10 +8,12 @@ import {
   MdClose,
   MdPerson
 } from 'react-icons/md'
-// import { auth } from '../services/firebase'
 import { auth } from '../../firebase/auth'
+import { useGlobalContext } from '../contexts/GlobalContext'
+import { useUserContext } from '../contexts/UserContext'
 import { useCartContext } from '../contexts/CartContext'
-import { useEffect, useRef } from 'react'
+import Input from '../components/Input'
+import Button from '../components/Button'
 import AnimationFire from './Lottie/AnimationFire'
 
 const Header = () => {

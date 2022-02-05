@@ -1,25 +1,24 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Heading from '../components/Heading'
-import Cart from '../components/Cart'
-import { useEffect } from 'react'
-import { useGlobalContext } from '../contexts/GlobalContext'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import {
   MdDone,
   MdOutlineCreditCard,
   MdOutlineLocationOn,
   MdOutlineShoppingCart
 } from 'react-icons/md'
-import Button from '../components/Button'
-import { useCartContext } from '../contexts/CartContext'
-import Link from 'next/link'
-// import { auth } from '../services/firebase'
+import { useEffect } from 'react'
 import { auth } from '../../firebase/auth'
-import { useRouter } from 'next/router'
-import DeliveryAdress from '../components/DeliveryAdress'
-import PaymentMethod from '../components/PaymentMethod'
+import { useGlobalContext } from '../contexts/GlobalContext'
 import { useUserContext } from '../contexts/UserContext'
+import { useCartContext } from '../contexts/CartContext'
+import DeliveryAdress from '../components/DeliveryAdress'
+import Heading from '../components/Heading'
+import Cart from '../components/Cart'
+import Button from '../components/Button'
 import OrderResume from '../components/OrderResume'
+import PaymentMethod from '../components/PaymentMethod'
 
 const Checkout: NextPage = () => {
   const { setMiniCartActive, checkoutStep, setCheckoutStep, sucessOrder } =

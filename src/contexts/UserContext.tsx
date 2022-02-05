@@ -1,25 +1,12 @@
 import { createContext, useContext, useState, ReactNode } from 'react'
 import toast from 'react-hot-toast'
-import { useGlobalContext } from './GlobalContext'
-import { ProductInCart, useCartContext } from './CartContext'
-
-// import {
-// setDoc,
-// doc,
-// updateDoc,
-// arrayUnion,
-// onSnapshot,
-// arrayRemove,
-// Timestamp
-// } from 'firebase/firestore'
-// import { auth, db } from '../services/firebase'
-
+import { doc, Timestamp } from 'firebase/firestore'
 import { auth } from '../../firebase/auth'
 import { db } from '../../firebase/firestore'
 const getFirestore = () => import('../../firebase/firestore')
-import { doc, Timestamp } from 'firebase/firestore'
-
-import { firebaseErrorHandler } from '../utils/firebaseErrorHandler'
+import { firebaseErrorHandler } from '../../firebase/firebaseErrorHandler'
+import { useGlobalContext } from './GlobalContext'
+import { ProductInCart, useCartContext } from './CartContext'
 
 export interface User {
   uid?: string

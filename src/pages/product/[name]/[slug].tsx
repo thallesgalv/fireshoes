@@ -1,13 +1,16 @@
-import { currency, getDiscount } from '../../../utils/calculations'
-import { getProduct, getProductsByQuery } from '../../../utils/firebaseRequests'
-import { Product } from '../../../contexts/ProductContext'
-import Button from '../../../components/Button'
-import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
+import {
+  getProduct,
+  getProductsByQuery
+} from '../../../../firebase/firebaseRequests'
+import { Product } from '../../../contexts/ProductContext'
 import { useCartContext } from '../../../contexts/CartContext'
+import { currency } from '../../../utils/calculations'
+import Button from '../../../components/Button'
 import Shelf from '../../../components/Shelf'
-import Flag from '../../../components/Flag'
 import ZoomOnHover from '../../../components/ZoomOnHover'
+import Flag from '../../../components/Flag'
 
 interface ProductProps {
   product: Product

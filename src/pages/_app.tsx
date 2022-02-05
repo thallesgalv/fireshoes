@@ -1,22 +1,40 @@
 import 'tailwindcss/tailwind.css'
-import '../styles/globals.css'
+import dynamic from 'next/dynamic'
 import type { AppProps } from 'next/app'
-import { GlobalContextProvider } from '../contexts/GlobalContext'
-import showVersion from '../utils/version'
-import { AuthContextProvider } from '../contexts/AuthContext'
-import Header from '../components/Header'
-import Main from '../components/Main'
-import { ProductContextProvider } from '../contexts/ProductContext'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import NextNProgress from 'nextjs-progressbar'
 import { Toaster } from 'react-hot-toast'
+import { GlobalContextProvider } from '../contexts/GlobalContext'
+import { AuthContextProvider } from '../contexts/AuthContext'
+import { ProductContextProvider } from '../contexts/ProductContext'
 import { UserContextProvider } from '../contexts/UserContext'
 import { CartContextProvider } from '../contexts/CartContext'
-// import MiniCart from '../components/MiniCart'
-import NextNProgress from 'nextjs-progressbar'
-import dynamic from 'next/dynamic'
+// import Header from '../components/Header'
+import Main from '../components/Main'
+import showVersion from '../utils/version'
+import '../styles/globals.css'
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-  const DynamicMinicart = dynamic(() => import('../components/MiniCart'))
-  // const DynamicNextNProgress = dynamic(() => import('nextjs-progressbar'))
+  const [loadingScreen, setLoadingScreen] = useState(false)
+  const Minicart = dynamic(() => import('../components/MiniCart'))
+  const Header = dynamic(() => import('../components/Header'))
+  // const Main = dynamic(() => import('../components/Main'))
+  const router = useRouter()
+
+  useEffect(() => {
+    router.events.on('routeChangeStart', handleStart)
+    router.events.on('routeChangeComplete', handleComplete)
+    router.events.on('routeChangeError', handleComplete)
+  }, [router])
+
+  const handleStart = () => {
+    setLoadingScreen(true)
+  }
+
+  const handleComplete = () => {
+    setLoadingScreen(false)
+  }
 
   showVersion()
 
@@ -32,9 +50,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
                 height={6}
                 options={{ showSpinner: false }}
               />
-              <DynamicMinicart />
+              <Minicart />
               <Main>
-                <Component {...pageProps} />
+                {loadingScreen ? <p>Loading</p> : <Component {...pageProps} />}
                 <Toaster
                   position="bottom-left"
                   toastOptions={{

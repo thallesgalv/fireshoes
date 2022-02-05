@@ -1,6 +1,5 @@
 import lottie from 'lottie-web'
 import { useEffect, useRef } from 'react'
-
 import Fire from '../../assets/animationFire.json'
 
 const AnimationFire = () => {

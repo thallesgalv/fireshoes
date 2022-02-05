@@ -1,9 +1,9 @@
 import { useRef } from 'react'
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md'
 import { Product } from '../contexts/ProductContext'
+import { useGlobalContext } from '../contexts/GlobalContext'
 import Heading from './Heading'
 import ShelfItem from './ShelfItem'
-import { useGlobalContext } from '../contexts/GlobalContext'
 
 interface ShelfProps {
   data?: Product[]

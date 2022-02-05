@@ -1,6 +1,5 @@
 import lottie from 'lottie-web'
 import { useEffect, useRef } from 'react'
-
 import EmptyCart from '../../assets/animationEmptyCart.json'
 
 const AnimationEmptyCart = () => {

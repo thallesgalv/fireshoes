@@ -7,33 +7,13 @@ import {
   MutableRefObject
 } from 'react'
 import toast from 'react-hot-toast'
-
-// import {
-  // addDoc,
-  // arrayUnion,
-  // collection,
-  // deleteDoc,
-  // doc,
-  // getDoc,
-  // getDocs,
-  // limit,
-  // onSnapshot,
-  // orderBy,
-  // query,
-  // serverTimestamp,
-  // updateDoc,
-  // where
-// } from 'firebase/firestore'
-// import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
-// import { auth, db, storage } from '../services/firebase'
+import { collection } from 'firebase/firestore'
 import { auth } from '../../firebase/auth'
 import { db } from '../../firebase/firestore'
 import { storage } from '../../firebase/storage'
 const getFirestore = () => import('../../firebase/firestore')
 const getStorage = () => import('../../firebase/storage')
-import { collection } from 'firebase/firestore'
-
-import { firebaseErrorHandler } from '../utils/firebaseErrorHandler'
+import { firebaseErrorHandler } from '../../firebase/firebaseErrorHandler'
 
 export interface Product {
   id?: string

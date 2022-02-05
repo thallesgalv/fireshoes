@@ -1,11 +1,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { ReactNode } from 'react'
 import { HiPlusSm, HiMinusSm } from 'react-icons/hi'
 import { MdDeleteOutline } from 'react-icons/md'
+import { ReactNode } from 'react'
 import { useCartContext, ProductInCart } from '../contexts/CartContext'
-import { currency } from '../utils/calculations'
 import { normalizeString } from '../utils/normalizeString'
+import { currency } from '../utils/calculations'
 import AnimationEmptyCart from './Lottie/AnimationEmptyCart'
 
 interface CartProps {
