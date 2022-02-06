@@ -22,14 +22,12 @@ const ShelfItem = (product: ShelfItemProps) => {
     if (!isMobile && product.images && product.images.length > 1) {
       const altImage = product.images.find((photo) => photo !== currentImage)
       setCurrentImage(altImage)
-      console.log('DISPARADO')
     }
   }
 
   const handleMouseLeaveImage = () => {
     if (!isMobile && product.images && product.images.length > 1) {
       setCurrentImage(product.mainImg)
-      console.log('DISPARADO')
     }
   }
 
@@ -81,16 +79,17 @@ const ShelfItem = (product: ShelfItemProps) => {
         </Link>
 
         {product.sizes && showSizes && (
-          <div className="flex justify-center items-center gap-2 bg-black bg-opacity-40 rounded-sm p-2 animate-showreverse absolute bottom-2 w-full">
-            {product.sizes.map((size, idx) => (
+          <div className="flex justify-center items-center gap-2 bg-black bg-opacity-40 rounded-b-sm p-2 animate-showreverse absolute bottom-2 w-full">
+            {product.sizes.sort().map((size, idx) => (
               <div
                 key={idx}
                 className={`
                     rounded-full flex justify-center items-center p-1 border
-                    text-xs w-6 h-6 cursor-pointer text-white
+                    text-xs w-6 h-6 cursor-pointer border-primary
                     ${
-                      selectedSize === size &&
-                      'bg-primary text-white border-primary'
+                      selectedSize === size
+                        ? 'bg-primary text-white'
+                        : 'bg-white text-primary'
                     }
                 `}
                 onClick={() => setSelectedSize(size)}
