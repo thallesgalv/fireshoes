@@ -23,12 +23,12 @@ const Cart = ({ children, heightScreen }: CartProps) => {
     decrementQuantity
   } = useCartContext()
 
-  const handleIncrement = (productId: string) => {
-    if (productId) incrementQuantity(productId)
+  const handleIncrement = (productId: string, selectedSize: string) => {
+    if (productId) incrementQuantity(productId, selectedSize)
   }
 
-  const handleDecrement = (productId: string) => {
-    if (productId) decrementQuantity(productId)
+  const handleDecrement = (productId: string, selectedSize: string) => {
+    if (productId) decrementQuantity(productId, selectedSize)
   }
 
   const handleDeleteFromCart = (product: ProductInCart) => {
@@ -65,27 +65,43 @@ const Cart = ({ children, heightScreen }: CartProps) => {
                   <p className="font-semibold text-sm font-primary uppercase text-dark whitespace-nowrap">
                     {product.name}
                   </p>
-                  <div className="flex justify-center items-center w-16 bg-red-100 rounded-sm">
-                    <button
-                      className={`rounded-sm p-1 text-dark ${
-                        product.quantity === 1 && 'text-gray-400'
-                      }`}
-                      disabled={product.quantity === 1}
-                      onClick={() => product.id && handleDecrement(product.id)}
+                  <div className="flex gap-2">
+                    <div className="flex justify-center items-center w-16 bg-red-100 rounded-sm">
+                      <button
+                        className={`rounded-sm p-1 text-dark ${
+                          product.quantity === 1 && 'text-gray-400'
+                        }`}
+                        disabled={product.quantity === 1}
+                        onClick={() =>
+                          product.id &&
+                          handleDecrement(product.id, product.selectedSize)
+                        }
+                      >
+                        <HiMinusSm size={14} />
+                      </button>
+                      <p className="p-1 text-dark w-6 text-center text-sm">
+                        {product.quantity}
+                      </p>
+                      <button
+                        className={`rounded-sm p-1 text-dark ${
+                          product.quantity === 10 && 'text-gray-400'
+                        }`}
+                        onClick={() =>
+                          product.id &&
+                          handleIncrement(product.id, product.selectedSize)
+                        }
+                      >
+                        <HiPlusSm size={14} />
+                      </button>
+                    </div>
+                    <div
+                      className={`
+                        rounded-full flex justify-center items-center p-1 border border-dark
+                        text-xs w-6 h-6 cursor-pointer
+                      `}
                     >
-                      <HiMinusSm size={14} />
-                    </button>
-                    <p className="p-1 text-dark w-6 text-center text-sm">
-                      {product.quantity}
-                    </p>
-                    <button
-                      className={`rounded-sm p-1 text-dark ${
-                        product.quantity === 10 && 'text-gray-400'
-                      }`}
-                      onClick={() => product.id && handleIncrement(product.id)}
-                    >
-                      <HiPlusSm size={14} />
-                    </button>
+                      {product.selectedSize}
+                    </div>
                   </div>
                 </div>
 

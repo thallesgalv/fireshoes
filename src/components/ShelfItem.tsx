@@ -13,27 +13,38 @@ import Flag from './Flag'
 interface ShelfItemProps extends Product {}
 
 const ShelfItem = (product: ShelfItemProps) => {
-  const { addToCart, selectedSize } = useCartContext()
+  const { addToCart, selectedSize, setSelectedSize } = useCartContext()
   const { isMobile } = useGlobalContext()
   const [currentImage, setCurrentImage] = useState(product.mainImg)
+  const [showSizes, setShowSizes] = useState(false)
 
-  const handleMouseOver = () => {
-    if (isMobile && product.images && product.images.length > 1) {
+  const handleMouseOverImage = () => {
+    if (!isMobile && product.images && product.images.length > 1) {
       const altImage = product.images.find((photo) => photo !== currentImage)
-
       setCurrentImage(altImage)
+      console.log('DISPARADO')
     }
   }
 
-  const handleMouseLeave = () => {
-    if (isMobile && product.images && product.images.length > 1) {
+  const handleMouseLeaveImage = () => {
+    if (!isMobile && product.images && product.images.length > 1) {
       setCurrentImage(product.mainImg)
+      console.log('DISPARADO')
     }
+  }
+
+  const handleMouseOverCartButton = () => {
+    setShowSizes(true)
+  }
+
+  const handleMouseLeaveCartButton = () => {
+    setShowSizes(false)
+    setSelectedSize('')
   }
 
   const handleProduct = (product?: Product) => {
     if (product) {
-      addToCart({ ...product, quantity: 1, selectedSize: selectedSize})
+      addToCart({ ...product, quantity: 1, selectedSize: selectedSize })
     }
   }
 
@@ -44,6 +55,7 @@ const ShelfItem = (product: ShelfItemProps) => {
         ${isMobile ? 'w-full' : 'w-64'}
         relative
       `}
+      onMouseLeave={handleMouseLeaveCartButton}
     >
       <div className="relative">
         <Flag
@@ -57,8 +69,8 @@ const ShelfItem = (product: ShelfItemProps) => {
               src={currentImage || ''}
               width={256}
               height={208}
-              onMouseOver={handleMouseOver}
-              onMouseLeave={handleMouseLeave}
+              onMouseOver={handleMouseOverImage}
+              onMouseLeave={handleMouseLeaveImage}
               alt={`${product.name}. Image by Unsplash`}
               className="object-cover rounded-sm shadow-lg cursor-pointer"
               layout="fixed"
@@ -67,6 +79,27 @@ const ShelfItem = (product: ShelfItemProps) => {
             />
           </a>
         </Link>
+
+        {product.sizes && showSizes && (
+          <div className="flex justify-center items-center gap-2 bg-black bg-opacity-40 rounded-sm p-2 animate-showreverse absolute bottom-2 w-full">
+            {product.sizes.map((size, idx) => (
+              <div
+                key={idx}
+                className={`
+                    rounded-full flex justify-center items-center p-1 border
+                    text-xs w-6 h-6 cursor-pointer text-white
+                    ${
+                      selectedSize === size &&
+                      'bg-primary text-white border-primary'
+                    }
+                `}
+                onClick={() => setSelectedSize(size)}
+              >
+                {size}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       <p className="font-semibold text-xl font-primary uppercase text-dark">
         {product.name}
@@ -102,6 +135,7 @@ const ShelfItem = (product: ShelfItemProps) => {
           icon={<MdOutlineShoppingCart />}
           widthFull
           onClick={() => handleProduct(product)}
+          onMouseOver={handleMouseOverCartButton}
         />
       </div>
     </div>

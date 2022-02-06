@@ -36,41 +36,54 @@ const OrderResume = ({
 
       <ul className="flex flex-col gap-4">
         {products &&
-          products?.map(({ quantity, name, mainImg, price, bestPrice, id }) => (
-            <li className="flex gap-4" key={id}>
-              <Image
-                width={96}
-                height={80}
-                src={mainImg || ''}
-                alt={`${name}. Image by Unspash`}
-                className="rounded-sm shadow-lg object-cover"
-              />
-              <div className="flex flex-col gap-1">
-                <p className="font-semibold text-sm font-primary uppercase text-dark">
-                  {name}
-                </p>
-                <p className="text-sm font-primary uppercase tracking-tighter">
-                  <strong>
-                    {price && bestPrice && bestPrice <= price
-                      ? currency(bestPrice)
-                      : currency(price)}
-                  </strong>
-                  <span className="text-dark lowercase"> un.</span>
-                </p>
-                <div className="flex gap-4 items-center">
-                  <p className="text-xs border w-fit p-1 rounded-sm border-black text-dark">
-                    {quantity}x
+          products?.map(
+            ({
+              quantity,
+              name,
+              mainImg,
+              price,
+              bestPrice,
+              id,
+              selectedSize
+            }) => (
+              <li className="flex gap-4" key={id}>
+                <Image
+                  width={96}
+                  height={80}
+                  src={mainImg || ''}
+                  alt={`${name}. Image by Unspash`}
+                  className="rounded-sm shadow-lg object-cover"
+                />
+                <div className="flex flex-col gap-1">
+                  <p className="font-semibold text-sm font-primary uppercase text-dark">
+                    {name}
                   </p>
-                  <p className="font-semibold text-primary text-sm font-primary tracking-tighter">
-                    Total:{'  '}
-                    {price && bestPrice && bestPrice <= price
-                      ? currency(bestPrice * quantity)
-                      : currency(price && price * quantity)}
+                  <p className="text-sm font-primary uppercase tracking-tighter">
+                    <strong>
+                      {price && bestPrice && bestPrice <= price
+                        ? currency(bestPrice)
+                        : currency(price)}
+                    </strong>
+                    <span className="text-dark lowercase"> un.</span>
                   </p>
+                  <div className="flex gap-1 items-center">
+                    <p className="text-xs border border-black text-dark rounded-full w-5 h-5 flex justify-center items-center">
+                      {quantity}x
+                    </p>
+                    <p className="text-xs border border-black text-dark rounded-full w-5 h-5 flex justify-center items-center">
+                      {selectedSize}
+                    </p>
+                    <p className="font-semibold text-primary text-sm font-primary tracking-tighter">
+                      Total:{'  '}
+                      {price && bestPrice && bestPrice <= price
+                        ? currency(bestPrice * quantity)
+                        : currency(price && price * quantity)}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </li>
-          ))}
+              </li>
+            )
+          )}
       </ul>
 
       <p className="text-lg font-semibold text-right text-dark">

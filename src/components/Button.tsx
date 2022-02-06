@@ -17,6 +17,8 @@ const Button = ({
   primary,
   secondary,
   onClick,
+  onMouseOver,
+  onMouseLeave,
   disabled,
   icon,
   google,
@@ -41,6 +43,8 @@ const Button = ({
       `}
       disabled={disabled}
       onClick={onClick}
+      onMouseOver={onMouseOver}
+      onMouseLeave={onMouseLeave}
     >
       {google && <FaGoogle />}
       {userPhoto && (

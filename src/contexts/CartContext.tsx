@@ -26,8 +26,8 @@ interface CartContextProps {
   setSelectedSize: (size: string) => void
   addToCart: (product: ProductInCart) => void
   removeFromCart: (product: ProductInCart) => void
-  incrementQuantity: (productId: string) => void
-  decrementQuantity: (productId: string) => void
+  incrementQuantity: (productId: string, selectedSize: string) => void
+  decrementQuantity: (productId: string, selectedSize: string) => void
   emptyCart: () => void
 }
 
@@ -74,39 +74,53 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
   }
 
   const addToCart = (product: ProductInCart) => {
-    if (product.id && !checkIfProductIsInCart(product.id)) {
-      setCurrentCart({
-        products: currentCart.products
-          ? [...currentCart.products, product]
-          : [product]
-      })
-
-      toast.success('Produto adicionado ao carrinho.')
+    if (
+      product.id &&
+      !checkIfProductIsInCart(product.id, product.selectedSize)
+    ) {
+      if (product.selectedSize) {
+        setCurrentCart({
+          products: currentCart.products
+            ? [...currentCart.products, product]
+            : [product]
+        })
+        toast.success('Produto adicionado ao carrinho.')
+      } else {
+        toast.error('Por favor, selecione um tamanho.')
+      }
     } else {
       toast.error('Este produto já está no carrinho.')
     }
   }
 
   const removeFromCart = (product: ProductInCart) => {
-    if (product.id && checkIfProductIsInCart(product.id)) {
+    if (
+      product.id &&
+      checkIfProductIsInCart(product.id, product.selectedSize)
+    ) {
+      const query = currentCart.products.find(
+        (p) => p.id === product.id && p.selectedSize === product.selectedSize
+      )
       setCurrentCart({
-        products: currentCart.products.filter((p) => p.id !== product.id)
+        products: currentCart.products.filter((p) => p !== query)
       })
 
       toast.success('Produto removido do carrinho.')
     }
   }
 
-  const checkIfProductIsInCart = (productId: string) => {
-    return currentCart?.products?.some((p) => p.id === productId)
+  const checkIfProductIsInCart = (productId: string, selectedSize: string) => {
+    return currentCart?.products?.some(
+      (p) => p.id === productId && p.selectedSize === selectedSize
+    )
   }
 
-  const incrementQuantity = (productId: string) => {
-    handleQuantity(productId, 'increment')
+  const incrementQuantity = (productId: string, selectedSize: string) => {
+    handleQuantity(productId, selectedSize, 'increment')
   }
 
-  const decrementQuantity = (productId: string) => {
-    handleQuantity(productId, 'decrement')
+  const decrementQuantity = (productId: string, selectedSize: string) => {
+    handleQuantity(productId, selectedSize, 'decrement')
   }
 
   const emptyCart = () => {
@@ -133,11 +147,12 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
   const handleQuantity = (
     productId: string,
+    selectedSize: string,
     operation: 'increment' | 'decrement'
   ) => {
-    if (checkIfProductIsInCart(productId)) {
+    if (checkIfProductIsInCart(productId, selectedSize)) {
       const modified = currentCart.products.map((p) => {
-        if (p.id === productId) {
+        if (p.id === productId && p.selectedSize === selectedSize) {
           if (operation === 'increment') {
             if (p.quantity < 10) {
               p.quantity++
