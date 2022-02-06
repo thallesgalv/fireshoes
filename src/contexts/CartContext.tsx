@@ -10,6 +10,7 @@ import { Product } from './ProductContext'
 
 export interface ProductInCart extends Product {
   quantity: number
+  selectedSize: string
 }
 
 export interface Cart {
@@ -21,6 +22,8 @@ interface CartContextProps {
   currentCart: Cart
   cartTotalValue: number
   savingValue: number
+  selectedSize: string
+  setSelectedSize: (size: string) => void
   addToCart: (product: ProductInCart) => void
   removeFromCart: (product: ProductInCart) => void
   incrementQuantity: (productId: string) => void
@@ -37,6 +40,7 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
   const [currentCart, setCurrentCart] = useState({} as Cart)
   const [cartTotalValue, setCartTotalValue] = useState(0)
   const [savingValue, setSavingValue] = useState(0)
+  const [selectedSize, setSelectedSize] = useState('')
 
   useEffect(() => {
     getCart()
@@ -165,6 +169,8 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
         currentCart,
         cartTotalValue,
         savingValue,
+        selectedSize,
+        setSelectedSize,
         addToCart,
         removeFromCart,
         incrementQuantity,

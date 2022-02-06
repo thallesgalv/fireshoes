@@ -13,7 +13,7 @@ import Flag from './Flag'
 interface ShelfItemProps extends Product {}
 
 const ShelfItem = (product: ShelfItemProps) => {
-  const { addToCart } = useCartContext()
+  const { addToCart, selectedSize } = useCartContext()
   const { isMobile } = useGlobalContext()
   const [currentImage, setCurrentImage] = useState(product.mainImg)
 
@@ -33,7 +33,7 @@ const ShelfItem = (product: ShelfItemProps) => {
 
   const handleProduct = (product?: Product) => {
     if (product) {
-      addToCart({ ...product, quantity: 1 })
+      addToCart({ ...product, quantity: 1, selectedSize: selectedSize})
     }
   }
 

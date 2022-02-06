@@ -31,7 +31,7 @@ const Product = ({ product, newReleases }: ProductProps) => {
     sizes
   } = product
   const [activeImage, setActiveImage] = useState(mainImg)
-  const { addToCart } = useCartContext()
+  const { addToCart, selectedSize, setSelectedSize } = useCartContext()
 
   useEffect(() => {
     setActiveImage(mainImg)
@@ -39,7 +39,7 @@ const Product = ({ product, newReleases }: ProductProps) => {
 
   const handleProduct = (product?: Product) => {
     if (product) {
-      addToCart({ ...product, quantity: 1 })
+      addToCart({ ...product, quantity: 1, selectedSize: selectedSize })
     }
   }
   return (
@@ -101,7 +101,12 @@ const Product = ({ product, newReleases }: ProductProps) => {
               <div className="flex gap-1 ml-2">
                 {sizes.map((size, idx) => (
                   <div
-                    className={`rounded-full flex justify-center items-center p-1 border border-dark cursor-pointer text-xs w-6 h-6`}
+                    className={`
+                        rounded-full flex justify-center items-center p-1 border border-dark
+                        text-xs w-6 h-6 cursor-pointer
+                        ${selectedSize === size && 'bg-dark text-white'}
+                      `}
+                    onClick={() => setSelectedSize(size)}
                   >
                     {size}
                   </div>
