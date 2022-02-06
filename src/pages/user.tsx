@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { MdLogout, MdNoAccounts } from 'react-icons/md'
+import { MdLogout, MdNoAccounts, MdOutlineAdminPanelSettings } from 'react-icons/md'
 import { useEffect } from 'react'
 import { useGlobalContext } from '../contexts/GlobalContext'
 import { useAuthContext } from '../contexts/AuthContext'
@@ -13,6 +13,7 @@ import UserOption from '../components/UserOption'
 import OrderHistory from '../components/OrderHistory'
 import Button from '../components/Button'
 import Heading from '../components/Heading'
+import Link from 'next/link'
 
 const User: NextPage = () => {
   // const DeliveryAdress = dynamic(() => import('../components/DeliveryAdress'))
@@ -70,6 +71,13 @@ const User: NextPage = () => {
               onClick={logout}
             />
           </div>
+          {currentUser.isAdmin && (
+            <Link href="/admin">
+              <a>
+                <Button primary text="Administrador" icon={<MdOutlineAdminPanelSettings />} />
+              </a>
+            </Link>
+          )}
         </aside>
         <article className="w-full mt-8 lg:mt-0">
           {userOption === 'adress' && (

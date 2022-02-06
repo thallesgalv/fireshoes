@@ -27,7 +27,8 @@ const Product = ({ product, newReleases }: ProductProps) => {
     images,
     brand,
     description,
-    colors
+    colors,
+    sizes
   } = product
   const [activeImage, setActiveImage] = useState(mainImg)
   const { addToCart } = useCartContext()
@@ -94,6 +95,20 @@ const Product = ({ product, newReleases }: ProductProps) => {
               </p>
             )}
           </div>
+          {sizes && (
+            <div className="flex">
+              {sizes.length > 1 ? 'Tamanhos: ' : 'Tamanho: '}
+              <div className="flex gap-1 ml-2">
+                {sizes.map((size, idx) => (
+                  <div
+                    className={`rounded-full flex justify-center items-center p-1 border border-dark cursor-pointer text-xs w-6 h-6`}
+                  >
+                    {size}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
           {colors && (
             <p>
               {colors.length > 1 ? 'Cores: ' : 'Cor: '}
@@ -137,7 +152,7 @@ export const getServerSideProps = async (props: PathProps) => {
   return {
     props: {
       product: await getProduct(props.params.slug),
-      newReleases: await getProductsByQuery()
+      newReleases: await getProductsByQuery('where')
     }
   }
 }

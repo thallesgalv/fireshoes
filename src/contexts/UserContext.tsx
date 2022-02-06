@@ -19,6 +19,7 @@ export interface User {
   paymentMethodList?: PaymentMethod[]
   selectedPaymentMethod?: number
   orders?: Order[]
+  isAdmin?: boolean
 }
 
 export interface Adress {
@@ -122,7 +123,8 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
             selectedAdress: data?.selectedAdress,
             paymentMethodList: data?.paymentMethodList,
             selectedPaymentMethod: data?.selectedPaymentMethod,
-            orders: data?.orders
+            orders: data?.orders,
+            isAdmin: data?.isAdmin
           })
         })
       }

@@ -9,9 +9,10 @@ const ZoomOnHover = ({ imageSrc, imageName }: ZoomOnHoverProps) => {
   const [transform, setTransform] = useState('')
   const [transformOrigin, setTransformOrigin] = useState('center center')
 
-  const handleMouseMove = (e: any) => {
-    let posX = e.clientX - e.target.offsetLeft
-    let posY = e.clientY - e.target.offsetTop
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    let div = e.target as HTMLDivElement
+    let posX = e.clientX - div.offsetLeft
+    let posY = e.clientY - div.offsetTop
 
     setTransformOrigin(`${posX}px ${posY}px`)
     setTransform('scale(2)')
@@ -31,22 +32,20 @@ const ZoomOnHover = ({ imageSrc, imageName }: ZoomOnHoverProps) => {
       rounded-sm shadow-lg
       "
     >
-      <img
-        src={imageSrc}
+      <div
         style={{
           transformOrigin: transformOrigin,
           transform: transform,
-          transition: 'transform 0.3s ease-out'
+          transition: 'transform 0.3s ease-out',
+          background: `no-repeat center/cover url(${imageSrc})`
         }}
-        className="w-full h-full object-cover origin-center rounded-sm shadow-lg"
-        role={`Image: ${imageName}. Image by Unspash`}
+        className="object-contain origin-center rounded-sm shadow-lg w-full h-96 lg:w-[40rem] lg:h-[40rem]"
+        role={`${imageName}. Image by Unspash`}
       />
     </div>
   )
 }
 
 export default ZoomOnHover
-
-
 
 // className="object-cover rounded-sm shadow-lg cursor-pointer"

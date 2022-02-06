@@ -25,6 +25,7 @@ export interface Product {
   mainImg?: string
   description?: string
   colors?: string[]
+  sizes?: string[]
   timestamp?: string
 }
 
@@ -139,6 +140,7 @@ export const ProductContextProvider = ({
         bestPrice: productDataForm?.bestPrice! * 1,
         description: productDataForm?.description,
         colors: productDataForm?.colors,
+        sizes: productDataForm?.sizes,
         timestamp: serverTimestamp()
       })
 
@@ -215,6 +217,7 @@ export const ProductContextProvider = ({
         bestPrice: productDataForm?.bestPrice! * 1,
         description: productDataForm?.description,
         colors: productDataForm?.colors,
+        sizes: productDataForm?.sizes,
         timestamp: serverTimestamp()
       })
       toast.success(`Produto atualizado com sucesso`)

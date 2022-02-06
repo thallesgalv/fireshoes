@@ -10,9 +10,10 @@ import Shelf from '../components/Shelf'
 interface IndexProps {
   nikeShelfData: Product[]
   asicsShelfData: Product[]
+  orangeShelfData: Product[]
 }
 
-const Index: NextPage<IndexProps> = ({ nikeShelfData, asicsShelfData }) => {
+const Index: NextPage<IndexProps> = ({ nikeShelfData, asicsShelfData, orangeShelfData }) => {
   const { getProducts, currentProducts } = useProductContext()
 
   useEffect(() => {
@@ -28,10 +29,11 @@ const Index: NextPage<IndexProps> = ({ nikeShelfData, asicsShelfData }) => {
       </Head>
 
       <section className="w-11/12 m-auto">
-        <Heading text="Home" center />
+        <Heading text="Home" center/>
         <p className="text-center">Versão {packageInfo.version}</p>
 
         <Shelf data={currentProducts} title="Todos os Produtos" />
+        <Shelf data={orangeShelfData} title="Rosas 💜" />
         <Shelf data={nikeShelfData} title="Só os Nikess" />
         <Shelf data={asicsShelfData} title="Asics? Temos" />
       </section>
@@ -42,8 +44,9 @@ const Index: NextPage<IndexProps> = ({ nikeShelfData, asicsShelfData }) => {
 export const getServerSideProps: GetServerSideProps = async () => {
   return {
     props: {
-      nikeShelfData: await getProductsByQuery('brand', 'Nike'),
-      asicsShelfData: await getProductsByQuery('brand', 'Asics')
+      nikeShelfData: await getProductsByQuery('where', 'brand', 'Nike'),
+      asicsShelfData: await getProductsByQuery('where', 'brand', 'Asics'),
+      orangeShelfData: await getProductsByQuery('array', 'colors', 'Rosa')
     }
   }
 }

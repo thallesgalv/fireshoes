@@ -1,10 +1,12 @@
+import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
-import type { NextPage } from 'next'
+import { useRouter } from 'next/router'
 import { MdDeleteOutline, MdOutlineEdit, MdNotInterested } from 'react-icons/md'
 import { FormEvent, useCallback, useEffect, useState } from 'react'
 import { useGlobalContext } from '../contexts/GlobalContext'
+import { useUserContext } from '../contexts/UserContext'
 import { Product, useProductContext } from '../contexts/ProductContext'
 import Modal, { ModalStatus } from '../components/Modal'
 import Button from '../components/Button'
@@ -18,7 +20,10 @@ const Admin: NextPage = () => {
   const [modalStatus, setModalStatus] = useState<ModalStatus>(null)
   const [editMode, setEditMode] = useState(false)
   const [currentColor, setCurrentColor] = useState('')
+  const [currentSize, setCurrentSize] = useState('')
   const { isMobile } = useGlobalContext()
+  const { currentUser } = useUserContext()
+  const router = useRouter()
 
   const {
     currentProducts,
@@ -37,8 +42,27 @@ const Admin: NextPage = () => {
   } = useProductContext()
 
   useEffect(() => {
+    if (!currentUser?.isAdmin) router.push('/')
     getProducts()
   }, [])
+
+  useEffect(() => {
+    setProductDataForm({
+      id: currentProduct?.id,
+      name: currentProduct?.name,
+      brand: currentProduct?.brand,
+      price: currentProduct?.price,
+      bestPrice: currentProduct?.bestPrice,
+      description: currentProduct?.description,
+      colors: currentProduct?.colors
+    })
+  }, [currentProduct])
+
+  useEffect(() => {
+    setProductDataForm({} as Product)
+    setCurrentColor('')
+    setCurrentProduct(undefined)
+  }, [modalStatus])
 
   const handleProduct = useCallback(
     (e: FormEvent<HTMLInputElement> | FormEvent<HTMLTextAreaElement>) => {
@@ -68,23 +92,23 @@ const Admin: NextPage = () => {
     })
   }
 
-  useEffect(() => {
+  const handleInsertSize = () => {
     setProductDataForm({
-      id: currentProduct?.id,
-      name: currentProduct?.name,
-      brand: currentProduct?.brand,
-      price: currentProduct?.price,
-      bestPrice: currentProduct?.bestPrice,
-      description: currentProduct?.description,
-      colors: currentProduct?.colors
+      ...productDataForm,
+      sizes: productDataForm.sizes
+        ? [...productDataForm.sizes, currentSize]
+        : [currentSize]
     })
-  }, [currentProduct])
+  }
 
-  useEffect(() => {
-    setProductDataForm({} as Product)
-    setCurrentColor('')
-    setCurrentProduct(undefined)
-  }, [modalStatus])
+  const handleDeleteSize = (sizeIndex: number) => {
+    setProductDataForm({
+      ...productDataForm,
+      sizes:
+        productDataForm.sizes &&
+        [...productDataForm.sizes].filter((item, idx) => idx !== sizeIndex)
+    })
+  }
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -114,6 +138,8 @@ const Admin: NextPage = () => {
     setModalStatus('confirmationModal')
     if (productId) getProductOnTime(productId)
   }
+
+  if (!currentUser?.isAdmin) return null
 
   return (
     <>
@@ -165,6 +191,9 @@ const Admin: NextPage = () => {
                       Foto Principal
                     </th>
                     <th className="text-center p-2 border border-white">
+                      Tamanhos
+                    </th>
+                    <th className="text-center p-2 border border-white">
                       Preço
                     </th>
                     <th className="text-center p-2 border border-white">
@@ -181,7 +210,8 @@ const Admin: NextPage = () => {
                       price,
                       bestPrice,
                       mainImg,
-                      colors
+                      colors,
+                      sizes
                     }) => (
                       <tr key={id} className="border border-primary">
                         <td
@@ -222,6 +252,9 @@ const Admin: NextPage = () => {
                             height={80}
                             className="object-cover"
                           />
+                        </td>
+                        <td className="border border-primary p-2 text-center text-dark">
+                          {sizes?.join(', ') || ''}
                         </td>
                         <td className="border border-primary p-2 text-center text-dark">
                           {currency(price)}
@@ -312,7 +345,6 @@ const Admin: NextPage = () => {
                     text="Cores:"
                     name="currentColor"
                     htmlFor="productCurrentColor"
-                    required
                     widthFull
                     onChange={(e) => setCurrentColor(e.target.value)}
                     value={currentColor}
@@ -391,6 +423,42 @@ const Admin: NextPage = () => {
                         ))}
                     </div>
                   )}
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="flex flex-col gap-4">
+                  <Input
+                    text="Tamanhos:"
+                    name="currentSize"
+                    htmlFor="productCurrentSize"
+                    widthFull
+                    onChange={(e) => setCurrentSize(e.target.value)}
+                    value={currentSize}
+                  />
+                  <div className="flex flex-col md:flex-row items-center gap-4">
+                    <Button
+                      primary
+                      text="Inserir tamanho"
+                      widthFull={isMobile}
+                      onClick={handleInsertSize}
+                    />
+                    {productDataForm && (
+                      <div className="flex flex-wrap gap-2 text-secondary">
+                        {productDataForm?.sizes?.map((size, idx) => (
+                          <div className="flex">
+                            <div key={idx}>{size} </div>
+                            <span
+                              className="text-primary cursor-pointer"
+                              onClick={() => handleDeleteSize(idx)}
+                            >
+                              <MdNotInterested size={12} />
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
 

@@ -4,27 +4,46 @@ const getFirestore = () => import('./firestore')
 
 const productsCollectionRef = collection(db, 'products')
 
-export const getProductsByQuery = async (field?: string, value?: string) => {
+export const getProductsByQuery = async (
+  queryType: 'where' | 'array',
+  field?: string,
+  value?: string
+) => {
   const { query, where, orderBy, limit, getDocs } = await getFirestore()
   try {
     let givenQuery
-    if (field && value) {
-      givenQuery = query(
-        productsCollectionRef,
-        where(field, '==', value),
-        orderBy('timestamp', 'desc'),
-        limit(10)
-      )
-    } else {
-      givenQuery = query(
-        productsCollectionRef,
-        orderBy('timestamp', 'desc'),
-        limit(10)
-      )
+
+    if (queryType === 'where') {
+      if (field && value) {
+        givenQuery = query(
+          productsCollectionRef,
+          where(field, '==', value),
+          orderBy('timestamp', 'desc'),
+          limit(10)
+        )
+      } else {
+        givenQuery = query(
+          productsCollectionRef,
+          orderBy('timestamp', 'desc'),
+          limit(10)
+        )
+      }
+    }
+    if (queryType === 'array') {
+      if (field && value) {
+        givenQuery = query(
+          productsCollectionRef,
+          where(field, 'array-contains', value),
+          orderBy('timestamp', 'desc'),
+          limit(10)
+        )
+      }
     }
 
-    const querySnapshot = await getDocs(givenQuery)
-    return querySnapshot.docs.map(parseToJson)
+    if (givenQuery) {
+      const querySnapshot = await getDocs(givenQuery)
+      return querySnapshot.docs.map(parseToJson)
+    }
   } catch (error: any) {
     console.error(error)
   }

@@ -18,7 +18,7 @@ const ShelfItem = (product: ShelfItemProps) => {
   const [currentImage, setCurrentImage] = useState(product.mainImg)
 
   const handleMouseOver = () => {
-    if (product.images && product.images.length > 1) {
+    if (isMobile && product.images && product.images.length > 1) {
       const altImage = product.images.find((photo) => photo !== currentImage)
 
       setCurrentImage(altImage)
@@ -26,7 +26,7 @@ const ShelfItem = (product: ShelfItemProps) => {
   }
 
   const handleMouseLeave = () => {
-    if (product.images && product.images.length > 1) {
+    if (isMobile && product.images && product.images.length > 1) {
       setCurrentImage(product.mainImg)
     }
   }
