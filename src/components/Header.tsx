@@ -35,11 +35,15 @@ const Header = () => {
     if (cartNumber.current) {
       cartNumber.current.classList.add('animate-bounce')
     }
-    setTimeout(() => {
+    const animation = setTimeout(() => {
       if (cartNumber.current) {
         cartNumber.current.classList.remove('animate-bounce')
       }
-    }, 3000)
+    }, 3500)
+
+    return () => {
+      clearTimeout(animation)
+    }
   }, [currentCart])
 
   return (

@@ -12,17 +12,22 @@ const OrderHistory = () => {
         currentUser?.orders
           .slice()
           .reverse()
-          .map(({ products, totalValue, adress, paymentMethod, timestamp }) => (
-            <div className="border-b-2 pb-4">
-              <OrderResume
-                products={products}
-                totalValue={totalValue}
-                adress={adress}
-                paymentMethod={paymentMethod}
-                timestamp={timestamp}
-              />
-            </div>
-          ))
+          .map(
+            (
+              { products, totalValue, adress, paymentMethod, timestamp },
+              idx
+            ) => (
+              <div className="border-b-2 pb-4" key={idx}>
+                <OrderResume
+                  products={products}
+                  totalValue={totalValue}
+                  adress={adress}
+                  paymentMethod={paymentMethod}
+                  timestamp={timestamp}
+                />
+              </div>
+            )
+          )
       ) : (
         <div className="flex justify-center items-center flex-col gap-4">
           <AnimationOrder />

@@ -46,7 +46,7 @@ const OrderResume = ({
               id,
               selectedSize
             }) => (
-              <li className="flex gap-4" key={id}>
+              <li className="flex gap-4" key={id + selectedSize}>
                 <Image
                   width={96}
                   height={80}

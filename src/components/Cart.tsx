@@ -42,7 +42,7 @@ const Cart = ({ children, heightScreen }: CartProps) => {
           <ul className="h-fit flex flex-col gap-6 my-6 overflow-y-auto scrollbar pr-2">
             {currentCart.products.map((product) => (
               <li
-                key={product.id}
+                key={product.id + product?.selectedSize}
                 className="border-b-2 pb-4 flex items-center"
               >
                 <Link

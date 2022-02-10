@@ -359,8 +359,8 @@ const Admin: NextPage = () => {
                     {productDataForm && (
                       <div className="flex flex-wrap gap-2 text-secondary">
                         {productDataForm?.colors?.map((color, idx) => (
-                          <div className="flex">
-                            <div key={idx}>{color} </div>
+                          <div className="flex" key={idx}>
+                            <div>{color}</div>
                             <span
                               className="text-primary cursor-pointer"
                               onClick={() => handleDeleteColor(idx)}
@@ -446,8 +446,8 @@ const Admin: NextPage = () => {
                     {productDataForm && (
                       <div className="flex flex-wrap gap-2 text-secondary">
                         {productDataForm?.sizes?.map((size, idx) => (
-                          <div className="flex">
-                            <div key={idx}>{size} </div>
+                          <div className="flex" key={idx}>
+                            <div>{size} </div>
                             <span
                               className="text-primary cursor-pointer"
                               onClick={() => handleDeleteSize(idx)}

@@ -8,15 +8,14 @@ import { AuthContextProvider } from '../contexts/AuthContext'
 import { ProductContextProvider } from '../contexts/ProductContext'
 import { UserContextProvider } from '../contexts/UserContext'
 import { CartContextProvider } from '../contexts/CartContext'
+import Header from '../components/Header'
 import Main from '../components/Main'
 import showVersion from '../utils/version'
 import { primary } from '../utils/colorVariables'
 import '../styles/globals.css'
 
-
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const Minicart = dynamic(() => import('../components/MiniCart'))
-  const Header = dynamic(() => import('../components/Header'))
 
   // const [loadingScreen, setLoadingScreen] = useState(false)
 
