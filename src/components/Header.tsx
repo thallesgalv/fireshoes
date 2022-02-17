@@ -83,7 +83,7 @@ const Header = () => {
             `}
           >
             <li>
-              <Link href="/">
+              <Link href="/category">
                 <a onClick={handleMenu}>Tênis</a>
               </Link>
             </li>
