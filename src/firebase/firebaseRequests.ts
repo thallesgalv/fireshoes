@@ -58,7 +58,25 @@ export const parseToJson = (doc: DocumentSnapshot) => {
   }
 }
 
-export const getProduct = async (productId: string) => {
+export const getProductsByServer = async () => {
+  const { query, orderBy, getDocs } = await getFirestore()
+
+  try {
+    const queryOrderByReleaseDate = query(
+      productsCollectionRef,
+      orderBy('timestamp', 'desc')
+    )
+
+    if (queryOrderByReleaseDate) {
+      const querySnapshot = await getDocs(queryOrderByReleaseDate)
+      return querySnapshot.docs.map(parseToJson)
+    }
+  } catch (error: any) {
+    console.error(error)
+  }
+}
+
+export const getProductByServer = async (productId: string) => {
   const { doc, getDoc } = await getFirestore()
 
   const docRef = doc(db, 'products', productId)

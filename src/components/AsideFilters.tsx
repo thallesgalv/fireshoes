@@ -18,11 +18,11 @@ const AsideFilters = () => {
     filtersCount
   } = useFilterContext()
 
-  const { getProducts, currentProducts } = useProductContext()
+  const { getProductsByClient, currentProducts } = useProductContext()
 
-  useEffect(() => {
-    getProducts()
-  }, [])
+  // useEffect(() => {
+  //   getProductsByClient()
+  // }, [])
 
   useEffect(() => {
     getFiltersCount()
@@ -34,7 +34,7 @@ const AsideFilters = () => {
     if (isMounted && currentProducts) {
       setFilters({
         ...filters,
-        brands: getBrands(currentProducts),
+        brand: getBrands(currentProducts),
         colors: getColors(currentProducts),
         sizes: getSizes(currentProducts)
       })
@@ -56,10 +56,10 @@ const AsideFilters = () => {
           Filtros selecionados: ({filtersCount})
         </h3>
         <ul className="flex gap-2 lg:gap-1 flex-wrap items">
-          {currentFilters.brands && (
+          {currentFilters.brand && (
             <FilterGroup
-              filterArray={currentFilters.brands}
-              option={'brands'}
+              filterArray={currentFilters.brand}
+              option={'brand'}
               showSelecteds
             />
           )}
@@ -96,7 +96,7 @@ const AsideFilters = () => {
         <h3 className="text-center text-md text-primary font-semibold mb-2">
           Marca:
         </h3>
-        <FilterGroup filterArray={filters.brands} option={'brands'} />
+        <FilterGroup filterArray={filters.brand} option={'brand'} />
       </div>
       <div className="border-b py-3">
         <h3 className="text-center text-md text-primary font-semibold mb-2">

@@ -34,8 +34,8 @@ interface ProductContextProps {
   setCurrentProducts: (arg?: Product[]) => void
   currentProduct?: Product
   setCurrentProduct: (arg: Product | undefined) => void
-  getProducts: () => void
-  getProduct: (productId: string) => void
+  getProductsByClient: () => void
+  getProductByClient: (productId: string) => void
   getProductOnTime: (productId: string) => void
   createProduct: () => void
   productDataForm: Product
@@ -45,10 +45,6 @@ interface ProductContextProps {
   handleChangeMainImg: (newImage: string) => void
   updateProduct: () => void
   deleteProduct: () => void
-  getProductsByQuery: (
-    field: string,
-    value: string
-  ) => Promise<Product[] | undefined>
 }
 
 interface ProductContextProviderProps {
@@ -67,7 +63,7 @@ export const ProductContextProvider = ({
 
   const productsCollectionRef = collection(db, 'products')
 
-  const getProducts = async () => {
+  const getProductsByClient = async () => {
     const { query, orderBy, getDocs } = await getFirestore()
 
     try {
@@ -86,30 +82,7 @@ export const ProductContextProvider = ({
     }
   }
 
-  const getProductsByQuery = async (field: string, value: string) => {
-    const { query, where, orderBy, limit, getDocs } = await getFirestore()
-    try {
-      const givenQuery = query(
-        productsCollectionRef,
-        where(field, '==', value),
-        orderBy('timestamp', 'desc'),
-        limit(10)
-      )
-      const querySnapshot = await getDocs(givenQuery)
-
-      const data = querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id
-      }))
-
-      return data
-    } catch (error: any) {
-      toast.error(firebaseErrorHandler(error.code))
-      console.error(error)
-    }
-  }
-
-  const getProduct = async (productId: string) => {
+  const getProductByClient = async (productId: string) => {
     const { doc, getDoc } = await getFirestore()
 
     const docRef = doc(db, 'products', productId)
@@ -243,8 +216,8 @@ export const ProductContextProvider = ({
         currentProduct,
         setCurrentProduct,
         createProduct,
-        getProducts,
-        getProduct,
+        getProductsByClient,
+        getProductByClient,
         getProductOnTime,
         productDataForm,
         setProductDataForm,
@@ -253,7 +226,6 @@ export const ProductContextProvider = ({
         handleChangeMainImg,
         updateProduct,
         deleteProduct,
-        getProductsByQuery
       }}
     >
       {children}

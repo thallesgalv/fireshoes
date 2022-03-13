@@ -1,16 +1,15 @@
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import {
-  getProduct,
+  getProductByServer,
   getProductsByQuery
 } from '../../../firebase/firebaseRequests'
 import { Product } from '../../../contexts/ProductContext'
 import { useCartContext } from '../../../contexts/CartContext'
 import { currency } from '../../../utils/calculations'
 import Button from '../../../components/Button'
-import Shelf from '../../../components/Shelf'
+import ShelfSlider from '../../../components/ShelfSlider'
 import ZoomOnHover from '../../../components/ZoomOnHover'
-import Flag from '../../../components/Flag'
 
 interface ProductProps {
   product: Product
@@ -142,7 +141,7 @@ const Product = ({ product, newReleases }: ProductProps) => {
       </article>
 
       <div className="mt-4">
-        <Shelf titleCenter title="Veja também" data={newReleases} />
+        <ShelfSlider titleCenter title="Veja também" data={newReleases} />
       </div>
     </section>
   )
@@ -157,7 +156,7 @@ interface PathProps {
 export const getServerSideProps = async (props: PathProps) => {
   return {
     props: {
-      product: await getProduct(props.params.slug),
+      product: await getProductByServer(props.params.slug),
       newReleases: await getProductsByQuery('where')
     }
   }

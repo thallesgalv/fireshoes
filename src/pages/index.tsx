@@ -1,24 +1,31 @@
 import Head from 'next/head'
 import type { GetServerSideProps, NextPage } from 'next/types'
 import { useEffect } from 'react'
-import { getProductsByQuery } from '../firebase/firebaseRequests'
+import {
+  getProductsByQuery,
+  getProductsByServer
+} from '../firebase/firebaseRequests'
 import packageInfo from '../../package.json'
-import { Product, useProductContext } from '../contexts/ProductContext'
+import { Product } from '../contexts/ProductContext'
 import Heading from '../components/Heading'
-import Shelf from '../components/Shelf'
+import ShelfSlider from '../components/ShelfSlider'
 
 interface IndexProps {
+  allProducts: Product[]
   nikeShelfData: Product[]
   asicsShelfData: Product[]
   orangeShelfData: Product[]
 }
 
-const Index: NextPage<IndexProps> = ({ nikeShelfData, asicsShelfData, orangeShelfData }) => {
-  const { getProducts, currentProducts } = useProductContext()
-
-  useEffect(() => {
-    getProducts() // aqui os dados são gerados no cliente não por SSR
-  }, [])
+const Index: NextPage<IndexProps> = ({
+  allProducts,
+  nikeShelfData,
+  asicsShelfData,
+  orangeShelfData
+}) => {
+  // useEffect(() => {
+  //   getProductsByClient() // aqui os dados são gerados no cliente não por SSR
+  // }, [])
 
   return (
     <>
@@ -29,13 +36,13 @@ const Index: NextPage<IndexProps> = ({ nikeShelfData, asicsShelfData, orangeShel
       </Head>
 
       <section className="w-11/12 m-auto">
-        <Heading text="Home" center/>
+        <Heading text="Home" center />
         <p className="text-center">Versão {packageInfo.version}</p>
 
-        <Shelf data={currentProducts} title="Todos os Produtos" />
-        <Shelf data={orangeShelfData} title="Rosas 💜" />
-        <Shelf data={nikeShelfData} title="Só os Nikess" />
-        <Shelf data={asicsShelfData} title="Asics? Temos" />
+        <ShelfSlider data={allProducts} title="Todos os Produtos" />
+        <ShelfSlider data={orangeShelfData} title="Rosas 💜" />
+        <ShelfSlider data={nikeShelfData} title="Só os Nikess" />
+        <ShelfSlider data={asicsShelfData} title="Asics? Temos" />
       </section>
     </>
   )
@@ -44,6 +51,7 @@ const Index: NextPage<IndexProps> = ({ nikeShelfData, asicsShelfData, orangeShel
 export const getServerSideProps: GetServerSideProps = async () => {
   return {
     props: {
+      allProducts: await getProductsByServer(),
       nikeShelfData: await getProductsByQuery('where', 'brand', 'Nike'),
       asicsShelfData: await getProductsByQuery('where', 'brand', 'Asics'),
       orangeShelfData: await getProductsByQuery('array', 'colors', 'Rosa')

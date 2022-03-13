@@ -30,7 +30,7 @@ const Admin: NextPage = () => {
     currentProduct,
     setCurrentProduct,
     createProduct,
-    getProducts,
+    getProductsByClient,
     getProductOnTime,
     productDataForm,
     setProductDataForm,
@@ -43,7 +43,7 @@ const Admin: NextPage = () => {
 
   useEffect(() => {
     if (!currentUser?.isAdmin) router.push('/')
-    getProducts()
+    getProductsByClient()
   }, [])
 
   useEffect(() => {
@@ -117,7 +117,7 @@ const Admin: NextPage = () => {
 
   const handleCreateProduct = () => {
     createProduct()
-    getProducts()
+    getProductsByClient()
   }
 
   const handleEditProduct = (productId?: string) => {
@@ -131,7 +131,7 @@ const Admin: NextPage = () => {
     updateProduct()
     setEditMode(false)
     setModalStatus(null)
-    getProducts()
+    getProductsByClient()
   }
 
   const handleDeleteProduct = (productId?: string) => {
@@ -159,7 +159,7 @@ const Admin: NextPage = () => {
               setModalStatus('createProductModal')
             }}
           />
-          <Button secondary text="Carregar produtos" onClick={getProducts} />
+          <Button secondary text="Carregar produtos" onClick={getProductsByClient} />
         </ul>
 
         <div className="flex justify-center">
@@ -484,7 +484,7 @@ const Admin: NextPage = () => {
                 onClick={() => {
                   deleteProduct()
                   setModalStatus(null)
-                  getProducts()
+                  getProductsByClient()
                 }}
               />
               <Button

@@ -7,6 +7,7 @@ import { useCartContext, ProductInCart } from '../contexts/CartContext'
 import { normalizeString } from '../utils/normalizeString'
 import { currency } from '../utils/calculations'
 import AnimationEmptyCart from './Lottie/AnimationEmptyCart'
+import { checkForPrice } from '../utils/checkForPrice'
 
 interface CartProps {
   children?: ReactNode
@@ -113,8 +114,7 @@ const Cart = ({ children, heightScreen }: CartProps) => {
                   >
                     <MdDeleteOutline />
                   </button>
-                  {(!product.bestPrice ||
-                    (product.price && product.bestPrice >= product.price)) && (
+                  {checkForPrice(product.price, product.bestPrice)?.price && (
                     <p className="text-sm font-primary text-primary tracking-tighter">
                       <strong className="font-semibold uppercase mr-1">
                         {`${currency(product.price)}`}
@@ -122,28 +122,25 @@ const Cart = ({ children, heightScreen }: CartProps) => {
                       un.
                     </p>
                   )}
-                  {product.bestPrice &&
-                    product.price &&
-                    product.bestPrice < product.price && (
-                      <>
-                        <p className="font-normal text-sm font-primary text-primary tracking-tighter">
-                          <span className="font-light text-xs lg:text-sm">
-                            de{' '}
-                            <span className=" line-through font-light text-sm">{`${currency(
-                              product.price
-                            )}`}</span>{' '}
-                            por
-                          </span>
-                        </p>
-                        <strong className="text-sm font-primary uppercase text-primary tracking-tighter font-semibold">
-                          {' '}
-                          {`${currency(product.bestPrice)}`}
-                          <span className="lowercase ml-1 font-normal">
-                            un.
-                          </span>
-                        </strong>
-                      </>
-                    )}
+                  {checkForPrice(product.price, product.bestPrice)
+                    ?.bestPrice && (
+                    <>
+                      <p className="font-normal text-sm font-primary text-primary tracking-tighter">
+                        <span className="font-light text-xs lg:text-sm">
+                          de{' '}
+                          <span className=" line-through font-light text-sm">{`${currency(
+                            product.price
+                          )}`}</span>{' '}
+                          por
+                        </span>
+                      </p>
+                      <strong className="text-sm font-primary uppercase text-primary tracking-tighter font-semibold">
+                        {' '}
+                        {`${currency(product.bestPrice)}`}
+                        <span className="lowercase ml-1 font-normal">un.</span>
+                      </strong>
+                    </>
+                  )}
                 </div>
               </li>
             ))}

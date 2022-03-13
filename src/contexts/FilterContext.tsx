@@ -1,21 +1,27 @@
-import { createContext, ReactNode, useContext, useState } from 'react'
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState
+} from 'react'
 import toast from 'react-hot-toast'
-import { Product } from './ProductContext'
+import { checkForPrice } from '../utils/checkForPrice'
+import { Product, useProductContext } from './ProductContext'
 
 export interface Filters {
-  brands?: (string | undefined)[] | null
+  brand?: (string | undefined)[] | null
   colors?: (string | undefined)[] | null
   sizes?: (string | undefined)[] | null
   priceRange?: PriceRange[]
 }
-
 export interface PriceRange {
   min: number
   max: number
   text: string
 }
 
-export type FilterOptionType = 'brands' | 'colors' | 'sizes' | 'priceRange'
+export type FilterOptionType = 'brand' | 'colors' | 'sizes' | 'priceRange'
 
 interface FilterContextProps {
   filters: Filters
@@ -24,6 +30,8 @@ interface FilterContextProps {
   setCurrentFilters: (arg: Filters) => void
   filtersCount: number
   setFiltersCount: (arg: number) => void
+  filteredProducts: Product[] | undefined
+  setFilteredProducts: (arg: Product[] | undefined) => void
   checkIfFilterIsSelected: (
     option: FilterOptionType,
     value?: string | PriceRange | undefined
@@ -33,6 +41,7 @@ interface FilterContextProps {
     value?: string | PriceRange | undefined
   ) => void
   getFiltersCount: () => void
+  getFilteredProducts: (products?: Product[] | undefined) => Product[] | null
   getBrands: (currentProducts: Product[]) => (string | undefined)[] | null
   getColors: (currentProducts: Product[]) => string[] | null
   getSizes: (currentProducts: Product[]) => string[] | null
@@ -50,6 +59,25 @@ export const FilterContextProvider = ({
   const [filters, setFilters] = useState({} as Filters)
   const [currentFilters, setCurrentFilters] = useState({} as Filters)
   const [filtersCount, setFiltersCount] = useState(0)
+  const [filteredProducts, setFilteredProducts] = useState<
+    Product[] | undefined
+  >(undefined)
+  const { currentProducts, getProductsByClient } = useProductContext()
+
+  useEffect(() => {
+    getProductsByClient()
+  }, [])
+
+  // useEffect(() => {
+  //   setFilteredProducts(currentProducts)
+  // }, [])
+
+  useEffect(() => {
+    let query = getFilteredProducts(currentProducts)
+    query && query.length
+      ? setFilteredProducts(query)
+      : setFilteredProducts([])
+  }, [currentFilters])
 
   const checkIfFilterIsSelected = (
     option: FilterOptionType,
@@ -102,6 +130,7 @@ export const FilterContextProvider = ({
           [option]: currentFilters[option]?.filter((el) => el !== value)
         })
 
+    if (filtersCount === 0) setCurrentFilters({} as Filters)
     toast.success(`Filtro removido.`)
   }
 
@@ -113,6 +142,52 @@ export const FilterContextProvider = ({
       count += filterOption.length
     })
     setFiltersCount(count)
+  }
+
+  const doAFilter = (selectFilter: FilterOptionType, poolArray: Product[]) => {
+    if (currentFilters.priceRange && selectFilter === 'priceRange') {
+      const [selectPriceRange] = currentFilters.priceRange
+
+      return poolArray.filter((p) => {
+        const findPrice = checkForPrice(p.price, p.bestPrice)
+        const selectedPrice = findPrice?.bestPrice || findPrice?.price
+
+        if (selectedPrice) {
+          return (
+            selectedPrice >= selectPriceRange.min &&
+            selectedPrice <= selectPriceRange.max
+          )
+        }
+      })
+    }
+
+    return poolArray.filter((p: any) => {
+      return currentFilters[selectFilter]?.some((e) =>
+        p[selectFilter].includes(e)
+      )
+    })
+  }
+
+  const getFilteredProducts = (products?: Product[]) => {
+    if (products) {
+      let search: Product[] = []
+      let result: Product[] = []
+      const query = Object.keys(currentFilters)
+
+      query.forEach((f: any, idx) => {
+        if (idx === 0) {
+          const [firstFilter]: any = query
+          search = doAFilter(firstFilter, products)
+        } else {
+          search = doAFilter(f, result)
+        }
+
+        result = search
+      })
+
+      return result
+    }
+    return null
   }
 
   const getBrands = (currentProducts: Product[]) => {
@@ -156,9 +231,12 @@ export const FilterContextProvider = ({
         setCurrentFilters,
         filtersCount,
         setFiltersCount,
-        toggleInFilters,
+        filteredProducts,
+        setFilteredProducts,
         checkIfFilterIsSelected,
+        toggleInFilters,
         getFiltersCount,
+        getFilteredProducts,
         getBrands,
         getColors,
         getSizes

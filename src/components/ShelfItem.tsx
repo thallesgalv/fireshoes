@@ -9,6 +9,7 @@ import { currency } from '../utils/calculations'
 import { normalizeString } from '../utils/normalizeString'
 import Button from './Button'
 import Flag from './Flag'
+import { checkForPrice } from '../utils/checkForPrice'
 
 interface ShelfItemProps extends Product {}
 
@@ -103,8 +104,7 @@ const ShelfItem = (product: ShelfItemProps) => {
       <p className="font-semibold text-xl font-primary uppercase text-dark">
         {product.name}
       </p>
-      {(!product.bestPrice ||
-        (product.price && product.bestPrice >= product.price)) && (
+      {checkForPrice(product.price, product.bestPrice)?.price && (
         <p className="text-xl font-primary uppercase text-primary tracking-tighter">
           <strong className="font-normal ">
             {' '}
@@ -112,7 +112,7 @@ const ShelfItem = (product: ShelfItemProps) => {
           </strong>
         </p>
       )}
-      {product.bestPrice && product.price && product.bestPrice < product.price && (
+      {checkForPrice(product.price, product.bestPrice)?.bestPrice && (
         <p className="font-normal text-xl font-primary text-primary tracking-tighter">
           <span className="text-lg font-light">
             de{' '}

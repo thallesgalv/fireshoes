@@ -5,13 +5,13 @@ import { useGlobalContext } from '../contexts/GlobalContext'
 import Heading from './Heading'
 import ShelfItem from './ShelfItem'
 
-interface ShelfProps {
+interface ShelfSliderProps {
   data?: Product[]
   title?: string
   titleCenter?: boolean
 }
 
-const Shelf = ({ data, title, titleCenter }: ShelfProps) => {
+const ShelfSlider = ({ data, title, titleCenter }: ShelfSliderProps) => {
   const { isMobile } = useGlobalContext()
 
   const carousel = useRef<HTMLUListElement>(null)
@@ -42,8 +42,8 @@ const Shelf = ({ data, title, titleCenter }: ShelfProps) => {
           `}
           ref={carousel}
         >
-          {data.map(({ id, name, price, bestPrice, images, mainImg, sizes }, idx) => (
-            <li key={idx}>
+          {data.map(({ id, name, price, bestPrice, images, mainImg, sizes }) => (
+            <li key={id}>
               <ShelfItem
                 id={id}
                 name={name}
@@ -79,4 +79,4 @@ const Shelf = ({ data, title, titleCenter }: ShelfProps) => {
   )
 }
 
-export default Shelf
+export default ShelfSlider

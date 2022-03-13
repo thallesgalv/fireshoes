@@ -23,8 +23,13 @@ const Checkout: NextPage = () => {
   const PaymentMethod = dynamic(() => import('../components/PaymentMethod'))
   const OrderResume = dynamic(() => import('../components/OrderResume'))
 
-  const { setMiniCartActive, checkoutStep, setCheckoutStep, sucessOrder } =
-    useGlobalContext()
+  const {
+    setMiniCartActive,
+    checkoutStep,
+    setCheckoutStep,
+    sucessOrder,
+    setSucessOrder
+  } = useGlobalContext()
   const { currentCart, cartTotalValue } = useCartContext()
   const { currentUser, setOrder } = useUserContext()
 
@@ -32,6 +37,7 @@ const Checkout: NextPage = () => {
 
   useEffect(() => {
     setMiniCartActive(false)
+    setSucessOrder(false)
   }, [])
 
   useEffect(() => {
