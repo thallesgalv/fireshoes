@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { getDiscount } from '../utils/calculations'
-import { primary, analogous } from '../utils/colorVariables'
+import { analogous, primary } from '../utils/colorVariables'
 
 interface FlagProps {
   price?: number

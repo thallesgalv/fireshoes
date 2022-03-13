@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md'
-import { Product } from '../contexts/ProductContext'
 import { useGlobalContext } from '../contexts/GlobalContext'
+import { Product } from '../contexts/ProductContext'
 import Heading from './Heading'
 import ShelfItem from './ShelfItem'
 
@@ -42,19 +42,21 @@ const ShelfSlider = ({ data, title, titleCenter }: ShelfSliderProps) => {
           `}
           ref={carousel}
         >
-          {data.map(({ id, name, price, bestPrice, images, mainImg, sizes }) => (
-            <li key={id}>
-              <ShelfItem
-                id={id}
-                name={name}
-                price={price}
-                bestPrice={bestPrice}
-                images={images}
-                mainImg={mainImg}
-                sizes={sizes}
-              />
-            </li>
-          ))}
+          {data.map(
+            ({ id, name, price, bestPrice, images, mainImg, sizes }) => (
+              <li key={id}>
+                <ShelfItem
+                  id={id}
+                  name={name}
+                  price={price}
+                  bestPrice={bestPrice}
+                  images={images}
+                  mainImg={mainImg}
+                  sizes={sizes}
+                />
+              </li>
+            )
+          )}
         </ul>
       </div>
       {!isMobile && (

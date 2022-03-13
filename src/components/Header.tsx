@@ -1,19 +1,19 @@
 import Link from 'next/link'
 import { useEffect, useRef } from 'react'
 import {
-  MdLogin,
-  MdOutlineShoppingCart,
-  MdSearch,
-  MdMenu,
   MdClose,
-  MdPerson
+  MdLogin,
+  MdMenu,
+  MdOutlineShoppingCart,
+  MdPerson,
+  MdSearch
 } from 'react-icons/md'
-import { auth } from '../firebase/auth'
+import Button from '../components/Button'
+import Input from '../components/Input'
+import { useCartContext } from '../contexts/CartContext'
 import { useGlobalContext } from '../contexts/GlobalContext'
 import { useUserContext } from '../contexts/UserContext'
-import { useCartContext } from '../contexts/CartContext'
-import Input from '../components/Input'
-import Button from '../components/Button'
+import { auth } from '../firebase/auth'
 import AnimationFire from './Lottie/AnimationFire'
 
 const Header = () => {

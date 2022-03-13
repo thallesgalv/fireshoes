@@ -2,22 +2,23 @@ import { getFirestore } from 'firebase/firestore'
 import { app } from './app'
 
 export {
-  doc,
-  getDoc,
   addDoc,
+  arrayRemove,
   arrayUnion,
   collection,
   deleteDoc,
+  doc,
+  getDoc,
   getDocs,
   limit,
   onSnapshot,
   orderBy,
   query,
   serverTimestamp,
-  updateDoc,
-  where,
   setDoc,
-  arrayRemove,
+  Timestamp,
+  updateDoc,
+  where
 } from 'firebase/firestore'
 
 export const db = getFirestore(app)

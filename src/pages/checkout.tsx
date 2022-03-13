@@ -3,19 +3,19 @@ import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 import {
   MdDone,
   MdOutlineCreditCard,
   MdOutlineLocationOn,
   MdOutlineShoppingCart
 } from 'react-icons/md'
-import { useEffect } from 'react'
-import { auth } from '../firebase/auth'
+import Button from '../components/Button'
+import Heading from '../components/Heading'
+import { useCartContext } from '../contexts/CartContext'
 import { useGlobalContext } from '../contexts/GlobalContext'
 import { useUserContext } from '../contexts/UserContext'
-import { useCartContext } from '../contexts/CartContext'
-import Heading from '../components/Heading'
-import Button from '../components/Button'
+import { auth } from '../firebase/auth'
 
 const Checkout: NextPage = () => {
   const Cart = dynamic(() => import('../components/Cart'))

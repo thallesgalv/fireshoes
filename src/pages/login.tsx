@@ -1,16 +1,16 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { MdLockOutline } from 'react-icons/md'
 import { FormEvent, useCallback, useEffect, useState } from 'react'
-import { auth } from '../firebase/auth'
-import { useGlobalContext } from '../contexts/GlobalContext'
-import { useAuthContext } from '../contexts/AuthContext'
-import { useUserContext } from '../contexts/UserContext'
+import { MdLockOutline } from 'react-icons/md'
+import Button from '../components/Button'
 import Heading from '../components/Heading'
 import Input from '../components/Input'
-import Button from '../components/Button'
 import Modal, { ModalStatus } from '../components/Modal'
+import { useAuthContext } from '../contexts/AuthContext'
+import { useGlobalContext } from '../contexts/GlobalContext'
+import { useUserContext } from '../contexts/UserContext'
+import { auth } from '../firebase/auth'
 
 const Login: NextPage = () => {
   const { isMobile } = useGlobalContext()

@@ -1,6 +1,6 @@
-import { createContext, useContext, useState, ReactNode } from 'react'
-import useMedia from '../hooks/useMedia'
+import { createContext, ReactNode, useContext, useState } from 'react'
 import { ModalStatus } from '../components/Modal'
+import useMedia from '../hooks/useMedia'
 
 interface GlobalContextProps {
   isMobile: boolean

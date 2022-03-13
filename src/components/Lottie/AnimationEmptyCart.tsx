@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
 import type { LottiePlayer } from 'lottie-web'
+import { useEffect, useRef, useState } from 'react'
 import EmptyCart from '../../assets/animationEmptyCart.json'
 
 const AnimationEmptyCart = () => {

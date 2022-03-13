@@ -1,19 +1,19 @@
+import { collection } from 'firebase/firestore'
 import {
   createContext,
-  useContext,
-  useState,
+  MutableRefObject,
   ReactNode,
+  useContext,
   useRef,
-  MutableRefObject
+  useState
 } from 'react'
 import toast from 'react-hot-toast'
-import { collection } from 'firebase/firestore'
 import { auth } from '../firebase/auth'
+import { firebaseErrorHandler } from '../firebase/firebaseErrorHandler'
 import { db } from '../firebase/firestore'
 import { storage } from '../firebase/storage'
 const getFirestore = () => import('../firebase/firestore')
 const getStorage = () => import('../firebase/storage')
-import { firebaseErrorHandler } from '../firebase/firebaseErrorHandler'
 
 export interface Product {
   id?: string
@@ -225,7 +225,7 @@ export const ProductContextProvider = ({
         inputFileRef,
         handleChangeMainImg,
         updateProduct,
-        deleteProduct,
+        deleteProduct
       }}
     >
       {children}

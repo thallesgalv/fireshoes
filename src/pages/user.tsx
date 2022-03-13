@@ -1,19 +1,22 @@
 import type { NextPage } from 'next'
-import dynamic from 'next/dynamic'
 import Head from 'next/head'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { MdLogout, MdNoAccounts, MdOutlineAdminPanelSettings } from 'react-icons/md'
 import { useEffect } from 'react'
-import { useGlobalContext } from '../contexts/GlobalContext'
-import { useAuthContext } from '../contexts/AuthContext'
-import { useUserContext } from '../contexts/UserContext'
+import {
+  MdLogout,
+  MdNoAccounts,
+  MdOutlineAdminPanelSettings
+} from 'react-icons/md'
+import Button from '../components/Button'
 import DeliveryAdress from '../components/DeliveryAdress'
+import Heading from '../components/Heading'
+import OrderHistory from '../components/OrderHistory'
 import PaymentMethod from '../components/PaymentMethod'
 import UserOption from '../components/UserOption'
-import OrderHistory from '../components/OrderHistory'
-import Button from '../components/Button'
-import Heading from '../components/Heading'
-import Link from 'next/link'
+import { useAuthContext } from '../contexts/AuthContext'
+import { useGlobalContext } from '../contexts/GlobalContext'
+import { useUserContext } from '../contexts/UserContext'
 
 const User: NextPage = () => {
   // const DeliveryAdress = dynamic(() => import('../components/DeliveryAdress'))
@@ -74,7 +77,11 @@ const User: NextPage = () => {
           {currentUser.isAdmin && (
             <Link href="/admin">
               <a>
-                <Button primary text="Administrador" icon={<MdOutlineAdminPanelSettings />} />
+                <Button
+                  primary
+                  text="Administrador"
+                  icon={<MdOutlineAdminPanelSettings />}
+                />
               </a>
             </Link>
           )}

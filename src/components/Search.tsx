@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { MdOutlineFilterAlt } from 'react-icons/md'
 import {
   FilterContextProvider,
   useFilterContext
 } from '../contexts/FilterContext'
 import { useGlobalContext } from '../contexts/GlobalContext'
-import { Product, useProductContext } from '../contexts/ProductContext'
 import AsideFilters from './AsideFilters'
 import Button from './Button'
 import Heading from './Heading'

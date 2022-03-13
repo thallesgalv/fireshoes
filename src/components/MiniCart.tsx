@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import { MdClose } from 'react-icons/md'
 import { useRef } from 'react'
+import { MdClose } from 'react-icons/md'
 import { useGlobalContext } from '../contexts/GlobalContext'
 import Button from './Button'
 import Cart from './Cart'

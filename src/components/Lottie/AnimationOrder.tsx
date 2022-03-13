@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
 import type { LottiePlayer } from 'lottie-web'
+import { useEffect, useRef, useState } from 'react'
 import Order from '../../assets/animationOrder.json'
 
 const AnimationOrder = () => {

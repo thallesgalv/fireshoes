@@ -3,17 +3,16 @@ import {
   createContext,
   ReactNode,
   useContext,
-  useState,
-  useEffect
+  useEffect,
+  useState
 } from 'react'
-import { onAuthStateChanged } from 'firebase/auth'
 import toast from 'react-hot-toast'
+import { auth, onAuthStateChanged } from '../firebase/auth'
+import { firebaseErrorHandler } from '../firebase/firebaseErrorHandler'
 import { db } from '../firebase/firestore'
-import { auth } from '../firebase/auth'
+import { User, useUserContext } from './UserContext'
 const getFirestore = () => import('../firebase/firestore')
 const getFirebase = () => import('../firebase/auth')
-import { firebaseErrorHandler } from '../firebase/firebaseErrorHandler'
-import { User, useUserContext } from './UserContext'
 
 interface AuthContextProps {
   signInWithGoogle: () => void

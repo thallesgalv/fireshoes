@@ -1,15 +1,15 @@
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import Button from '../../../components/Button'
+import ShelfSlider from '../../../components/ShelfSlider'
+import ZoomOnHover from '../../../components/ZoomOnHover'
+import { useCartContext } from '../../../contexts/CartContext'
+import { Product } from '../../../contexts/ProductContext'
 import {
   getProductByServer,
   getProductsByQuery
 } from '../../../firebase/firebaseRequests'
-import { Product } from '../../../contexts/ProductContext'
-import { useCartContext } from '../../../contexts/CartContext'
 import { currency } from '../../../utils/calculations'
-import Button from '../../../components/Button'
-import ShelfSlider from '../../../components/ShelfSlider'
-import ZoomOnHover from '../../../components/ZoomOnHover'
 
 interface ProductProps {
   product: Product

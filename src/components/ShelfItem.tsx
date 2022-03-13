@@ -2,14 +2,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import { MdOutlineShoppingCart } from 'react-icons/md'
+import { useCartContext } from '../contexts/CartContext'
 import { useGlobalContext } from '../contexts/GlobalContext'
 import { Product } from '../contexts/ProductContext'
-import { useCartContext } from '../contexts/CartContext'
 import { currency } from '../utils/calculations'
+import { checkForPrice } from '../utils/checkForPrice'
 import { normalizeString } from '../utils/normalizeString'
 import Button from './Button'
 import Flag from './Flag'
-import { checkForPrice } from '../utils/checkForPrice'
 
 interface ShelfItemProps extends Product {}
 

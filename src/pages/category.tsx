@@ -1,16 +1,4 @@
 import { NextPage } from 'next/types'
-import { useEffect, useState } from 'react'
-import { MdOutlineFilterAlt } from 'react-icons/md'
-import { useGlobalContext } from '../contexts/GlobalContext'
-import { useProductContext } from '../contexts/ProductContext'
-import {
-  FilterContextProvider,
-  useFilterContext
-} from '../contexts/FilterContext'
-import AsideFilters from '../components/AsideFilters'
-import ShelfGrid from '../components/ShelfGrid'
-import Heading from '../components/Heading'
-import Button from '../components/Button'
 import Search from '../components/Search'
 
 const Category: NextPage = () => {

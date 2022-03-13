@@ -1,14 +1,13 @@
 import Head from 'next/head'
 import type { GetServerSideProps, NextPage } from 'next/types'
-import { useEffect } from 'react'
+import packageInfo from '../../package.json'
+import Heading from '../components/Heading'
+import ShelfSlider from '../components/ShelfSlider'
+import { Product } from '../contexts/ProductContext'
 import {
   getProductsByQuery,
   getProductsByServer
 } from '../firebase/firebaseRequests'
-import packageInfo from '../../package.json'
-import { Product } from '../contexts/ProductContext'
-import Heading from '../components/Heading'
-import ShelfSlider from '../components/ShelfSlider'
 
 interface IndexProps {
   allProducts: Product[]

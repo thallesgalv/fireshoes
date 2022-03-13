@@ -1,7 +1,7 @@
 import { MouseEventHandler } from 'react'
 
 interface FilterOptionProps {
-  text?: string 
+  text?: string
   active?: boolean
   hidden?: boolean
   onClick?: MouseEventHandler<HTMLDivElement> | undefined

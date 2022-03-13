@@ -1,13 +1,13 @@
 import { FormEvent, useCallback } from 'react'
 import { MdLockOutline } from 'react-icons/md'
-import { useUserContext, PaymentMethod } from '../contexts/UserContext'
-import { useGlobalContext } from '../contexts/GlobalContext'
-import AnimationPayment from './Lottie/AnimationPayment'
 import CrudCard from '../components/CrudCard'
+import { useGlobalContext } from '../contexts/GlobalContext'
+import { PaymentMethod, useUserContext } from '../contexts/UserContext'
 import Button from './Button'
-import Modal from './Modal'
 import Heading from './Heading'
 import Input from './Input'
+import AnimationPayment from './Lottie/AnimationPayment'
+import Modal from './Modal'
 
 interface PaymentMethodProps {
   orientation: 'horizontal' | 'vertical'

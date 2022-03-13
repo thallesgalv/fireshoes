@@ -1,18 +1,18 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Link from 'next/link'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { MdDeleteOutline, MdOutlineEdit, MdNotInterested } from 'react-icons/md'
 import { FormEvent, useCallback, useEffect, useState } from 'react'
-import { useGlobalContext } from '../contexts/GlobalContext'
-import { useUserContext } from '../contexts/UserContext'
-import { Product, useProductContext } from '../contexts/ProductContext'
-import Modal, { ModalStatus } from '../components/Modal'
+import { MdDeleteOutline, MdNotInterested, MdOutlineEdit } from 'react-icons/md'
 import Button from '../components/Button'
 import Heading from '../components/Heading'
 import Input from '../components/Input'
+import Modal, { ModalStatus } from '../components/Modal'
 import TextArea from '../components/TextArea'
+import { useGlobalContext } from '../contexts/GlobalContext'
+import { Product, useProductContext } from '../contexts/ProductContext'
+import { useUserContext } from '../contexts/UserContext'
 import { currency } from '../utils/calculations'
 import { normalizeString } from '../utils/normalizeString'
 
@@ -159,7 +159,11 @@ const Admin: NextPage = () => {
               setModalStatus('createProductModal')
             }}
           />
-          <Button secondary text="Carregar produtos" onClick={getProductsByClient} />
+          <Button
+            secondary
+            text="Carregar produtos"
+            onClick={getProductsByClient}
+          />
         </ul>
 
         <div className="flex justify-center">

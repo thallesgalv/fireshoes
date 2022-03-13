@@ -74,9 +74,7 @@ export const FilterContextProvider = ({
 
   useEffect(() => {
     let query = getFilteredProducts(currentProducts)
-    query && query.length
-      ? setFilteredProducts(query)
-      : setFilteredProducts([])
+    query && query.length ? setFilteredProducts(query) : setFilteredProducts([])
   }, [currentFilters])
 
   const checkIfFilterIsSelected = (

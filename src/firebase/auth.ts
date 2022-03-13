@@ -2,13 +2,14 @@ import { getAuth } from 'firebase/auth'
 import { app } from './app'
 
 export {
-  GoogleAuthProvider,
-  signInWithPopup,
   createUserWithEmailAndPassword,
-  signOut,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
-  updateProfile,
-  sendPasswordResetEmail
+  signInWithPopup,
+  signOut,
+  updateProfile
 } from 'firebase/auth'
 
 export const auth = getAuth(app)

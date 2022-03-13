@@ -1,6 +1,6 @@
 import Image from 'next/image'
-import { FaGoogle } from 'react-icons/fa'
 import { ButtonHTMLAttributes } from 'react'
+import { FaGoogle } from 'react-icons/fa'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   text?: string | null

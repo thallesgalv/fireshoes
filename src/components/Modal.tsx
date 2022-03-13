@@ -17,7 +17,12 @@ interface ModalProps {
   widthFit?: boolean
 }
 
-const Modal = ({ children, modalStatus, setModalStatus, widthFit }: ModalProps) => {
+const Modal = ({
+  children,
+  modalStatus,
+  setModalStatus,
+  widthFit
+}: ModalProps) => {
   const modalContainer = useRef(null)
 
   const handleModal = (e: React.MouseEvent<HTMLDivElement>) => {
