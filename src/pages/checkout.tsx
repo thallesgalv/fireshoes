@@ -11,7 +11,9 @@ import {
   MdOutlineShoppingCart
 } from 'react-icons/md'
 import Button from '../components/Button'
+import DeliveryAdress from '../components/DeliveryAdress'
 import Heading from '../components/Heading'
+import PaymentMethod from '../components/PaymentMethod'
 import { useCartContext } from '../contexts/CartContext'
 import { useGlobalContext } from '../contexts/GlobalContext'
 import { useUserContext } from '../contexts/UserContext'
@@ -19,8 +21,6 @@ import { auth } from '../firebase/auth'
 
 const Checkout: NextPage = () => {
   const Cart = dynamic(() => import('../components/Cart'))
-  const DeliveryAdress = dynamic(() => import('../components/DeliveryAdress'))
-  const PaymentMethod = dynamic(() => import('../components/PaymentMethod'))
   const OrderResume = dynamic(() => import('../components/OrderResume'))
 
   const {

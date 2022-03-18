@@ -18,11 +18,7 @@ const AsideFilters = () => {
     filtersCount
   } = useFilterContext()
 
-  const { getProductsByClient, currentProducts } = useProductContext()
-
-  // useEffect(() => {
-  //   getProductsByClient()
-  // }, [])
+  const { currentProducts } = useProductContext()
 
   useEffect(() => {
     getFiltersCount()

@@ -48,7 +48,7 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
   useEffect(() => {
     setCart()
-  }, [currentCart.products])
+  }, [currentCart])
 
   useEffect(() => {
     const unsubscribe = getTotalValue()
@@ -63,14 +63,12 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
   }
 
   const setCart = () => {
-    if (currentCart.products?.length) {
-      localStorage.setItem(
-        'fireshoescart',
-        JSON.stringify({
-          currentCart
-        })
-      )
-    }
+    localStorage.setItem(
+      'fireshoescart',
+      JSON.stringify({
+        currentCart
+      })
+    )
   }
 
   const addToCart = (product: ProductInCart) => {

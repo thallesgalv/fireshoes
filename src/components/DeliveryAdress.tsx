@@ -33,18 +33,17 @@ const DeliveryAdress = ({ orientation }: DeliveryAdressProps) => {
     if (adressDataForm?.postalCode?.length === 9) {
       let postalCode = adressDataForm?.postalCode.replace(/\D/g, '')
       request(`https://viacep.com.br/ws/${postalCode}/json/`)
+      if (data) {
+        setAdressDataForm({
+          ...adressDataForm,
+          street: data?.logradouro,
+          neighborhood: data?.bairro,
+          city: data?.localidade,
+          state: data?.uf
+        })
+      }
     }
   }, [adressDataForm?.postalCode])
-
-  useEffect(() => {
-    setAdressDataForm({
-      ...adressDataForm,
-      street: data?.logradouro,
-      neighborhood: data?.bairro,
-      city: data?.localidade,
-      state: data?.uf
-    })
-  }, [data])
 
   const handleAdress = useCallback(
     (e: FormEvent<HTMLInputElement>) => {

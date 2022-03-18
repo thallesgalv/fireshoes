@@ -62,11 +62,11 @@ export const FilterContextProvider = ({
   const [filteredProducts, setFilteredProducts] = useState<
     Product[] | undefined
   >(undefined)
-  const { currentProducts, getProductsByClient } = useProductContext()
+  const { currentProducts } = useProductContext()
 
-  useEffect(() => {
-    getProductsByClient()
-  }, [])
+  // useEffect(() => {
+  //   getProductsByClient()
+  // }, [])
 
   // useEffect(() => {
   //   setFilteredProducts(currentProducts)

@@ -22,7 +22,7 @@ const MiniCart = () => {
       ref={miniCartContainer}
       onClick={handleClick}
     >
-      <div className="w-fit bg-white p-2 lg:p-6 rounded animate-in">
+      <div className="w-5/6 lg:w-96 bg-white p-2 lg:p-6 rounded animate-in">
         <div className="flex items-center justify-around">
           <div
             className="text-primary text-4xl cursor-pointer"

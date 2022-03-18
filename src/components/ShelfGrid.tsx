@@ -1,5 +1,6 @@
+import { useEffect } from 'react'
 import { useFilterContext } from '../contexts/FilterContext'
-import { Product } from '../contexts/ProductContext'
+import { Product, useProductContext } from '../contexts/ProductContext'
 import ShelfItem from './ShelfItem'
 
 interface ShelfGridProps {
@@ -7,7 +8,13 @@ interface ShelfGridProps {
 }
 
 const ShelfGrid = () => {
-  const { filteredProducts } = useFilterContext()
+  const { filteredProducts, setFilteredProducts } = useFilterContext()
+  const { currentProducts } = useProductContext()
+
+  // useEffect(() => {
+  //   setFilteredProducts(currentProducts)
+  // }, [])
+
   // if (!data || data.length === 0) return null
   return (
     <ul className="grid grid-cols-3 gap-7 gap-y-14 justify-center">
