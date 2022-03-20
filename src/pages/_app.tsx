@@ -7,6 +7,7 @@ import Header from '../components/Header'
 import Main from '../components/Main'
 import { AuthContextProvider } from '../contexts/AuthContext'
 import { CartContextProvider } from '../contexts/CartContext'
+import { FilterContextProvider } from '../contexts/FilterContext'
 import { GlobalContextProvider } from '../contexts/GlobalContext'
 import { ProductContextProvider } from '../contexts/ProductContext'
 import { UserContextProvider } from '../contexts/UserContext'
@@ -43,26 +44,28 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         <UserContextProvider>
           <AuthContextProvider>
             <ProductContextProvider>
-              <Header />
-              <NextNProgress
-                color={primary}
-                height={6}
-                options={{ showSpinner: false }}
-              />
-              <Minicart />
-              <Main>
-                {/* {loadingScreen ? <p>Loading</p> : <Component {...pageProps} />} */}
-                <Component {...pageProps} />
-                <Toaster
-                  position="bottom-left"
-                  toastOptions={{
-                    style: {
-                      background: primary,
-                      color: '#FFF'
-                    }
-                  }}
+              <FilterContextProvider>
+                <Header />
+                <NextNProgress
+                  color={primary}
+                  height={6}
+                  options={{ showSpinner: false }}
                 />
-              </Main>
+                <Minicart />
+                <Main>
+                  {/* {loadingScreen ? <p>Loading</p> : <Component {...pageProps} />} */}
+                  <Component {...pageProps} />
+                  <Toaster
+                    position="bottom-left"
+                    toastOptions={{
+                      style: {
+                        background: primary,
+                        color: '#FFF'
+                      }
+                    }}
+                  />
+                </Main>
+              </FilterContextProvider>
             </ProductContextProvider>
           </AuthContextProvider>
         </UserContextProvider>

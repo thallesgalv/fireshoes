@@ -1,10 +1,14 @@
 import { useEffect } from 'react'
 import { useFilterContext } from '../contexts/FilterContext'
-import { useProductContext } from '../contexts/ProductContext'
+import { Product } from '../contexts/ProductContext'
 import FilterGroup from './FilterGroup'
 import FilterOption from './FilterOption'
 
-const AsideFilters = () => {
+interface AsideFiltersProps {
+  data: Product[]
+}
+
+const AsideFilters = ({ data }: AsideFiltersProps) => {
   const {
     currentFilters,
     getFiltersCount,
@@ -18,7 +22,7 @@ const AsideFilters = () => {
     filtersCount
   } = useFilterContext()
 
-  const { currentProducts } = useProductContext()
+  const { filteredProducts } = useFilterContext()
 
   useEffect(() => {
     getFiltersCount()
@@ -27,19 +31,19 @@ const AsideFilters = () => {
   useEffect(() => {
     let isMounted = true
 
-    if (isMounted && currentProducts) {
+    if (isMounted && data) {
       setFilters({
         ...filters,
-        brand: getBrands(currentProducts),
-        colors: getColors(currentProducts),
-        sizes: getSizes(currentProducts)
+        brand: getBrands(data),
+        colors: getColors(data),
+        sizes: getSizes(data)
       })
     }
 
     return () => {
       isMounted = false
     }
-  }, [currentProducts])
+  }, [filteredProducts])
 
   return (
     <aside

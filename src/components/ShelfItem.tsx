@@ -11,24 +11,28 @@ import { normalizeString } from '../utils/normalizeString'
 import Button from './Button'
 import Flag from './Flag'
 
-interface ShelfItemProps extends Product {}
+interface ShelfItemProps extends Product {
+  displayType: ShelfItemDisplayOptions
+}
 
-const ShelfItem = (product: ShelfItemProps) => {
+type ShelfItemDisplayOptions = 'grid' | 'slider'
+
+const ShelfItem = ({ displayType, ...props }: ShelfItemProps) => {
   const { addToCart, selectedSize, setSelectedSize } = useCartContext()
   const { isMobile } = useGlobalContext()
-  const [currentImage, setCurrentImage] = useState(product.mainImg)
+  const [currentImage, setCurrentImage] = useState(props.mainImg)
   const [showSizes, setShowSizes] = useState(false)
 
   const handleMouseOverImage = () => {
-    if (!isMobile && product.images && product.images.length > 1) {
-      const altImage = product.images.find((photo) => photo !== currentImage)
+    if (!isMobile && props.images && props.images.length > 1) {
+      const altImage = props.images.find((photo) => photo !== currentImage)
       setCurrentImage(altImage)
     }
   }
 
   const handleMouseLeaveImage = () => {
-    if (!isMobile && product.images && product.images.length > 1) {
-      setCurrentImage(product.mainImg)
+    if (!isMobile && props.images && props.images.length > 1) {
+      setCurrentImage(props.mainImg)
     }
   }
 
@@ -50,7 +54,9 @@ const ShelfItem = (product: ShelfItemProps) => {
   return (
     <div
       className={`
-        flex flex-col gap-0.5
+        flex
+        ${displayType === 'slider' ? 'flex-col gap-0.5' : null}
+        ${displayType === 'grid' ? 'flex-row lg:flex-col gap-4 lg:gap-0.5' : null}
         ${isMobile ? 'w-full' : 'w-64'}
         relative
       `}
@@ -58,19 +64,20 @@ const ShelfItem = (product: ShelfItemProps) => {
     >
       <div className="relative">
         <Flag
-          price={product.price}
-          bestPrice={product.bestPrice}
-          productId={product.id}
+          price={props.price}
+          bestPrice={props.bestPrice}
+          productId={props.id}
+          small={displayType === 'grid' && isMobile ? true : false}
         />
-        <Link href={`/product/${normalizeString(product?.name)}/${product.id}`}>
+        <Link href={`/product/${normalizeString(props?.name)}/${props.id}`}>
           <a>
             <Image
               src={currentImage || ''}
-              width={256}
-              height={208}
+              width={displayType === 'slider' || !isMobile ? 256 : 128}
+              height={displayType === 'slider' || !isMobile ? 208 : 112}
               onMouseOver={handleMouseOverImage}
               onMouseLeave={handleMouseLeaveImage}
-              alt={`${product.name}. Image by Unsplash`}
+              alt={`${props.name}. Image by Unsplash`}
               className="object-cover rounded-sm shadow-lg cursor-pointer"
               layout="fixed"
               placeholder="blur"
@@ -79,9 +86,9 @@ const ShelfItem = (product: ShelfItemProps) => {
           </a>
         </Link>
 
-        {product.sizes && showSizes && (
+        {props.sizes && showSizes && (
           <div className="flex justify-center items-center gap-2 bg-black bg-opacity-40 rounded-b-sm p-2 animate-showreverse absolute bottom-2 w-full">
-            {product.sizes.sort().map((size, idx) => (
+            {props.sizes.sort().map((size, idx) => (
               <div
                 key={idx}
                 className={`
@@ -101,41 +108,62 @@ const ShelfItem = (product: ShelfItemProps) => {
           </div>
         )}
       </div>
-      <p className="font-semibold text-xl font-primary uppercase text-dark">
-        {product.name}
-      </p>
-      {checkForPrice(product.price, product.bestPrice)?.price && (
-        <p className="text-xl font-primary uppercase text-primary tracking-tighter">
-          <strong className="font-normal ">
-            {' '}
-            {`${currency(product.price)}`}
-          </strong>
+      <div>
+        <p
+          className={`font-semibold font-primary uppercase text-dark
+           ${displayType === 'grid' ? 'text-md lg:text-xl' : null}
+           ${displayType === 'slider' ? 'text-xl' : null}
+           `}
+        >
+          {props.name}
         </p>
-      )}
-      {checkForPrice(product.price, product.bestPrice)?.bestPrice && (
-        <p className="font-normal text-xl font-primary text-primary tracking-tighter">
-          <span className="text-lg font-light">
-            de{' '}
-            <span className=" line-through font-light">{`${currency(
-              product.price
-            )}`}</span>{' '}
-            por
-          </span>
-          <strong className="font-normal ">
-            {' '}
-            {`${currency(product.bestPrice)}`}
-          </strong>
-        </p>
-      )}
-      <div className="mt-4">
-        <Button
-          primary
-          text="Adicionar ao Carrinho"
-          icon={<MdOutlineShoppingCart />}
-          widthFull
-          onClick={() => handleProduct(product)}
-          onMouseOver={handleMouseOverCartButton}
-        />
+        {checkForPrice(props.price, props.bestPrice)?.price && (
+          <p
+            className={`font-primary uppercase text-primary tracking-tighter
+              ${displayType === 'grid' ? 'text-sm lg:text-xl' : null}
+              ${displayType === 'slider' ? 'text-xl' : null}
+            `}
+          >
+            <strong className="font-normal ">
+              {' '}
+              {`${currency(props.price)}`}
+            </strong>
+          </p>
+        )}
+        {checkForPrice(props.price, props.bestPrice)?.bestPrice && (
+          <p
+            className={`font-primary font-normal text-primary tracking-tighter
+              ${displayType === 'grid' ? 'text-sm lg:text-xl' : null}
+              ${displayType === 'slider' ? 'text-xl' : null}
+            `}
+          >
+            <span className={`font-light
+              ${displayType === 'grid' ? 'text-sm lg:text-xl' : null}
+              ${displayType === 'slider' ? 'text-xl' : null}
+              `}
+            >
+              de{' '}
+              <span className=" line-through font-light">{`${currency(
+                props.price
+              )}`}</span>{' '}
+              por
+            </span>
+            <strong className="font-normal ">
+              {' '}
+              {`${currency(props.bestPrice)}`}
+            </strong>
+          </p>
+        )}
+        <div className="mt-4">
+          <Button
+            primary
+            text="Adicionar ao Carrinho"
+            icon={<MdOutlineShoppingCart />}
+            widthFull
+            onClick={() => handleProduct(props)}
+            onMouseOver={handleMouseOverCartButton}
+          />
+        </div>
       </div>
     </div>
   )

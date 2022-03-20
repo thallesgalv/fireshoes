@@ -1,9 +1,10 @@
 import Head from 'next/head'
 import type { GetServerSideProps, NextPage } from 'next/types'
+import { useEffect } from 'react'
 import packageInfo from '../../package.json'
 import Heading from '../components/Heading'
 import ShelfSlider from '../components/ShelfSlider'
-import { Product } from '../contexts/ProductContext'
+import { Product, useProductContext } from '../contexts/ProductContext'
 import {
   getProductsByQuery,
   getProductsByServer
@@ -22,8 +23,13 @@ const Index: NextPage<IndexProps> = ({
   asicsShelfData,
   orangeShelfData
 }) => {
+
   // useEffect(() => {
   //   getProductsByClient() // aqui os dados são gerados no cliente não por SSR
+  // }, [])
+
+  // useEffect(() => {
+  //   setCurrentProducts(allProducts) //Setando no client dados vindos obtidos via SSR
   // }, [])
 
   return (
@@ -39,7 +45,7 @@ const Index: NextPage<IndexProps> = ({
         <p className="text-center">Versão {packageInfo.version}</p>
 
         <ShelfSlider data={allProducts} title="Todos os Produtos" />
-        <ShelfSlider data={orangeShelfData} title="Rosas 💜" />
+        <ShelfSlider data={orangeShelfData} title="Rosas" />
         <ShelfSlider data={nikeShelfData} title="Só os Nikess" />
         <ShelfSlider data={asicsShelfData} title="Asics? Temos" />
       </section>

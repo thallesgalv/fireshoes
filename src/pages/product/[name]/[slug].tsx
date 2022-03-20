@@ -140,7 +140,7 @@ const Product = ({ product, newReleases }: ProductProps) => {
         </div>
       </article>
 
-      <div className="mt-4">
+      <div className="mt-16">
         <ShelfSlider titleCenter title="Veja também" data={newReleases} />
       </div>
     </section>

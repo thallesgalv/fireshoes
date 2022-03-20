@@ -6,15 +6,23 @@ interface FlagProps {
   price?: number
   bestPrice?: number
   productId?: string
+  small?: boolean
 }
 
-const Flag = ({ price, bestPrice, productId }: FlagProps) => {
+const Flag = ({ price, bestPrice, productId, small }: FlagProps) => {
   const [value, setValue] = useState(getDiscount(bestPrice, price))
 
   if (!bestPrice || !price || bestPrice >= price) return null
   return (
-    <div className="absolute -right-6 -top-8 flex justify-center items-center z-10">
-      <p className="absolute text-white font-primary font-semibold tracking-tighter text-xs mt-4">
+    <div
+      className={`
+      absolute -top-8 flex justify-center items-center z-10
+      ${small ? '-left-4' : '-right-6'}
+    `}
+    >
+      <p
+        className={`absolute text-white font-primary font-semibold tracking-tighter text-xs mt-4`}
+      >
         {getDiscount(bestPrice, price)}% off
       </p>
       <div className="text-primary">
@@ -23,8 +31,8 @@ const Flag = ({ price, bestPrice, productId }: FlagProps) => {
           fill="currentColor"
           strokeWidth="0"
           viewBox="0 0 1024 1024"
-          height="75"
-          width="75"
+          height={small ? 65 : 75}
+          width={small ? 65 : 75}
           xmlns="http://www.w3.org/2000/svg"
         >
           <defs>

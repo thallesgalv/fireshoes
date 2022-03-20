@@ -7,7 +7,7 @@ import {
 } from 'react'
 import toast from 'react-hot-toast'
 import { checkForPrice } from '../utils/checkForPrice'
-import { Product, useProductContext } from './ProductContext'
+import { Product } from './ProductContext'
 
 export interface Filters {
   brand?: (string | undefined)[] | null
@@ -62,20 +62,12 @@ export const FilterContextProvider = ({
   const [filteredProducts, setFilteredProducts] = useState<
     Product[] | undefined
   >(undefined)
-  const { currentProducts } = useProductContext()
-
-  // useEffect(() => {
-  //   getProductsByClient()
-  // }, [])
-
-  // useEffect(() => {
-  //   setFilteredProducts(currentProducts)
-  // }, [])
 
   useEffect(() => {
-    let query = getFilteredProducts(currentProducts)
-    query && query.length ? setFilteredProducts(query) : setFilteredProducts([])
-  }, [currentFilters])
+    if (filtersCount === 0) {
+      setCurrentFilters({} as Filters)
+    }
+  }, [filtersCount])
 
   const checkIfFilterIsSelected = (
     option: FilterOptionType,
@@ -152,8 +144,8 @@ export const FilterContextProvider = ({
 
         if (selectedPrice) {
           return (
-            selectedPrice >= selectPriceRange.min &&
-            selectedPrice <= selectPriceRange.max
+            selectedPrice >= selectPriceRange?.min &&
+            selectedPrice <= selectPriceRange?.max
           )
         }
       })

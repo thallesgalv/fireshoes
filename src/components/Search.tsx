@@ -1,28 +1,26 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { MdOutlineFilterAlt } from 'react-icons/md'
-import {
-  FilterContextProvider,
-  useFilterContext
-} from '../contexts/FilterContext'
+import { useFilterContext } from '../contexts/FilterContext'
 import { useGlobalContext } from '../contexts/GlobalContext'
+import { Product } from '../contexts/ProductContext'
 import AsideFilters from './AsideFilters'
 import Button from './Button'
 import Heading from './Heading'
 import ShelfGrid from './ShelfGrid'
 
-const Search = () => {
+interface SearchProps {
+  data: Product[]
+}
+
+const Search = ({ data }: SearchProps) => {
   const { isMobile } = useGlobalContext()
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
-  const { filteredProducts } = useFilterContext()
 
-  // useEffect(() => {
-  //   filterProducts(filteredProducts)
-  //   // setFilteredProducts(query)
-  // }, [currentFilters])
+  const [name] = data
 
   return (
-    <FilterContextProvider>
-      <Heading text="Categorias" center />
+    <>
+      <Heading text={name?.brand || 'Categorias'} center />
       {isMobile && (
         <div className="flex justify-center">
           <Button
@@ -33,17 +31,17 @@ const Search = () => {
           />
         </div>
       )}
-      <div className="flex flex-col md:flex-row gap-7 justify-between my-6">
+      <div className="flex flex-col md:flex-row gap-7 justify-between my-12">
         <div
           className={`
       flex justify-center
       ${!isMobile || isFilterModalOpen ? 'block' : 'hidden'}`}
         >
-          <AsideFilters />
+          <AsideFilters data={data} />
         </div>
-        <ShelfGrid />
+        <ShelfGrid data={data} />
       </div>
-    </FilterContextProvider>
+    </>
   )
 }
 

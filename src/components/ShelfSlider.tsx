@@ -46,6 +46,7 @@ const ShelfSlider = ({ data, title, titleCenter }: ShelfSliderProps) => {
             ({ id, name, price, bestPrice, images, mainImg, sizes }) => (
               <li key={id}>
                 <ShelfItem
+                  displayType="slider"
                   id={id}
                   name={name}
                   price={price}
