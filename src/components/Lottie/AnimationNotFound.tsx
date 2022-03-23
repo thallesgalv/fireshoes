@@ -1,8 +1,8 @@
 import type { LottiePlayer } from 'lottie-web'
 import { useEffect, useRef, useState } from 'react'
-import Celebration from '../../assets/animationCelebration.json'
+import NotFound from '../../assets/animationNotFound.json'
 
-const AnimationCelebration = () => {
+const AnimationNotFound = () => {
   const containerLottie = useRef<HTMLDivElement>(null)
 
   const [lottie, setLottie] = useState<LottiePlayer | null>(null)
@@ -16,9 +16,9 @@ const AnimationCelebration = () => {
       const animation = lottie.loadAnimation({
         container: containerLottie.current,
         renderer: 'svg',
-        loop: false,
+        loop: true,
         autoplay: true,
-        animationData: Celebration
+        animationData: NotFound
       })
       lottie.setSpeed(0.8)
       return () => animation.destroy()
@@ -26,10 +26,10 @@ const AnimationCelebration = () => {
   }, [lottie])
 
   return (
-    <div className="w-3/4 m-auto">
+    <div className="w-48">
       <div ref={containerLottie} />
     </div>
   )
 }
 
-export default AnimationCelebration
+export default AnimationNotFound

@@ -115,15 +115,28 @@ const AsideFilters = ({ data }: AsideFiltersProps) => {
           Preço:
         </h3>
         <ul className="flex gap-2 lg:gap-1 flex-wrap items">
-          <li>
+        <li>
             <FilterOption
-              text="R$50 - R$ 100"
-              hidden={checkIfFilterIsSelected('priceRange', 'R$50 - R$ 100')}
+              text="R$1 - R$ 50"
+              hidden={checkIfFilterIsSelected('priceRange', 'R$1 - R$ 50')}
               onClick={() =>
                 toggleInFilters('priceRange', {
-                  min: 50,
+                  min: 1,
+                  max: 50,
+                  text: 'R$1 - R$ 50'
+                })
+              }
+            />
+          </li>
+          <li>
+            <FilterOption
+              text="R$51 - R$ 100"
+              hidden={checkIfFilterIsSelected('priceRange', 'R$51 - R$ 100')}
+              onClick={() =>
+                toggleInFilters('priceRange', {
+                  min: 51,
                   max: 100,
-                  text: 'R$50 - R$ 100'
+                  text: 'R$51 - R$ 100'
                 })
               }
             />
@@ -137,6 +150,19 @@ const AsideFilters = ({ data }: AsideFiltersProps) => {
                   min: 101,
                   max: 150,
                   text: 'R$101 - R$ 150'
+                })
+              }
+            />
+          </li>
+          <li>
+            <FilterOption
+              text="R$151 - R$ 200"
+              hidden={checkIfFilterIsSelected('priceRange', 'R$151 - R$ 200')}
+              onClick={() =>
+                toggleInFilters('priceRange', {
+                  min: 151,
+                  max: 200,
+                  text: 'R$151 - R$ 200'
                 })
               }
             />

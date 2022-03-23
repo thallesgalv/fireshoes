@@ -25,13 +25,15 @@ export type FilterOptionType = 'brand' | 'colors' | 'sizes' | 'priceRange'
 
 interface FilterContextProps {
   filters: Filters
-  setFilters: (arg: Filters) => void
+  setFilters: (state: Filters) => void
   currentFilters: Filters
-  setCurrentFilters: (arg: Filters) => void
+  setCurrentFilters: (state: Filters) => void
   filtersCount: number
-  setFiltersCount: (arg: number) => void
+  setFiltersCount: (state: number) => void
   filteredProducts: Product[] | undefined
-  setFilteredProducts: (arg: Product[] | undefined) => void
+  setFilteredProducts: (state: Product[] | undefined) => void
+  queriedProducts: Product[] | undefined
+  setQueriedProducts: (state: Product[] | undefined) => void
   checkIfFilterIsSelected: (
     option: FilterOptionType,
     value?: string | PriceRange | undefined
@@ -41,7 +43,7 @@ interface FilterContextProps {
     value?: string | PriceRange | undefined
   ) => void
   getFiltersCount: () => void
-  getFilteredProducts: (products?: Product[] | undefined) => Product[] | null
+  getFilteredProducts: () => Product[] | undefined
   getBrands: (currentProducts: Product[]) => (string | undefined)[] | null
   getColors: (currentProducts: Product[]) => string[] | null
   getSizes: (currentProducts: Product[]) => string[] | null
@@ -62,6 +64,9 @@ export const FilterContextProvider = ({
   const [filteredProducts, setFilteredProducts] = useState<
     Product[] | undefined
   >(undefined)
+  const [queriedProducts, setQueriedProducts] = useState<Product[] | undefined>(
+    filteredProducts
+  )
 
   useEffect(() => {
     if (filtersCount === 0) {
@@ -134,50 +139,62 @@ export const FilterContextProvider = ({
     setFiltersCount(count)
   }
 
-  const doAFilter = (selectFilter: FilterOptionType, poolArray: Product[]) => {
-    if (currentFilters.priceRange && selectFilter === 'priceRange') {
-      const [selectPriceRange] = currentFilters.priceRange
+  const getFilteredProducts = () => {
+    let search: Product[] = []
+    let result = filteredProducts
 
-      return poolArray.filter((p) => {
-        const findPrice = checkForPrice(p.price, p.bestPrice)
+    if (currentFilters.colors && currentFilters.colors.length) {
+      currentFilters.colors.forEach((color) => {
+        if (color) {
+          const query = result?.filter((product) => {
+            if (product.colors) return product?.colors.includes(color)
+          })
+          if (query) search = query.length ? [...search, ...query] : []
+        }
+      })
+      const unique = new Set(search)
+      result = [...Array.from(unique)]
+    }
+
+    if (currentFilters.sizes && currentFilters.sizes.length) {
+      currentFilters.sizes.forEach((size) => {
+        if (size) {
+          const query = result?.filter((product) => {
+            if (product.sizes) return product?.sizes.includes(size)
+          })
+          if (query) search = query.length ? [...search, ...query] : []
+        }
+      })
+
+      const unique = new Set(search)
+      result = [...Array.from(unique)]
+    }
+
+    if (currentFilters.priceRange && currentFilters.priceRange.length) {
+      const [selectPriceRange] = currentFilters.priceRange
+      let findedMax = selectPriceRange?.min
+      let findedMin = selectPriceRange?.max
+
+      currentFilters.priceRange.forEach((priceRange) => {
+        if (priceRange.max > findedMax) findedMax = priceRange.max
+        if (priceRange.min < findedMin) findedMin = priceRange.min
+      })
+
+      const query = result?.filter((product) => {
+        const findPrice = checkForPrice(product.price, product.bestPrice)
         const selectedPrice = findPrice?.bestPrice || findPrice?.price
 
         if (selectedPrice) {
-          return (
-            selectedPrice >= selectPriceRange?.min &&
-            selectedPrice <= selectPriceRange?.max
-          )
+          return selectedPrice >= findedMin && selectedPrice <= findedMax
         }
       })
+
+      if (query) search = query.length ? [...search, ...query] : []
+      const unique = new Set(search)
+      result = [...Array.from(unique)]
     }
 
-    return poolArray.filter((p: any) => {
-      return currentFilters[selectFilter]?.some((e) =>
-        p[selectFilter].includes(e)
-      )
-    })
-  }
-
-  const getFilteredProducts = (products?: Product[]) => {
-    if (products) {
-      let search: Product[] = []
-      let result: Product[] = []
-      const query = Object.keys(currentFilters)
-
-      query.forEach((f: any, idx) => {
-        if (idx === 0) {
-          const [firstFilter]: any = query
-          search = doAFilter(firstFilter, products)
-        } else {
-          search = doAFilter(f, result)
-        }
-
-        result = search
-      })
-
-      return result
-    }
-    return null
+    return result
   }
 
   const getBrands = (currentProducts: Product[]) => {
@@ -227,6 +244,8 @@ export const FilterContextProvider = ({
         toggleInFilters,
         getFiltersCount,
         getFilteredProducts,
+        queriedProducts,
+        setQueriedProducts,
         getBrands,
         getColors,
         getSizes

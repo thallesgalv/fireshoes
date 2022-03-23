@@ -1,6 +1,5 @@
-import { useEffect } from 'react'
-import { useFilterContext } from '../contexts/FilterContext'
 import { Product } from '../contexts/ProductContext'
+import AnimationNotFound from './Lottie/AnimationNotFound'
 import ShelfItem from './ShelfItem'
 
 interface ShelfGridProps {
@@ -8,31 +7,29 @@ interface ShelfGridProps {
 }
 
 const ShelfGrid = ({ data }: ShelfGridProps) => {
-  const { filteredProducts, setFilteredProducts } = useFilterContext()
-
-  useEffect(() => {
-    if (data) setFilteredProducts(data)
-  }, [])
-
-  // if (!data || data.length === 0) return null
+  if (!data || data.length === 0)
+    return (
+      <div className="w-full flex justify-center items-center flex-col">
+        <AnimationNotFound />
+        <p>Não há produtos que correspondem aos critérios de busca.</p>
+      </div>
+    )
   return (
     <ul className="grid gap-y-8 lg:grid-cols-3 lg:gap-7 lg:gap-y-14 justify-center">
-      {filteredProducts?.map(
-        ({ id, name, price, bestPrice, images, mainImg, sizes }) => (
-          <li key={id}>
-            <ShelfItem
-              displayType="grid"
-              id={id}
-              name={name}
-              price={price}
-              bestPrice={bestPrice}
-              images={images}
-              mainImg={mainImg}
-              sizes={sizes}
-            />
-          </li>
-        )
-      )}
+      {data?.map(({ id, name, price, bestPrice, images, mainImg, sizes }) => (
+        <li key={id}>
+          <ShelfItem
+            displayType="grid"
+            id={id}
+            name={name}
+            price={price}
+            bestPrice={bestPrice}
+            images={images}
+            mainImg={mainImg}
+            sizes={sizes}
+          />
+        </li>
+      ))}
     </ul>
   )
 }

@@ -14,8 +14,11 @@ const Category: NextPage<CategoryProps> = ({ products }) => {
     setFilteredProducts,
     getFilteredProducts,
     filteredProducts,
+    setQueriedProducts,
     currentFilters,
-    setCurrentFilters
+    queriedProducts,
+    setCurrentFilters,
+    filtersCount
   } = useFilterContext()
 
   useEffect(() => {
@@ -26,16 +29,23 @@ const Category: NextPage<CategoryProps> = ({ products }) => {
   }, [products])
 
   useEffect(() => {
-    let query = getFilteredProducts(filteredProducts)
-    query && query.length
-      ? setFilteredProducts(query)
-      : setFilteredProducts(products)
-  }, [currentFilters])
+    // let query = getFilteredProducts(filteredProducts)
+    // query && query.length
+    //   ? setFilteredProducts(query)
+    //   : setFilteredProducts(products)
+    if (filtersCount !== 0) {
+      let query = getFilteredProducts()
+      setQueriedProducts(query)
+    } else {
+      setQueriedProducts(products)
+    }
+
+  }, [currentFilters, filtersCount])
 
 
   return (
     <section className="w-11/12 lg:w-full m-auto">
-      <Search data={products} />
+      <Search data={queriedProducts ? queriedProducts : []} />
     </section>
   )
 }
