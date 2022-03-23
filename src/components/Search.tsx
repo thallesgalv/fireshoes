@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { MdOutlineFilterAlt } from 'react-icons/md'
-import { useFilterContext } from '../contexts/FilterContext'
 import { useGlobalContext } from '../contexts/GlobalContext'
 import { Product } from '../contexts/ProductContext'
 import AsideFilters from './AsideFilters'
@@ -10,9 +9,10 @@ import ShelfGrid from './ShelfGrid'
 
 interface SearchProps {
   data: Product[]
+  heading?: string
 }
 
-const Search = ({ data }: SearchProps) => {
+const Search = ({ data, heading }: SearchProps) => {
   const { isMobile } = useGlobalContext()
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
 
@@ -20,7 +20,7 @@ const Search = ({ data }: SearchProps) => {
 
   return (
     <>
-      <Heading text={name?.brand || 'Categorias'} center />
+      <Heading text={heading || name?.brand || 'Categorias'} center />
       {isMobile && (
         <div className="flex justify-center">
           <Button

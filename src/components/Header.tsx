@@ -93,13 +93,13 @@ const Header = () => {
               </Link>
             </li>
             <li>
-              <Link href="/">
-                <a onClick={handleMenu}>Tênis</a>
+              <Link href="/category/Asics">
+                <a onClick={handleMenu}>Asics</a>
               </Link>
             </li>
             <li>
-              <Link href="/">
-                <a onClick={handleMenu}>Tênis</a>
+              <Link href="/products">
+                <a onClick={handleMenu}>Produtos</a>
               </Link>
             </li>
             <li className="md:hidden">

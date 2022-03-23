@@ -143,6 +143,20 @@ export const FilterContextProvider = ({
     let search: Product[] = []
     let result = filteredProducts
 
+    if (currentFilters.brand && currentFilters.brand.length) {
+      currentFilters.brand.forEach((brand) => {
+        if (brand) {
+          const query = result?.filter((product) => {
+            if (product.brand) return product?.brand === brand
+          })
+          if (query) search = query.length ? [...search, ...query] : []
+        }
+      })
+      const unique = new Set(search)
+      result = [...Array.from(unique)]
+      search = []
+    }
+
     if (currentFilters.colors && currentFilters.colors.length) {
       currentFilters.colors.forEach((color) => {
         if (color) {
@@ -154,6 +168,7 @@ export const FilterContextProvider = ({
       })
       const unique = new Set(search)
       result = [...Array.from(unique)]
+      search = []
     }
 
     if (currentFilters.sizes && currentFilters.sizes.length) {
@@ -168,6 +183,7 @@ export const FilterContextProvider = ({
 
       const unique = new Set(search)
       result = [...Array.from(unique)]
+      search = []
     }
 
     if (currentFilters.priceRange && currentFilters.priceRange.length) {
@@ -192,6 +208,7 @@ export const FilterContextProvider = ({
       if (query) search = query.length ? [...search, ...query] : []
       const unique = new Set(search)
       result = [...Array.from(unique)]
+      search = []
     }
 
     return result

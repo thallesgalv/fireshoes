@@ -19,10 +19,9 @@ const AsideFilters = ({ data }: AsideFiltersProps) => {
     getColors,
     getSizes,
     checkIfFilterIsSelected,
-    filtersCount
+    filtersCount,
+    filteredProducts
   } = useFilterContext()
-
-  const { filteredProducts } = useFilterContext()
 
   useEffect(() => {
     getFiltersCount()
@@ -45,6 +44,7 @@ const AsideFilters = ({ data }: AsideFiltersProps) => {
     }
   }, [filteredProducts])
 
+  if (!data.length && !filteredProducts?.length) return null
   return (
     <aside
       className="
@@ -115,7 +115,7 @@ const AsideFilters = ({ data }: AsideFiltersProps) => {
           Preço:
         </h3>
         <ul className="flex gap-2 lg:gap-1 flex-wrap items">
-        <li>
+          <li>
             <FilterOption
               text="R$1 - R$ 50"
               hidden={checkIfFilterIsSelected('priceRange', 'R$1 - R$ 50')}
