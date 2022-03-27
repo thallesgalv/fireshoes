@@ -11,7 +11,7 @@ const ShelfGrid = ({ data }: ShelfGridProps) => {
     return (
       <div className="w-full flex justify-center items-center flex-col">
         <AnimationNotFound />
-        <p>Não há produtos que correspondem aos critérios de busca.</p>
+        <p className="text-center">Não há produtos que correspondem aos critérios de busca.</p>
       </div>
     )
   return (

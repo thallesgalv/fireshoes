@@ -1,30 +1,15 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import {
-  MdLogout,
-  MdNoAccounts,
-  MdOutlineAdminPanelSettings
-} from 'react-icons/md'
-import Button from '../components/Button'
-import DeliveryAdress from '../components/DeliveryAdress'
 import Heading from '../components/Heading'
-import OrderHistory from '../components/OrderHistory'
-import PaymentMethod from '../components/PaymentMethod'
-import UserOption from '../components/UserOption'
-import { useAuthContext } from '../contexts/AuthContext'
-import { useGlobalContext } from '../contexts/GlobalContext'
+import UserActions from '../components/User/UserActions'
+import UserOptions from '../components/User/UserOptions'
 import { useUserContext } from '../contexts/UserContext'
+import { UserOptionContextProvider } from '../contexts/UserOptionContext'
 
 const User: NextPage = () => {
-  // const DeliveryAdress = dynamic(() => import('../components/DeliveryAdress'))
-  // const PaymentMethod = dynamic(() => import('../components/PaymentMethod'))
-
-  const { logout } = useAuthContext()
   const { currentUser, getUser } = useUserContext()
-  const { userOption } = useGlobalContext()
   const router = useRouter()
 
   useEffect(() => {
@@ -47,67 +32,14 @@ const User: NextPage = () => {
 
       <Heading text="Área do Usuário" center />
 
-      <section
-        className="
-          w-11/12 m-auto
-          lg:w-full lg:flex lg:relative
-          pb-8
-        "
-      >
-        <aside className="flex flex-col gap-6 lg:fixed">
-          <UserOption text="Endereço de Entrega" option="adress" />
-          <UserOption text="Meios de pagamento" option="payment" />
-          <UserOption text="Compras Realizadas" option="orderHistory" />
-          <div>
-            <Button
-              primary
-              text="Fazer logout"
-              icon={<MdLogout />}
-              onClick={logout}
-            />
-          </div>
-          <div>
-            <Button
-              secondary
-              text="Deletar conta"
-              icon={<MdNoAccounts />}
-              onClick={logout}
-            />
-          </div>
-          {currentUser.isAdmin && (
-            <Link href="/admin">
-              <a>
-                <Button
-                  primary
-                  text="Administrador"
-                  icon={<MdOutlineAdminPanelSettings />}
-                />
-              </a>
-            </Link>
-          )}
-        </aside>
-        <article className="w-full mt-8 lg:mt-0">
-          {userOption === 'adress' && (
-            <div className="w-full lg:w-[500px] lg:mx-auto lg:flex items-center flex-col">
-              <DeliveryAdress orientation="vertical" />
-            </div>
-          )}
-          {userOption === 'payment' && (
-            <div className="w-full lg:w-[500px] lg:mx-auto lg:flex items-center flex-col">
-              <PaymentMethod orientation="vertical" />
-            </div>
-          )}
-          {userOption === 'orderHistory' && (
-            <div className="w-full lg:w-[500px] lg:mx-auto lg:flex items-center flex-col h-[50vh] lg:h-[70vh] overflow-y-scroll scrollbar">
-              <OrderHistory />
-            </div>
-          )}
-        </article>
+      <section className="w-11/12 m-auto pb-8 lg:w-full lg:flex lg:relative">
+        <UserOptionContextProvider>
+          <UserOptions />
+          <UserActions />
+        </UserOptionContextProvider>
       </section>
     </>
   )
 }
 
 export default User
-
-// className="lg:absolute left-0 right-0 mt-6 m-auto w-full md:w-96"
