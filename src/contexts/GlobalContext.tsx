@@ -34,7 +34,6 @@ export const GlobalContextProvider = ({
   const [modalStatus, setModalStatus] = useState<ModalStatus>(null)
   const [sucessOrder, setSucessOrder] = useState(false)
 
-
   return (
     <GlobalContext.Provider
       value={{
@@ -48,7 +47,7 @@ export const GlobalContextProvider = ({
         modalStatus,
         setModalStatus,
         sucessOrder,
-        setSucessOrder,
+        setSucessOrder
       }}
     >
       {children}
