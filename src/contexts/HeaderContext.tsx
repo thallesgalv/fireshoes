@@ -39,6 +39,8 @@ export const HeaderContextProvider = ({
   const handleMenu = () => {
     isMobile && setMenuActive(!menuActive)
     setSearchBarActive(false)
+    setDropdownActive(false)
+    setDropdownSelected(null)
   }
 
   const handleSearchBar = () => {

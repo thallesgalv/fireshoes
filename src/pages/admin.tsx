@@ -309,7 +309,7 @@ const Admin: NextPage = () => {
                     onChange={handleProduct}
                     value={productDataForm?.name}
                   />
-                  <fieldset className="flex gap-6">
+                  <fieldset className="flex flex-col lg:flex-row gap-6">
                     <Input
                       text="Categoria:"
                       name="category"

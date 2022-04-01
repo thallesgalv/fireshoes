@@ -21,13 +21,11 @@ const MenuRoutes = () => {
   const handleCategory = () => {
     setDropdownActive(true)
     setDropdownSelected('category')
-    console.log(dropdownActive)
   }
 
   const handleBrand = () => {
     setDropdownActive(true)
     setDropdownSelected('brand')
-    console.log(dropdownActive)
   }
 
   return (
