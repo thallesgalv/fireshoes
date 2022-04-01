@@ -1,9 +1,34 @@
 import Link from 'next/link'
+import { MdOutlineArrowDropDown, MdOutlineArrowDropUp } from 'react-icons/md'
+import { brandRoutes, categoryRoutes } from '../../../routes'
+import { useGlobalContext } from '../../contexts/GlobalContext'
 import { useHeaderContext } from '../../contexts/HeaderContext'
+import DropdownLinks from './DropdownLinks'
 import UserButton from './UserButton'
 
 const MenuRoutes = () => {
-  const { menuActive, handleMenu } = useHeaderContext()
+  const {
+    menuActive,
+    handleMenu,
+    dropdownActive,
+    setDropdownActive,
+    dropdownSelected,
+    setDropdownSelected
+  } = useHeaderContext()
+
+  const { isMobile } = useGlobalContext()
+
+  const handleCategory = () => {
+    setDropdownActive(true)
+    setDropdownSelected('category')
+    console.log(dropdownActive)
+  }
+
+  const handleBrand = () => {
+    setDropdownActive(true)
+    setDropdownSelected('brand')
+    console.log(dropdownActive)
+  }
 
   return (
     <ul
@@ -17,24 +42,77 @@ const MenuRoutes = () => {
       `}
     >
       <li>
-        <Link href="/category/Nike">
-          <a onClick={handleMenu}>Nike</a>
-        </Link>
-      </li>
-      <li>
-        <Link href="/category/Adidas">
-          <a onClick={handleMenu}>Adidas</a>
-        </Link>
-      </li>
-      <li>
-        <Link href="/category/Asics">
-          <a onClick={handleMenu}>Asics</a>
-        </Link>
-      </li>
-      <li>
         <Link href="/products">
-          <a onClick={handleMenu}>Produtos</a>
+          <a
+            onClick={handleMenu}
+            className="bg-primary p-1 text-white rounded-sm px-2"
+          >
+            Produtos
+          </a>
         </Link>
+      </li>
+
+      <li
+        className="cursor-pointer"
+        onMouseEnter={handleCategory}
+        onClick={() => {
+          isMobile && handleCategory()
+        }}
+      >
+        <div className="flex items-center">
+          <p
+            className={`${
+              dropdownSelected === 'category' && !isMobile ? 'underline' : ''
+            }`}
+          >
+            Categorias
+          </p>
+          <div>
+            {dropdownSelected === 'category' ? (
+              <MdOutlineArrowDropUp />
+            ) : (
+              <MdOutlineArrowDropDown />
+            )}
+          </div>
+        </div>
+        {dropdownActive && isMobile && (
+          <div className="text-lg text-center mt-4 max-h-32 overflow-scroll">
+            {dropdownSelected === 'category' && (
+              <DropdownLinks routeArray={categoryRoutes} />
+            )}
+          </div>
+        )}
+      </li>
+      <li
+        className="cursor-pointer"
+        onMouseEnter={handleBrand}
+        onClick={() => {
+          isMobile && handleBrand()
+        }}
+      >
+        <div className="flex items-center">
+          <p
+            className={` ${
+              dropdownSelected === 'brand' && !isMobile ? 'underline' : ''
+            }`}
+          >
+            Marcas
+          </p>
+          <div>
+            {dropdownSelected === 'brand' ? (
+              <MdOutlineArrowDropUp />
+            ) : (
+              <MdOutlineArrowDropDown />
+            )}
+          </div>
+        </div>
+        {dropdownActive && isMobile && (
+          <div className="text-lg text-center mt-4 max-h-48 overflow-scroll">
+            {dropdownSelected === 'brand' && (
+              <DropdownLinks routeArray={brandRoutes} />
+            )}
+          </div>
+        )}
       </li>
       <li className="md:hidden">
         <UserButton />

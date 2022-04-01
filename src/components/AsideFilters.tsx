@@ -16,6 +16,7 @@ const AsideFilters = ({ data }: AsideFiltersProps) => {
     filters,
     toggleInFilters,
     getBrands,
+    getCategories,
     getColors,
     getSizes,
     checkIfFilterIsSelected,
@@ -33,6 +34,7 @@ const AsideFilters = ({ data }: AsideFiltersProps) => {
     if (isMounted && data) {
       setFilters({
         ...filters,
+        category: getCategories(data),
         brand: getBrands(data),
         colors: getColors(data),
         sizes: getSizes(data)
@@ -56,6 +58,13 @@ const AsideFilters = ({ data }: AsideFiltersProps) => {
           Filtros selecionados: ({filtersCount})
         </h3>
         <ul className="flex gap-2 lg:gap-1 flex-wrap items">
+        {currentFilters.category && (
+            <FilterGroup
+              filterArray={currentFilters.category}
+              option={'category'}
+              showSelecteds
+            />
+          )}
           {currentFilters.brand && (
             <FilterGroup
               filterArray={currentFilters.brand}
@@ -91,6 +100,12 @@ const AsideFilters = ({ data }: AsideFiltersProps) => {
               </li>
             ))}
         </ul>
+      </div>
+      <div className=" border-b py-3">
+        <h3 className="text-center text-md text-primary font-semibold mb-2">main
+          Categoria:
+        </h3>
+        <FilterGroup filterArray={filters.category} option={'category'} />
       </div>
       <div className=" border-b py-3">
         <h3 className="text-center text-md text-primary font-semibold mb-2">

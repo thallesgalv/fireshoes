@@ -11,6 +11,7 @@ import { Product } from './ProductContext'
 
 export interface Filters {
   brand?: (string | undefined)[] | null
+  category?: (string | undefined)[] | null
   colors?: (string | undefined)[] | null
   sizes?: (string | undefined)[] | null
   priceRange?: PriceRange[]
@@ -21,7 +22,7 @@ export interface PriceRange {
   text: string
 }
 
-export type FilterOptionType = 'brand' | 'colors' | 'sizes' | 'priceRange'
+export type FilterOptionType = 'category' |'brand' | 'colors' | 'sizes' | 'priceRange'
 
 interface FilterContextProps {
   filters: Filters
@@ -44,6 +45,7 @@ interface FilterContextProps {
   ) => void
   getFiltersCount: () => void
   getFilteredProducts: () => Product[] | undefined
+  getCategories: (currentProducts: Product[]) => (string | undefined)[] | null
   getBrands: (currentProducts: Product[]) => (string | undefined)[] | null
   getColors: (currentProducts: Product[]) => string[] | null
   getSizes: (currentProducts: Product[]) => string[] | null
@@ -143,6 +145,20 @@ export const FilterContextProvider = ({
     let search: Product[] = []
     let result = filteredProducts
 
+    if (currentFilters.category && currentFilters.category.length) {
+      currentFilters.category.forEach((category) => {
+        if (category) {
+          const query = result?.filter((product) => {
+            if (product.category) return product?.category === category
+          })
+          if (query) search = query.length ? [...search, ...query] : []
+        }
+      })
+      const unique = new Set(search)
+      result = [...Array.from(unique)]
+      search = []
+    }
+
     if (currentFilters.brand && currentFilters.brand.length) {
       currentFilters.brand.forEach((brand) => {
         if (brand) {
@@ -214,6 +230,16 @@ export const FilterContextProvider = ({
     return result
   }
 
+  const getCategories = (currentProducts: Product[]) => {
+    if (currentProducts) {
+      const uniques = new Set(
+        currentProducts.map((product) => product.category)
+      )
+      return uniques ? Array.from(uniques).sort() : null
+    }
+    return null
+  }
+
   const getBrands = (currentProducts: Product[]) => {
     if (currentProducts) {
       const uniques = new Set(currentProducts.map((product) => product.brand))
@@ -263,6 +289,7 @@ export const FilterContextProvider = ({
         getFilteredProducts,
         queriedProducts,
         setQueriedProducts,
+        getCategories,
         getBrands,
         getColors,
         getSizes

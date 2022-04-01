@@ -50,6 +50,7 @@ const Admin: NextPage = () => {
     setProductDataForm({
       id: currentProduct?.id,
       name: currentProduct?.name,
+      category: currentProduct?.category,
       brand: currentProduct?.brand,
       price: currentProduct?.price,
       bestPrice: currentProduct?.bestPrice,
@@ -183,6 +184,9 @@ const Admin: NextPage = () => {
                       Link
                     </th>
                     <th className="text-center p-2 border border-white">
+                      Categoria
+                    </th>
+                    <th className="text-center p-2 border border-white">
                       Marca
                     </th>
                     <th className="text-center p-2 border border-white">
@@ -211,6 +215,7 @@ const Admin: NextPage = () => {
                       id,
                       name,
                       brand,
+                      category,
                       price,
                       bestPrice,
                       mainImg,
@@ -239,6 +244,9 @@ const Admin: NextPage = () => {
                           >
                             <a>Link</a>
                           </Link>
+                        </td>
+                        <td className="border border-primary p-2 text-center text-dark">
+                          {category}
                         </td>
                         <td className="border border-primary p-2 text-center text-dark">
                           {brand}
@@ -301,15 +309,24 @@ const Admin: NextPage = () => {
                     onChange={handleProduct}
                     value={productDataForm?.name}
                   />
-                  <Input
-                    text="Marca:"
-                    name="brand"
-                    htmlFor="productBrand"
-                    required
-                    widthFull
-                    onChange={handleProduct}
-                    value={productDataForm?.brand}
-                  />
+                  <fieldset className="flex gap-6">
+                    <Input
+                      text="Categoria:"
+                      name="category"
+                      htmlFor="productCategory"
+                      required
+                      onChange={handleProduct}
+                      value={productDataForm?.category}
+                    />
+                    <Input
+                      text="Marca:"
+                      name="brand"
+                      htmlFor="productBrand"
+                      required
+                      onChange={handleProduct}
+                      value={productDataForm?.brand}
+                    />
+                  </fieldset>
                   <fieldset className="flex gap-6 max-w-xs">
                     <Input
                       text="Preço:"

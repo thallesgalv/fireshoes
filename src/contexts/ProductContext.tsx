@@ -18,6 +18,7 @@ const getStorage = () => import('../firebase/storage')
 export interface Product {
   id?: string
   name?: string
+  category?: string
   brand?: string
   price?: number
   bestPrice?: number
@@ -108,6 +109,7 @@ export const ProductContextProvider = ({
     if (auth.currentUser && productDataForm.name) {
       const docRef = await addDoc(collection(db, 'products'), {
         name: productDataForm?.name,
+        category: productDataForm?.category,
         brand: productDataForm?.brand,
         price: productDataForm?.price! * 1,
         bestPrice: productDataForm?.bestPrice! * 1,
@@ -185,6 +187,7 @@ export const ProductContextProvider = ({
 
       await updateDoc(docRef, {
         name: productDataForm?.name,
+        category: productDataForm?.category,
         brand: productDataForm?.brand,
         price: productDataForm?.price! * 1,
         bestPrice: productDataForm?.bestPrice! * 1,

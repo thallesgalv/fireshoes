@@ -1,6 +1,6 @@
 import { MdClose, MdMenu } from 'react-icons/md'
 import { useHeaderContext } from '../../contexts/HeaderContext'
-import Logo from './Logo'
+import LogoArea from './LogoArea'
 import MenuActions from './MenuActions'
 import MenuRoutes from './MenuRoutes'
 
@@ -17,7 +17,7 @@ const Navigation = () => {
       </div>
 
       <div className="flex justify-center items-center">
-        <Logo />
+        <LogoArea />
         <MenuRoutes />
       </div>
       <MenuActions />

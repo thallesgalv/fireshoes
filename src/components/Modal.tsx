@@ -33,14 +33,14 @@ const Modal = ({
     <div
       className={`
           ${modalStatus ? 'block' : 'hidden'}
-          w-screen h-screen bg-black bg-opacity-50 fixed top-0 left-0 grid place-items-center z-20 overflow-y-scroll
+          w-screen min-h-[calc(100vh_-_4.5rem)] bg-black bg-opacity-50 fixed bottom-0 left-0 grid place-items-center z-20 overflow-y-scroll
         `}
       onClick={handleModal}
       ref={modalContainer}
     >
       <div
         className={`
-            p-8 bg-white m-auto rounded relative animate-show
+            p-8 bg-white m-auto rounded relative max-h-[70vh] lg:max-h-fit overflow-y-scroll lg:overflow-visible animate-show
             w-11/12 ${widthFit ? 'md:w-fit' : 'md:w-96'}
         `}
       >

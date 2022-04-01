@@ -4,7 +4,6 @@ import { useGlobalContext } from '../contexts/GlobalContext'
 import { Product } from '../contexts/ProductContext'
 import AsideFilters from './AsideFilters'
 import Button from './Button'
-import Heading from './Heading'
 import ShelfGrid from './ShelfGrid'
 
 interface SearchProps {
@@ -16,11 +15,8 @@ const Search = ({ data, heading }: SearchProps) => {
   const { isMobile } = useGlobalContext()
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
 
-  const [name] = data
-
   return (
     <>
-      <Heading text={heading || name?.brand || 'Categorias'} center />
       {isMobile && (
         <div className="flex justify-center">
           <Button

@@ -1,5 +1,6 @@
 import { NextPage } from 'next/types'
 import { useEffect } from 'react'
+import Heading from '../components/Heading'
 import Search from '../components/Search'
 import { Filters, useFilterContext } from '../contexts/FilterContext'
 import { Product } from '../contexts/ProductContext'
@@ -28,10 +29,6 @@ const Products: NextPage<ProductsProps> = ({ allProducts }) => {
   }, [allProducts])
 
   useEffect(() => {
-    // let query = getFilteredProducts(filteredProducts)
-    // query && query.length
-    //   ? setFilteredProducts(query)
-    //   : setFilteredProducts(products)
     if (filtersCount !== 0) {
       let query = getFilteredProducts()
       setQueriedProducts(query)
@@ -42,6 +39,7 @@ const Products: NextPage<ProductsProps> = ({ allProducts }) => {
 
   return (
     <section className="w-11/12 lg:w-full m-auto">
+      <Heading text='Veja nosso catálogo' center />
       <Search
         data={queriedProducts ? queriedProducts : []}
         heading="Produtos"

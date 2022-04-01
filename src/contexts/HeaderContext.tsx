@@ -11,10 +11,16 @@ interface HeaderContextProps {
   searchBarActive: boolean
   setSearchBarActive: (state: boolean) => void
   searchTerm: string
-  setSearchTerm: (state:string) => void
+  setSearchTerm: (state: string) => void
   handleMenu: () => void
   handleSearchBar: () => void
+  dropdownActive: boolean
+  setDropdownActive: (state: boolean) => void
+  dropdownSelected: DropdownSelected
+  setDropdownSelected: (state: DropdownSelected) => void
 }
+
+type DropdownSelected = 'category' | 'brand' | null
 
 const HeaderContext = createContext({} as HeaderContextProps)
 
@@ -24,6 +30,9 @@ export const HeaderContextProvider = ({
   const [menuActive, setMenuActive] = useState(false)
   const [searchBarActive, setSearchBarActive] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
+  const [dropdownActive, setDropdownActive] = useState(false)
+  const [dropdownSelected, setDropdownSelected] =
+    useState<DropdownSelected>(null)
 
   const { isMobile } = useGlobalContext()
 
@@ -47,7 +56,11 @@ export const HeaderContextProvider = ({
         handleMenu,
         handleSearchBar,
         searchTerm,
-        setSearchTerm
+        setSearchTerm,
+        dropdownActive,
+        setDropdownActive,
+        dropdownSelected,
+        setDropdownSelected
       }}
     >
       {children}
