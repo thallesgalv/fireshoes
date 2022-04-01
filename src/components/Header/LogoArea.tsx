@@ -1,17 +1,17 @@
 import Link from 'next/link'
 import { useHeaderContext } from '../../contexts/HeaderContext'
-import AnimationFire from '../Lottie/AnimationFire'
+import Logo from '../Logo'
 
-const Logo = () => {
+const LogoArea = () => {
   const { setMenuActive } = useHeaderContext()
 
   return (
     <Link href="/">
-      <a className="text-4xl" onClick={() => setMenuActive(false)}>
-        <AnimationFire />
+      <a onClick={() => setMenuActive(false)}>
+        <Logo height={36} width={180} fill="#F63C3C"/>
       </a>
     </Link>
   )
 }
 
-export default Logo
+export default LogoArea

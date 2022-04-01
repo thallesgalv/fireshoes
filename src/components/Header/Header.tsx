@@ -24,9 +24,9 @@ const Header = () => {
   return (
     <div className="fixed w-full z-30 bg-white" onMouseLeave={handleMouseLeave}>
       <header
-        className={`${
-          !searchBarActive || dropdownActive ? 'shadow-lg ' : null
-        } `}
+        className={`
+          ${!searchBarActive || dropdownActive ? 'shadow-lg ' : null}
+        `}
       >
         <Navigation />
       </header>

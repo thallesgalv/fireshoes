@@ -7,7 +7,7 @@ const MenuActions = () => {
   const { handleSearchBar } = useHeaderContext()
 
   return (
-    <div className="flex justify-center items-center gap-4">
+    <div className="flex justify-center items-center gap-2 lg:gap-4">
       <div className="text-primary cursor-pointer" onClick={handleSearchBar}>
         <MdSearch size={30} />
       </div>
