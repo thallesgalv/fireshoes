@@ -1,10 +1,11 @@
 import Head from 'next/head'
 import type { GetServerSideProps, NextPage } from 'next/types'
-import { useEffect } from 'react'
-import packageInfo from '../../package.json'
-import Heading from '../components/Heading'
+import CategoriesBanners from '../components/home/CategoriesBanners'
+import VideoSection from '../components/home/VideoSection'
+import Main from '../components/Main'
+import Marquee from '../components/Marquee'
 import ShelfSlider from '../components/ShelfSlider'
-import { Product, useProductContext } from '../contexts/ProductContext'
+import { Product } from '../contexts/ProductContext'
 import {
   getProductsByQuery,
   getProductsByServer
@@ -14,16 +15,15 @@ interface IndexProps {
   allProducts: Product[]
   nikeShelfData: Product[]
   asicsShelfData: Product[]
-  orangeShelfData: Product[]
+  pinkShelfData: Product[]
 }
 
 const Index: NextPage<IndexProps> = ({
   allProducts,
   nikeShelfData,
   asicsShelfData,
-  orangeShelfData
+  pinkShelfData
 }) => {
-
   // useEffect(() => {
   //   getProductsByClient() // aqui os dados são gerados no cliente não por SSR
   // }, [])
@@ -31,6 +31,16 @@ const Index: NextPage<IndexProps> = ({
   // useEffect(() => {
   //   setCurrentProducts(allProducts) //Setando no client dados vindos obtidos via SSR
   // }, [])
+
+  const marqueeList = [
+    'A loja de calçados que mais cresce no Brasil',
+    'Ofertas especiais na semana do consumidor',
+    'Descontos via pix',
+    'Visite também: thallesgalvao.com.br',
+    'Frete grátis para todo o Brasil',
+    'Esta não é uma loja de verdade',
+    'Me siga no Github: @thallesgalv'
+  ]
 
   return (
     <>
@@ -40,15 +50,32 @@ const Index: NextPage<IndexProps> = ({
         <link rel="icon" href="/favicon.svg" />
       </Head>
 
-      <section className="w-11/12 m-auto">
-        <Heading text="Home" center />
-        <p className="text-center">Versão {packageInfo.version}</p>
+      <VideoSection />
 
-        <ShelfSlider data={allProducts} title="Todos os Produtos" />
-        <ShelfSlider data={orangeShelfData} title="Rosas" />
-        <ShelfSlider data={nikeShelfData} title="Só os Nikess" />
-        <ShelfSlider data={asicsShelfData} title="Asics? Temos" />
-      </section>
+      <div className="relative top-[68px]">
+        <Marquee list={marqueeList} />
+      </div>
+
+      <Main>
+        <section className="w-11/12 m-auto">
+          <ShelfSlider data={allProducts} title="Lançamentos" />
+          <CategoriesBanners />
+          <ShelfSlider data={nikeShelfData} title="Nikes? Brabo demais" />
+          <ShelfSlider data={asicsShelfData} title="Asics? Temos" />
+        </section>
+      </Main>
+
+      <div
+        className="w-full h-[267px] overflow-hidden"
+        style={{ background: "url('/sneakerGif.gif')" }}
+      ></div>
+
+      <main className="max-w-screen-xl m-auto pt-10">
+        <section className="w-11/12 m-auto">
+          <img src="/igMock.png" alt="Mock ig" className="py-10" />
+          <ShelfSlider data={pinkShelfData} title="Rosa é cor mais quente" />
+        </section>
+      </main>
     </>
   )
 }
@@ -59,7 +86,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
       allProducts: await getProductsByServer(),
       nikeShelfData: await getProductsByQuery('where', 'brand', 'Nike'),
       asicsShelfData: await getProductsByQuery('where', 'brand', 'Asics'),
-      orangeShelfData: await getProductsByQuery('array', 'colors', 'Rosa')
+      pinkShelfData: await getProductsByQuery('array', 'colors', 'Rosa')
     }
   }
 }

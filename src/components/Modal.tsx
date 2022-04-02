@@ -33,7 +33,7 @@ const Modal = ({
     <div
       className={`
           ${modalStatus ? 'block' : 'hidden'}
-          w-screen min-h-[calc(100vh_-_4.5rem)] bg-black bg-opacity-50 fixed bottom-0 left-0 grid place-items-center z-20 overflow-y-scroll
+          w-screen min-h-[calc(100vh_-_68px)] bg-black bg-opacity-50 fixed bottom-0 left-0 grid place-items-center z-20 overflow-y-scroll lg:overflow-y-visible
         `}
       onClick={handleModal}
       ref={modalContainer}

@@ -18,7 +18,9 @@ import { primary } from '../utils/colorVariables'
 import showVersion from '../utils/version'
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
+  const Header = dynamic(() => import('../components/Header/Header'))
   const Minicart = dynamic(() => import('../components/MiniCart'))
+  const Suggestion = dynamic(() => import('../components/Suggestion'))
 
   // const [loadingScreen, setLoadingScreen] = useState(false)
 
@@ -57,7 +59,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
                   options={{ showSpinner: false }}
                 />
                 <Minicart />
-                <Main>
+
                   {/* {loadingScreen ? <p>Loading</p> : <Component {...pageProps} />} */}
                   <Component {...pageProps} />
                   <Toaster
@@ -69,7 +71,6 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
                       }
                     }}
                   />
-                </Main>
               </FilterContextProvider>
             </ProductContextProvider>
           </AuthContextProvider>

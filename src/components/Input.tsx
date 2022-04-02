@@ -37,6 +37,7 @@ const Input = (props: InputProps) => {
             id={props.htmlFor}
             onChange={props.onChange}
             onKeyUp={handleKeyUp}
+            onBlur={props.onBlur}
             placeholder={props.placeholder}
             required={props.required}
             defaultValue={props.value}
