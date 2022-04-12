@@ -1,5 +1,16 @@
-import { InputHTMLAttributes, MutableRefObject, useCallback } from 'react'
-import { postalCodeMask } from '../utils/masks'
+import {
+  InputHTMLAttributes,
+  MutableRefObject,
+  useCallback,
+  useState
+} from 'react'
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
+import {
+  cardNumberMask,
+  paymentMethodExpirationDateMask,
+  paymentMethodSecurityCodeMask,
+  postalCodeMask
+} from '../utils/masks'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   text?: string
@@ -13,14 +24,29 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const Input = (props: InputProps) => {
+  const [showPassword, setshowPassword] = useState(false)
+
   const handleKeyUp = useCallback(
     (e: React.FormEvent<HTMLInputElement>) => {
       if (props.mask === 'postalCodeMask') {
         postalCodeMask(e)
       }
+      if (props.mask === 'paymentMethodExpirationDateMask') {
+        paymentMethodExpirationDateMask(e)
+      }
+      if (props.mask === 'paymentMethodSecurityCodeMask') {
+        paymentMethodSecurityCodeMask(e)
+      }
+      if (props.mask === 'cardNumberMask') {
+        cardNumberMask(e)
+      }
     },
     [props.mask]
   )
+
+  const handleToggleShowPassword = () => {
+    setshowPassword(!showPassword)
+  }
 
   return (
     <>
@@ -32,7 +58,7 @@ const Input = (props: InputProps) => {
         <div className="flex items-center relative">
           <input
             autoComplete="off"
-            type={props.type || 'text'}
+            type={showPassword ? 'text' : props.type || 'text'}
             name={props.name}
             id={props.htmlFor}
             onChange={props.onChange}
@@ -57,6 +83,14 @@ const Input = (props: InputProps) => {
           <span className="text-lg absolute right-2 opacity-60 z-20">
             {props.icon}
           </span>
+          {props.type === 'password' && (
+            <button
+              onClick={handleToggleShowPassword}
+              className="text-lg absolute right-8 opacity-60 z-20"
+            >
+              {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+            </button>
+          )}
         </div>
       </label>
       {props.validationMessage && (

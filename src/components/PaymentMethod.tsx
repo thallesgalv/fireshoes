@@ -161,11 +161,14 @@ const PaymentMethod = ({ orientation }: PaymentMethodProps) => {
               text="Número do cartão:"
               name="cardNumber"
               htmlFor="paymentMethodCardNumber"
+              maxLength={19}
               required
               widthFull
+              placeholder="0000 0000 0000 0000"
               icon={<MdLockOutline />}
               onChange={handlePaymentMethod}
               value={paymentMethodDataForm?.cardNumber}
+              mask="cardNumberMask"
             />
             <div
               className="grid gap-6"
@@ -181,6 +184,7 @@ const PaymentMethod = ({ orientation }: PaymentMethodProps) => {
                 placeholder="00/00"
                 onChange={handlePaymentMethod}
                 value={paymentMethodDataForm?.expirationDate}
+                mask="paymentMethodExpirationDateMask"
               />
               <Input
                 text="CVV:"
@@ -189,9 +193,11 @@ const PaymentMethod = ({ orientation }: PaymentMethodProps) => {
                 htmlFor="paymentMethodSecurityCode"
                 required
                 widthFull
+                placeholder="000"
                 icon={<MdLockOutline />}
                 onChange={handlePaymentMethod}
                 value={paymentMethodDataForm?.securityCode}
+                mask="paymentMethodSecurityCodeMask"
               />
             </div>
 

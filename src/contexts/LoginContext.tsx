@@ -97,27 +97,31 @@ export const LoginContextProvider = ({
     const { createUserWithEmailAndPassword, updateProfile } =
       await getFirebase()
 
-    try {
-      if (currentUser?.email && currentUser?.password) {
-        const result = await createUserWithEmailAndPassword(
-          auth,
-          currentUser?.email,
-          currentUser?.password
-        )
+    if (currentUser?.password === currentUser?.passwordConfirmed) {
+      try {
+        if (currentUser?.email && currentUser?.password) {
+          const result = await createUserWithEmailAndPassword(
+            auth,
+            currentUser?.email,
+            currentUser?.password
+          )
 
-        if (result.user) {
-          setCurrentUser({ ...currentUser, uid: result.user.uid })
-        }
+          if (result.user) {
+            setCurrentUser({ ...currentUser, uid: result.user.uid })
+          }
 
-        if (auth.currentUser) {
-          updateProfile(auth?.currentUser, {
-            displayName: currentUser?.name
-          })
+          if (auth.currentUser) {
+            updateProfile(auth?.currentUser, {
+              displayName: currentUser?.name
+            })
+          }
+          createUser()
         }
-        createUser()
+      } catch (error: any) {
+        toast.error(firebaseErrorHandler(error.code))
       }
-    } catch (error: any) {
-      toast.error(firebaseErrorHandler(error.code))
+    } else {
+      toast.error('As senhas não conferem')
     }
   }
 

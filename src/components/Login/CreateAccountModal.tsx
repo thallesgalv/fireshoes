@@ -45,6 +45,16 @@ const CreateAccountModal = () => {
           widthFull
           onChange={handleCreateUserInput}
         />
+        <Input
+          text="Confirmar senha:"
+          type="password"
+          name="passwordConfirmed"
+          htmlFor="createUserPasswordConfirmed"
+          icon={<MdLockOutline />}
+          required
+          widthFull
+          onChange={handleCreateUserInput}
+        />
         <div className="flex justify-center flex-wrap gap-4 flex-1">
           <Button
             primary

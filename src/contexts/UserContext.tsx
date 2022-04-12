@@ -14,6 +14,7 @@ export interface User {
   photo?: string | undefined | null
   email?: string | undefined | null
   password?: string | undefined
+  passwordConfirmed?: string | undefined
   adressList?: Adress[]
   selectedAdress?: number
   paymentMethodList?: PaymentMethod[]
