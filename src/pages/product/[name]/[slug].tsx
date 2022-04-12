@@ -26,6 +26,7 @@ const Product = ({ product, newReleases }: ProductProps) => {
     price,
     bestPrice,
     images,
+    category,
     brand,
     description,
     colors,
@@ -76,10 +77,17 @@ const Product = ({ product, newReleases }: ProductProps) => {
               )}
             </div>
           </div>
-          <div className="relative">
-            {/* <Flag price={price} bestPrice={bestPrice} productId={id} /> */}
-            <p className="uppercase text-dark">{brand}</p>
-            <h1 className="text-dark font-semibold text-6xl">{name}</h1>
+          <div className="relative mt-4 lg:mt-0">
+            <div className="flex gap-0.5 uppercase text-dark text-xs">
+              <Link href={`/category/${category?.toLocaleLowerCase()}`}>
+                <a className="underline">{category}</a>
+              </Link>
+              <p>{'>'}</p>
+              <Link href={`/brand/${brand?.toLocaleLowerCase()}`}>
+                <a className="underline">{brand}</a>
+              </Link>
+            </div>
+            <h1 className="text-dark font-semibold text-6xl my-2 lg:my-4">{name}</h1>
             <div>
               {(!bestPrice || (price && bestPrice >= price)) && (
                 <p className="text-3xl font-primary uppercase text-dark tracking-tighter my-4">
@@ -130,7 +138,7 @@ const Product = ({ product, newReleases }: ProductProps) => {
                 {colors.join(', ')}
               </p>
             )}
-            <h2 className="lg:max-w-xs my-4">
+            <h2 className="lg:max-w-xs my-6 lg:my-4">
               {description ||
                 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel numquamvoluptatibus eaque, quam ipsa cum sapiente similique asperiores, aperiam, pariatur odit dolores repudiandae quos dolorum busdam molestiae fuga officia'}
             </h2>
