@@ -9,7 +9,7 @@ const Main = ({ children }: MainProps) => {
 
   return (
     <main
-      className="max-w-screen-xl m-auto pt-28 pb-8"
+      className="max-w-screen-xl m-auto pt-32 pb-8 font-primary"
       // style={{
       //   position: menuActive ? 'relative' : 'static',
       //   zIndex: menuActive ? '-1' : '1'

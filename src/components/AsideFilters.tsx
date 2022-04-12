@@ -102,7 +102,7 @@ const AsideFilters = ({ data }: AsideFiltersProps) => {
         </ul>
       </div>
       <div className=" border-b py-3">
-        <h3 className="text-center text-md text-primary font-semibold mb-2">main
+        <h3 className="text-center text-md text-primary font-semibold mb-2">
           Categoria:
         </h3>
         <FilterGroup filterArray={filters.category} option={'category'} />

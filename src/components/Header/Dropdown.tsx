@@ -9,8 +9,8 @@ const Dropdown = () => {
 
   if (!dropdownActive || isMobile) return null
   return (
-    <div className="bg-white shadow-lg p-4 pt-0">
-      <ul className="lg:flex gap-4 justify-center max-w-screen-xl m-auto text-primary uppercase font-semibold tracking-wide">
+    <div className="bg-primary shadow-lg p-4">
+      <ul className="lg:flex gap-4 justify-center items-center max-w-screen-xl m-auto text-primary uppercase font-semibold tracking-wide">
         {dropdownSelected === 'category' && (
           <DropdownLinks routeArray={categoryRoutes} />
         )}

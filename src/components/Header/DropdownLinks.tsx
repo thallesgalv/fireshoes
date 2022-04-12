@@ -15,7 +15,7 @@ const DropdownLinks = ({ routeArray }: DropdownLinksProps) => {
 
   if (routeArray.length === 0) return null
   return (
-    <ul className="flex flex-col lg:flex-row gap-4 lg:gap-4 justify-center max-w-screen-xl m-auto text-primary uppercase font-semibold tracking-wide animate-show">
+    <ul className="flex flex-col lg:flex-row gap-4 lg:gap-4 justify-center max-w-screen-xl m-auto text-primary lg:text-white uppercase font-semibold tracking-wide animate-show">
       {routeArray.map(({ path, title }, index) => (
         <li key={index}>
           <Link href={path}>

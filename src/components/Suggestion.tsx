@@ -49,7 +49,7 @@ const Suggestion = () => {
   }
 
   const handleClickOutside = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.currentTarget === outside.current) handleSearchBar()
+    if (e.target === outside.current) handleSearchBar()
   }
 
   if (!searchBarActive) return null
