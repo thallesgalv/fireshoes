@@ -3,7 +3,7 @@ import Logo from './Logo'
 const SplashScreen = () => {
   return (
     <div className="w-full h-screen absolute top-0 left-0 z-50 bg-primary flex  flex-col gap-32 justify-center items-center">
-      <Logo width={500} fill="#fff" />
+      <Logo width={300} fill="#fff" />
       <svg
         role="status"
         className="mr-2 w-32 h-32 text-transparent animate-spin fill-white"

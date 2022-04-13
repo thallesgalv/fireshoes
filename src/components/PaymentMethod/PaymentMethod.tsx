@@ -206,6 +206,7 @@ const PaymentMethod = ({ orientation }: PaymentMethodProps) => {
 
             <div className="flex justify-center flex-wrap gap-4 flex-1">
               <Button
+                type="submit"
                 primary
                 text={editMode ? 'Editar' : 'Cadastrar'}
                 widthFull={isMobile}

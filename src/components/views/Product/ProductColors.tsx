@@ -5,7 +5,7 @@ interface ProductColorsProps {
 const ProductColors = ({ colors }: ProductColorsProps) => {
   if (!colors || colors.length === 0) return null
   return (
-    <p>
+    <p className="mt-4">
       {colors.length > 1 ? 'Cores: ' : 'Cor: '}
       {colors.join(', ')}
     </p>

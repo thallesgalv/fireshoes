@@ -37,7 +37,7 @@ const ProductsPage = ({ products }: ProductsPageProps) => {
 
   return (
     <section className="w-11/12 lg:w-full m-auto">
-      <Heading text="Veja nosso catálogo" center />
+      <Heading text="Catálogo completo" center />
       <Search
         data={queriedProducts ? queriedProducts : []}
         heading="Produtos"
