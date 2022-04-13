@@ -1,8 +1,9 @@
 import type { AppProps } from 'next/app'
 import dynamic from 'next/dynamic'
-import NextNProgress from 'nextjs-progressbar'
+import { useRouter } from 'next/router'
+import NProgress from 'nprogress'
+import { useEffect } from 'react'
 import { Toaster } from 'react-hot-toast'
-import 'tailwindcss/tailwind.css'
 import { AuthContextProvider } from '../contexts/AuthContext'
 import { CartContextProvider } from '../contexts/CartContext'
 import { GlobalContextProvider } from '../contexts/GlobalContext'
@@ -10,17 +11,26 @@ import { HeaderContextProvider } from '../contexts/HeaderContext'
 import { ProductContextProvider } from '../contexts/ProductContext'
 import { UserContextProvider } from '../contexts/UserContext'
 import '../styles/globals.css'
+import '../styles/nprogress.css'
 import { primary } from '../utils/colorVariables'
 import showVersion from '../utils/version'
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-  const Header = dynamic(() => import('../components/Header/Header'))
-  const Minicart = dynamic(() => import('../components/MiniCart'))
-  const Suggestion = dynamic(() => import('../components/Suggestion'))
+  const Header = dynamic(() => import('../components/Header/Header'), {ssr: false})
+  const Minicart = dynamic(() => import('../components/MiniCart'), {ssr: false})
+  const Suggestion = dynamic(() => import('../components/Suggestion'), {ssr: false})
+
+  NProgress.configure({ showSpinner: false })
+
+  const router = useRouter()
+
+  useEffect(() => {
+    router.events.on('routeChangeStart', () => NProgress.start())
+    router.events.on('routeChangeComplete', () => NProgress.done())
+    router.events.on('routeChangeError', () => NProgress.done())
+  }, [])
 
   // const [loadingScreen, setLoadingScreen] = useState(false)
-
-  // const router = useRouter()
 
   // useEffect(() => {
   //   router.events.on('routeChangeStart', handleStart)
@@ -30,10 +40,12 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
   // const handleStart = () => {
   //   setLoadingScreen(true)
+  //   console.log('routeChangeStart')
   // }
 
   // const handleComplete = () => {
   //   setLoadingScreen(false)
+  //   console.log('routeChangeComplete')
   // }
 
   showVersion()
@@ -48,14 +60,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
                 <Header />
                 <Suggestion />
               </HeaderContextProvider>
-              <NextNProgress
-                color={primary}
-                height={6}
-                options={{ showSpinner: false }}
-              />
               <Minicart />
 
-              {/* {loadingScreen ? <p>Loading</p> : <Component {...pageProps} />} */}
+              {/* {loadingScreen ? <h1 style={{fontSize: 400}}>Loading</h1> : <Component {...pageProps} />} */}
               <Component {...pageProps} />
               <Toaster
                 position="bottom-left"
