@@ -50,7 +50,7 @@ const OrderResume = ({
                 <Image
                   width={96}
                   height={80}
-                  src={mainImg || ''}
+                  src={mainImg || '/placeholder.png'}
                   alt={`${name}. Image by Unspash`}
                   className="rounded-sm shadow-lg object-cover"
                 />

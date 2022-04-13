@@ -20,6 +20,7 @@ const Button = ({
   onMouseOver,
   onMouseLeave,
   disabled,
+  type,
   icon,
   google,
   widthFull,
@@ -41,6 +42,7 @@ const Button = ({
         rounded-sm shadow-lg
         p-2 h8
       `}
+      type={type || 'button'}
       disabled={disabled}
       onClick={onClick}
       onMouseOver={onMouseOver}
@@ -51,7 +53,7 @@ const Button = ({
         <Image
           height={20}
           width={20}
-          src={userPhoto}
+          src={userPhoto }
           alt="Foto do usuário"
           className="rounded-full object-cover"
         />

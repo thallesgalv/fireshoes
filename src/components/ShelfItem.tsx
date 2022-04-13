@@ -56,7 +56,11 @@ const ShelfItem = ({ displayType, ...props }: ShelfItemProps) => {
       className={`
         flex
         ${displayType === 'slider' ? 'flex-col gap-0.5' : null}
-        ${displayType === 'grid' ? 'flex-row lg:flex-col gap-4 lg:gap-0.5' : null}
+        ${
+          displayType === 'grid'
+            ? 'flex-row lg:flex-col gap-4 lg:gap-0.5'
+            : null
+        }
         ${isMobile ? 'w-full' : 'w-64'}
         relative
       `}
@@ -72,7 +76,7 @@ const ShelfItem = ({ displayType, ...props }: ShelfItemProps) => {
         <Link href={`/product/${normalizeString(props?.name)}/${props.id}`}>
           <a>
             <Image
-              src={currentImage || ''}
+              src={currentImage || '/placeholder.png'}
               width={displayType === 'slider' || !isMobile ? 256 : 128}
               height={displayType === 'slider' || !isMobile ? 208 : 112}
               onMouseOver={handleMouseOverImage}
@@ -81,7 +85,7 @@ const ShelfItem = ({ displayType, ...props }: ShelfItemProps) => {
               className="object-cover rounded-sm shadow-lg cursor-pointer"
               layout="fixed"
               placeholder="blur"
-              blurDataURL={currentImage}
+              blurDataURL={currentImage || '/placeholder.png'}
             />
           </a>
         </Link>
@@ -137,7 +141,8 @@ const ShelfItem = ({ displayType, ...props }: ShelfItemProps) => {
               ${displayType === 'slider' ? 'text-xl' : null}
             `}
           >
-            <span className={`font-light
+            <span
+              className={`font-light
               ${displayType === 'grid' ? 'text-sm lg:text-xl' : null}
               ${displayType === 'slider' ? 'text-xl' : null}
               `}

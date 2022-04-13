@@ -55,7 +55,7 @@ const Cart = ({ children, heightScreen }: CartProps) => {
                     <Image
                       width={80}
                       height={64}
-                      src={product.mainImg || ''}
+                      src={product.mainImg || '/placeholder.png'}
                       alt={`${product.name}. Image by Unsplash`}
                       className="object-cover rounded-sm shadow-lg cursor-pointer"
                     />
