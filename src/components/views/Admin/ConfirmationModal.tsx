@@ -1,8 +1,8 @@
-import { useAdminContext } from '../../contexts/AdminContext'
-import { useProductContext } from '../../contexts/ProductContext'
-import Button from '../Button'
-import Heading from '../Heading'
-import Modal from '../Modal'
+import { useAdminContext } from '../../../contexts/AdminContext'
+import { useProductContext } from '../../../contexts/ProductContext'
+import Button from '../../Button'
+import Heading from '../../Heading'
+import Modal from '../../Modal'
 
 const ConfirmationModal = () => {
   const { modalStatus, setModalStatus, deleteProduct } = useAdminContext()

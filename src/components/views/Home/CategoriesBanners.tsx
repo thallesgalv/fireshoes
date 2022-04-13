@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { useState } from 'react'
-import VerticalBanner from '../VerticalBanner'
+import VerticalBanner from '../../VerticalBanner'
 
 type BannerType = 'casual' | 'esportivo' | null
 

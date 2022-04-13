@@ -1,5 +1,5 @@
 import { MdDeleteOutline, MdOutlineEdit } from 'react-icons/md'
-import { useAdminContext } from '../../../contexts/AdminContext'
+import { useAdminContext } from '../../../../contexts/AdminContext'
 
 interface TableActionsProps {
   id?: string

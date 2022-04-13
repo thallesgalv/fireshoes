@@ -1,13 +1,13 @@
 import { useEffect } from 'react'
-import { useAdminContext } from '../../contexts/AdminContext'
-import { Product, useProductContext } from '../../contexts/ProductContext'
-import Button from '../Button'
-import Heading from '../Heading'
+import { useAdminContext } from '../../../contexts/AdminContext'
+import { Product, useProductContext } from '../../../contexts/ProductContext'
+import Button from '../../Button'
+import Heading from '../../Heading'
 import ConfirmationModal from './ConfirmationModal'
 import CreateProductModal from './CreateProductModal/CreateProductModal'
 import Table from './Table/Table'
 
-const AdminInterface = () => {
+const AdminPage = () => {
   const {
     modalStatus,
     setModalStatus,
@@ -55,4 +55,4 @@ const AdminInterface = () => {
   )
 }
 
-export default AdminInterface
+export default AdminPage

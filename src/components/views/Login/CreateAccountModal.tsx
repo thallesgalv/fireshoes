@@ -1,10 +1,10 @@
 import { MdLockOutline } from 'react-icons/md'
-import { useGlobalContext } from '../../contexts/GlobalContext'
-import { useLoginContext } from '../../contexts/LoginContext'
-import Button from '../Button'
-import Heading from '../Heading'
-import Input from '../Input'
-import Modal from '../Modal'
+import { useGlobalContext } from '../../../contexts/GlobalContext'
+import { useLoginContext } from '../../../contexts/LoginContext'
+import Button from '../../Button'
+import Heading from '../../Heading'
+import Input from '../../Input'
+import Modal from '../../Modal'
 
 const CreateAccountModal = () => {
   const { modalStatus, setModalStatus, handleCreateUserInput, signUp } =
@@ -60,6 +60,7 @@ const CreateAccountModal = () => {
             primary
             text="Criar conta agora"
             widthFull={isMobile}
+            type="submit"
             onClick={signUp}
           />
         </div>

@@ -1,5 +1,5 @@
-import Heading from '../Heading'
-import Logo from '../Logo'
+import Heading from '../../Heading'
+import Logo from '../../Logo'
 
 const VideoSection = () => {
   const twVideoMeasures = 'h-[80vh] w-full'

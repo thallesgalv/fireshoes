@@ -3,12 +3,8 @@ import dynamic from 'next/dynamic'
 import NextNProgress from 'nextjs-progressbar'
 import { Toaster } from 'react-hot-toast'
 import 'tailwindcss/tailwind.css'
-import Header from '../components/Header/Header'
-import Main from '../components/Main'
-import Suggestion from '../components/Suggestion'
 import { AuthContextProvider } from '../contexts/AuthContext'
 import { CartContextProvider } from '../contexts/CartContext'
-import { FilterContextProvider } from '../contexts/FilterContext'
 import { GlobalContextProvider } from '../contexts/GlobalContext'
 import { HeaderContextProvider } from '../contexts/HeaderContext'
 import { ProductContextProvider } from '../contexts/ProductContext'
@@ -48,30 +44,28 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         <UserContextProvider>
           <AuthContextProvider>
             <ProductContextProvider>
-              <FilterContextProvider>
-                <HeaderContextProvider>
-                  <Header />
-                  <Suggestion />
-                </HeaderContextProvider>
-                <NextNProgress
-                  color={primary}
-                  height={6}
-                  options={{ showSpinner: false }}
-                />
-                <Minicart />
+              <HeaderContextProvider>
+                <Header />
+                <Suggestion />
+              </HeaderContextProvider>
+              <NextNProgress
+                color={primary}
+                height={6}
+                options={{ showSpinner: false }}
+              />
+              <Minicart />
 
-                  {/* {loadingScreen ? <p>Loading</p> : <Component {...pageProps} />} */}
-                  <Component {...pageProps} />
-                  <Toaster
-                    position="bottom-left"
-                    toastOptions={{
-                      style: {
-                        background: primary,
-                        color: '#FFF'
-                      }
-                    }}
-                  />
-              </FilterContextProvider>
+              {/* {loadingScreen ? <p>Loading</p> : <Component {...pageProps} />} */}
+              <Component {...pageProps} />
+              <Toaster
+                position="bottom-left"
+                toastOptions={{
+                  style: {
+                    background: primary,
+                    color: '#FFF'
+                  }
+                }}
+              />
             </ProductContextProvider>
           </AuthContextProvider>
         </UserContextProvider>

@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import AdminInterface from '../components/Admin/AdminInterface'
+import AdminPage from '../components/views/Admin/AdminPage'
 import Main from '../components/Main'
 import { AdminContextProvider, useAdminContext } from '../contexts/AdminContext'
 import { Product, useProductContext } from '../contexts/ProductContext'
@@ -31,7 +31,7 @@ const Admin: NextPage = () => {
         <link rel="icon" href="/favicon.svg" />
       </Head>
       <AdminContextProvider>
-        <AdminInterface />
+        <AdminPage />
       </AdminContextProvider>
     </Main>
   )

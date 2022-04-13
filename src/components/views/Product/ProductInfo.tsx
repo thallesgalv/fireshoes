@@ -1,4 +1,4 @@
-import { Product } from '../../contexts/ProductContext'
+import { Product } from '../../../contexts/ProductContext'
 import Breadcumb from './Breadcumb'
 import ProductColors from './ProductColors'
 import ProductDesciption from './ProductDesciption'

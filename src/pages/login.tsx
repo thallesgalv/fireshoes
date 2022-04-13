@@ -2,8 +2,8 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import LoginInterface from '../components/Login/LoginInterface'
 import Main from '../components/Main'
+import LoginPage from '../components/views/Login/LoginPage'
 import { LoginContextProvider } from '../contexts/LoginContext'
 import { useUserContext } from '../contexts/UserContext'
 import { auth } from '../firebase/auth'
@@ -24,7 +24,7 @@ const Login: NextPage = () => {
         <link rel="icon" href="/favicon.svg" />
       </Head>
       <LoginContextProvider>
-        <LoginInterface />
+        <LoginPage />
       </LoginContextProvider>
     </Main>
   )

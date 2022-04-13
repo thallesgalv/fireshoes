@@ -1,4 +1,4 @@
-import { currency } from '../../utils/calculations'
+import { currency } from '../../../utils/calculations'
 
 interface ProductPriceProps {
   bestPrice?: number

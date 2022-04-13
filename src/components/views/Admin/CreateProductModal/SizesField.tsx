@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { MdNotInterested } from 'react-icons/md'
-import { useAdminContext } from '../../../contexts/AdminContext'
-import { useGlobalContext } from '../../../contexts/GlobalContext'
-import Button from '../../Button'
-import Input from '../../Input'
+import { useAdminContext } from '../../../../contexts/AdminContext'
+import { useGlobalContext } from '../../../../contexts/GlobalContext'
+import Button from '../../../Button'
+import Input from '../../../Input'
 
 const SizesField = () => {
   const [currentSize, setCurrentSize] = useState('')

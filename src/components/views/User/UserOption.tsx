@@ -1,7 +1,7 @@
 import {
   UserOptionType,
   useUserOptionContext
-} from '../../contexts/UserOptionContext'
+} from '../../../contexts/UserOptionContext'
 
 interface UserOptionProps {
   text: string

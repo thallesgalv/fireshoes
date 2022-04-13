@@ -1,7 +1,7 @@
-import { useUserOptionContext } from '../../contexts/UserOptionContext'
-import DeliveryAdress from '../DeliveryAdress'
-import OrderHistory from '../OrderHistory'
-import PaymentMethod from '../PaymentMethod'
+import { useUserOptionContext } from '../../../contexts/UserOptionContext'
+import DeliveryAdress from '../../DeliveryAdress'
+import OrderHistory from '../../OrderHistory'
+import PaymentMethod from '../../PaymentMethod'
 
 const UserActions = () => {
   const { userOption } = useUserOptionContext()

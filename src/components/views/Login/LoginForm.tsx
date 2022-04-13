@@ -1,8 +1,8 @@
 import { MdLockOutline } from 'react-icons/md'
-import { useGlobalContext } from '../../contexts/GlobalContext'
-import { useLoginContext } from '../../contexts/LoginContext'
-import Button from '../Button'
-import Input from '../Input'
+import { useGlobalContext } from '../../../contexts/GlobalContext'
+import { useLoginContext } from '../../../contexts/LoginContext'
+import Button from '../../Button'
+import Input from '../../Input'
 
 const LoginForm = () => {
   const { handleLoginInput, login, signInWithGoogle, setModalStatus } =
@@ -34,7 +34,13 @@ const LoginForm = () => {
         onChange={handleLoginInput}
       />
       <div className="flex justify-between flex-wrap gap-6">
-        <Button primary text="Confirmar" widthFull={isMobile} onClick={login} />
+        <Button
+          primary
+          text="Confirmar"
+          type="submit"
+          widthFull={isMobile}
+          onClick={login}
+        />
         <Button
           secondary
           google

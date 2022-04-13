@@ -1,4 +1,4 @@
-import { useCartContext } from '../../contexts/CartContext'
+import { useCartContext } from '../../../contexts/CartContext'
 
 interface ProductSizesProps {
   sizes?: string[]

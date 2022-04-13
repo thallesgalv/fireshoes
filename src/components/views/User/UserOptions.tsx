@@ -6,11 +6,11 @@ import {
   MdNoAccounts,
   MdOutlineAdminPanelSettings
 } from 'react-icons/md'
-import { User, useUserContext } from '../../contexts/UserContext'
-import { auth } from '../../firebase/auth'
-import Button from '../Button'
+import { User, useUserContext } from '../../../contexts/UserContext'
+import { auth } from '../../../firebase/auth'
+import Button from '../../Button'
 import UserOption from './UserOption'
-const getFirebase = () => import('../../firebase/auth')
+const getFirebase = () => import('../../../firebase/auth')
 
 const UserOptions = () => {
   // const { logout } = useAuthContext()

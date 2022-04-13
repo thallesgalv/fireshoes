@@ -1,9 +1,9 @@
-import { useGlobalContext } from '../../contexts/GlobalContext'
-import { useLoginContext } from '../../contexts/LoginContext'
-import Button from '../Button'
-import Heading from '../Heading'
-import Input from '../Input'
-import Modal from '../Modal'
+import { useGlobalContext } from '../../../contexts/GlobalContext'
+import { useLoginContext } from '../../../contexts/LoginContext'
+import Button from '../../Button'
+import Heading from '../../Heading'
+import Input from '../../Input'
+import Modal from '../../Modal'
 
 const ForgotPasswordModal = () => {
   const { modalStatus, setModalStatus, setRecoverUserEmail, forgotPassword } =
