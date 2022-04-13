@@ -86,6 +86,7 @@ const ShelfItem = ({ displayType, ...props }: ShelfItemProps) => {
               layout="fixed"
               placeholder="blur"
               blurDataURL={currentImage || '/placeholder.png'}
+              loading="lazy"
             />
           </a>
         </Link>
