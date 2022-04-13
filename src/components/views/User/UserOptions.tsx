@@ -6,8 +6,9 @@ import {
   MdNoAccounts,
   MdOutlineAdminPanelSettings
 } from 'react-icons/md'
-import { User, useUserContext } from '../../../contexts/UserContext'
+import { useUserContext } from '../../../contexts/UserContext'
 import { auth } from '../../../firebase/auth'
+import { User } from '../../../types/interfaces'
 import Button from '../../Button'
 import UserOption from './UserOption'
 const getFirebase = () => import('../../../firebase/auth')

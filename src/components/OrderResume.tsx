@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { Order } from '../contexts/UserContext'
+import { Order } from '../types/interfaces'
 import { currency } from '../utils/calculations'
 import { formatDate } from '../utils/formatDate'
 

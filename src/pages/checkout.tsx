@@ -11,10 +11,10 @@ import {
   MdOutlineShoppingCart
 } from 'react-icons/md'
 import Button from '../components/Button'
-import DeliveryAdress from '../components/DeliveryAdress'
+import DeliveryAdressInterface from '../components/DeliveryAdress/DeliveryAdressInterface'
 import Heading from '../components/Heading'
 import Main from '../components/Main'
-import PaymentMethod from '../components/PaymentMethod'
+import PaymentMethodInterface from '../components/PaymentMethod/PaymentMethodInterface'
 import { useCartContext } from '../contexts/CartContext'
 import { useGlobalContext } from '../contexts/GlobalContext'
 import { useUserContext } from '../contexts/UserContext'
@@ -31,8 +31,8 @@ const Checkout: NextPage = () => {
     sucessOrder,
     setSucessOrder
   } = useGlobalContext()
-  const { currentCart, cartTotalValue } = useCartContext()
-  const { currentUser, setOrder } = useUserContext()
+  const { currentCart, cartTotalValue, setOrder } = useCartContext()
+  const { currentUser } = useUserContext()
 
   const router = useRouter()
 
@@ -156,7 +156,7 @@ const Checkout: NextPage = () => {
         {checkoutStep === 'adress' && (
           <div className="w-full m-auto animate-show">
             <Heading text="Endereço de entrega:" center small />
-            <DeliveryAdress orientation="horizontal" />
+            <DeliveryAdressInterface orientation="horizontal" />
 
             <div
               className="
@@ -183,7 +183,7 @@ const Checkout: NextPage = () => {
         {checkoutStep === 'payment' && (
           <div className="w-full m-auto animate-show">
             <Heading text="Meio de pagamento:" center small />
-            <PaymentMethod orientation="horizontal" />
+            <PaymentMethodInterface orientation="horizontal" />
 
             <div
               className="

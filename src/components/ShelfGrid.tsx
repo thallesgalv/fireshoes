@@ -1,4 +1,4 @@
-import { Product } from '../contexts/ProductContext'
+import { Product } from '../types/interfaces'
 import AnimationNotFound from './Lottie/AnimationNotFound'
 import ShelfItem from './ShelfItem'
 
@@ -11,7 +11,9 @@ const ShelfGrid = ({ data }: ShelfGridProps) => {
     return (
       <div className="w-full flex justify-center items-center flex-col">
         <AnimationNotFound />
-        <p className="text-center">Não há produtos que correspondem aos critérios de busca.</p>
+        <p className="text-center">
+          Não há produtos que correspondem aos critérios de busca.
+        </p>
       </div>
     )
   return (

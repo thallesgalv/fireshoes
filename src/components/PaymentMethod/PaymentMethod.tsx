@@ -1,13 +1,15 @@
 import { FormEvent, useCallback } from 'react'
 import { MdLockOutline } from 'react-icons/md'
-import CrudCard from '../components/CrudCard'
-import { useGlobalContext } from '../contexts/GlobalContext'
-import { PaymentMethod, useUserContext } from '../contexts/UserContext'
-import Button from './Button'
-import Heading from './Heading'
-import Input from './Input'
-import AnimationPayment from './Lottie/AnimationPayment'
-import Modal from './Modal'
+import CrudCard from '../../components/CrudCard'
+import { useGlobalContext } from '../../contexts/GlobalContext'
+import { usePaymentMethodContext } from '../../contexts/PaymentMethodContext'
+import { useUserContext } from '../../contexts/UserContext'
+import { PaymentMethod } from '../../types/interfaces'
+import Button from '../Button'
+import Heading from '../Heading'
+import Input from '../Input'
+import AnimationPayment from '../Lottie/AnimationPayment'
+import Modal from '../Modal'
 
 interface PaymentMethodProps {
   orientation: 'horizontal' | 'vertical'
@@ -17,15 +19,16 @@ const PaymentMethod = ({ orientation }: PaymentMethodProps) => {
   const { isMobile, editMode, setEditMode, modalStatus, setModalStatus } =
     useGlobalContext()
 
+  const { currentUser } = useUserContext()
+
   const {
-    currentUser,
     paymentMethodDataForm,
     setPaymentMethodDataForm,
     setActivePaymentMethod,
     deletePaymentMethod,
     setPaymentMethod,
     updatePaymentMethod
-  } = useUserContext()
+  } = usePaymentMethodContext()
 
   const handlePaymentMethod = useCallback(
     (e: FormEvent<HTMLInputElement>) => {

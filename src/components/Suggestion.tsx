@@ -1,7 +1,8 @@
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 import { useHeaderContext } from '../contexts/HeaderContext'
-import { Product, useProductContext } from '../contexts/ProductContext'
+import { useProductContext } from '../contexts/ProductContext'
+import { Product } from '../types/interfaces'
 import ShelfGrid from './ShelfGrid'
 
 const Suggestion = () => {

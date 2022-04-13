@@ -1,15 +1,15 @@
 import Head from 'next/head'
 import type { GetServerSideProps, NextPage } from 'next/types'
-import CategoriesBanners from '../components/views/Home/CategoriesBanners'
-import VideoSection from '../components/views/Home/VideoSection'
 import Main from '../components/Main'
 import Marquee from '../components/Marquee'
 import ShelfSlider from '../components/ShelfSlider'
-import { Product } from '../contexts/ProductContext'
+import CategoriesBanners from '../components/views/Home/CategoriesBanners'
+import VideoSection from '../components/views/Home/VideoSection'
 import {
   getProductsByQuery,
   getProductsByServer
 } from '../firebase/firebaseRequests'
+import { Product } from '../types/interfaces'
 
 interface IndexProps {
   allProducts: Product[]

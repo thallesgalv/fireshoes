@@ -1,3 +1,4 @@
+import { doc } from 'firebase/firestore'
 import { useRouter } from 'next/router'
 import {
   createContext,
@@ -12,7 +13,8 @@ import { ModalStatus } from '../components/Modal'
 import { auth } from '../firebase/auth'
 import { firebaseErrorHandler } from '../firebase/firebaseErrorHandler'
 import { db } from '../firebase/firestore'
-import { User, useUserContext } from './UserContext'
+import { User } from '../types/interfaces'
+import { useUserContext } from './UserContext'
 const getFirestore = () => import('../firebase/firestore')
 const getFirebase = () => import('../firebase/auth')
 
@@ -50,7 +52,7 @@ export const LoginContextProvider = ({
   const [recoverUserEmail, setRecoverUserEmail] = useState('')
   const [modalStatus, setModalStatus] = useState<ModalStatus>(null)
 
-  const { currentUser, setCurrentUser, createUser } = useUserContext()
+  const { currentUser, setCurrentUser } = useUserContext()
   const router = useRouter()
 
   const handleLoginInput = useCallback(
@@ -72,6 +74,23 @@ export const LoginContextProvider = ({
     },
     [currentUser]
   )
+
+  const createUser = async () => {
+    const { setDoc } = await getFirestore()
+
+    if (auth.currentUser) {
+      await setDoc(doc(db, 'users', auth.currentUser.uid), {
+        name: currentUser?.name || auth.currentUser.displayName,
+        email: currentUser?.email || auth.currentUser.email,
+        photo: auth.currentUser.photoURL || '',
+        adressList: [],
+        paymentMethodList: [],
+        orders: []
+      })
+
+      toast.success(`Conta criada com sucesso`)
+    }
+  }
 
   const signInWithGoogle = async () => {
     const { GoogleAuthProvider, signInWithPopup } = await getFirebase()

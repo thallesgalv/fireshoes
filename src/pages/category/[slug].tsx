@@ -3,8 +3,8 @@ import { NextPage } from 'next/types'
 import Main from '../../components/Main'
 import CategoryPage from '../../components/views/Category/CategoryPage'
 import { FilterContextProvider } from '../../contexts/FilterContext'
-import { Product } from '../../contexts/ProductContext'
 import { getProductsByQuery } from '../../firebase/firebaseRequests'
+import { Product } from '../../types/interfaces'
 
 interface CategoryProps {
   products: Product[]

@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useAdminContext } from '../../../contexts/AdminContext'
-import { Product, useProductContext } from '../../../contexts/ProductContext'
+import { useProductContext } from '../../../contexts/ProductContext'
+import { Product } from '../../../types/interfaces'
 import Button from '../../Button'
 import Heading from '../../Heading'
 import ConfirmationModal from './ConfirmationModal'

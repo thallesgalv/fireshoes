@@ -1,7 +1,7 @@
 import { useUserOptionContext } from '../../../contexts/UserOptionContext'
-import DeliveryAdress from '../../DeliveryAdress'
+import DeliveryAdressInterface from '../../DeliveryAdress/DeliveryAdressInterface'
 import OrderHistory from '../../OrderHistory'
-import PaymentMethod from '../../PaymentMethod'
+import PaymentMethodInterface from '../../PaymentMethod/PaymentMethodInterface'
 
 const UserActions = () => {
   const { userOption } = useUserOptionContext()
@@ -12,12 +12,12 @@ const UserActions = () => {
     <div className="w-full mt-8 lg:mt-0">
       {userOption === 'adress' && (
         <div className={containerOptionStyle}>
-          <DeliveryAdress orientation="vertical" />
+          <DeliveryAdressInterface orientation="vertical" />
         </div>
       )}
       {userOption === 'payment' && (
         <div className={containerOptionStyle}>
-          <PaymentMethod orientation="vertical" />
+          <PaymentMethodInterface orientation="vertical" />
         </div>
       )}
       {userOption === 'orderHistory' && (

@@ -1,13 +1,15 @@
 import { FormEvent, useCallback, useEffect } from 'react'
-import { useGlobalContext } from '../contexts/GlobalContext'
-import { Adress, useUserContext } from '../contexts/UserContext'
-import useFetch from '../hooks/useFetch'
-import Button from './Button'
-import CrudCard from './CrudCard'
-import Heading from './Heading'
-import Input from './Input'
-import AnimationAdress from './Lottie/AnimationAdress'
-import Modal from './Modal'
+import { useAdressContext } from '../../contexts/AdressContext'
+import { useGlobalContext } from '../../contexts/GlobalContext'
+import { useUserContext } from '../../contexts/UserContext'
+import useFetch from '../../hooks/useFetch'
+import { Adress } from '../../types/interfaces'
+import Button from '../Button'
+import CrudCard from '../CrudCard'
+import Heading from '../Heading'
+import Input from '../Input'
+import AnimationAdress from '../Lottie/AnimationAdress'
+import Modal from '../Modal'
 
 interface DeliveryAdressProps {
   orientation: 'horizontal' | 'vertical'
@@ -17,15 +19,16 @@ const DeliveryAdress = ({ orientation }: DeliveryAdressProps) => {
   const { isMobile, editMode, setEditMode, modalStatus, setModalStatus } =
     useGlobalContext()
 
+  const { currentUser } = useUserContext()
+
   const {
-    currentUser,
     setActiveAdress,
     adressDataForm,
     setAdressDataForm,
     setAdress,
     updateAdress,
     deleteAdress
-  } = useUserContext()
+  } = useAdressContext()
 
   const { request, data } = useFetch()
 

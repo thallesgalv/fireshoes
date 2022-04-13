@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useCartContext } from '../../../contexts/CartContext'
-import { Product } from '../../../contexts/ProductContext'
+import { Product } from '../../../types/interfaces'
 import Button from '../../Button'
 import ZoomOnHover from '../../ZoomOnHover'
 import ImagesList from './ImagesList'

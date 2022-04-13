@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useFilterContext } from '../contexts/FilterContext'
-import { Product } from '../contexts/ProductContext'
+import { Product } from '../types/interfaces'
 import FilterGroup from './FilterGroup'
 import FilterOption from './FilterOption'
 
@@ -58,7 +58,7 @@ const AsideFilters = ({ data }: AsideFiltersProps) => {
           Filtros selecionados: ({filtersCount})
         </h3>
         <ul className="flex gap-2 lg:gap-1 flex-wrap items">
-        {currentFilters.category && (
+          {currentFilters.category && (
             <FilterGroup
               filterArray={currentFilters.category}
               option={'category'}

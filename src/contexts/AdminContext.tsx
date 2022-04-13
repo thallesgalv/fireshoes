@@ -13,7 +13,8 @@ import { auth } from '../firebase/auth'
 import { firebaseErrorHandler } from '../firebase/firebaseErrorHandler'
 import { db } from '../firebase/firestore'
 import { storage } from '../firebase/storage'
-import { Product } from './ProductContext'
+import { Product } from '../types/interfaces'
+
 const getFirestore = () => import('../firebase/firestore')
 const getStorage = () => import('../firebase/storage')
 

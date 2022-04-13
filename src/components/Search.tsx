@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { MdOutlineFilterAlt } from 'react-icons/md'
 import { useGlobalContext } from '../contexts/GlobalContext'
-import { Product } from '../contexts/ProductContext'
+import { Product } from '../types/interfaces'
 import AsideFilters from './AsideFilters'
 import Button from './Button'
 import ShelfGrid from './ShelfGrid'

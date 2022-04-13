@@ -3,11 +3,11 @@ import Main from '../../../components/Main'
 import ShelfSlider from '../../../components/ShelfSlider'
 import ProductPage from '../../../components/views/Product/ProductPage'
 import { FilterContextProvider } from '../../../contexts/FilterContext'
-import { Product } from '../../../contexts/ProductContext'
 import {
   getProductByServer,
   getProductsByQuery
 } from '../../../firebase/firebaseRequests'
+import { Product } from '../../../types/interfaces'
 
 interface ProductProps {
   product: Product

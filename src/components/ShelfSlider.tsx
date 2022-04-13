@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md'
 import { useGlobalContext } from '../contexts/GlobalContext'
-import { Product } from '../contexts/ProductContext'
+import { Product } from '../types/interfaces'
 import Heading from './Heading'
 import ShelfItem from './ShelfItem'
 

@@ -5,8 +5,8 @@ import Heading from '../components/Heading'
 import Main from '../components/Main'
 import Search from '../components/Search'
 import { Filters, useFilterContext } from '../contexts/FilterContext'
-import { Product } from '../contexts/ProductContext'
 import { getProductsByServer } from '../firebase/firebaseRequests'
+import { Product } from '../types/interfaces'
 
 interface ProductsProps {
   allProducts: Product[]

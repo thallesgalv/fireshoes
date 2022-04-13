@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Filters, useFilterContext } from '../../../contexts/FilterContext'
-import { Product } from '../../../contexts/ProductContext'
+import { Product } from '../../../types/interfaces'
 import Heading from '../../Heading'
 import Search from '../../Search'
 

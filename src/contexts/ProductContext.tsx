@@ -3,23 +3,8 @@ import { createContext, ReactNode, useContext, useState } from 'react'
 import toast from 'react-hot-toast'
 import { firebaseErrorHandler } from '../firebase/firebaseErrorHandler'
 import { db } from '../firebase/firestore'
+import { Product } from '../types/interfaces'
 const getFirestore = () => import('../firebase/firestore')
-const getStorage = () => import('../firebase/storage')
-
-export interface Product {
-  id?: string
-  name?: string
-  category?: string
-  brand?: string
-  price?: number
-  bestPrice?: number
-  images?: string[]
-  mainImg?: string
-  description?: string
-  colors?: string[]
-  sizes?: string[]
-  timestamp?: string
-}
 
 interface ProductContextProps {
   currentProducts?: Product[]

@@ -7,7 +7,7 @@ import {
 } from 'react'
 import toast from 'react-hot-toast'
 import { checkForPrice } from '../utils/checkForPrice'
-import { Product } from './ProductContext'
+import { Product } from '../types/interfaces'
 
 export interface Filters {
   brand?: (string | undefined)[] | null

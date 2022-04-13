@@ -1,3 +1,4 @@
+import { doc, Timestamp } from 'firebase/firestore'
 import {
   createContext,
   ReactNode,
@@ -6,17 +7,12 @@ import {
   useState
 } from 'react'
 import toast from 'react-hot-toast'
-import { Product } from './ProductContext'
-
-export interface ProductInCart extends Product {
-  quantity: number
-  selectedSize: string
-}
-
-export interface Cart {
-  products: ProductInCart[]
-  totalValue?: number
-}
+import { firebaseErrorHandler } from '../firebase/firebaseErrorHandler'
+import { db } from '../firebase/firestore'
+import { Cart, ProductInCart } from '../types/interfaces'
+import { useGlobalContext } from './GlobalContext'
+import { useUserContext } from './UserContext'
+const getFirestore = () => import('../firebase/firestore')
 
 interface CartContextProps {
   currentCart: Cart
@@ -29,6 +25,7 @@ interface CartContextProps {
   incrementQuantity: (productId: string, selectedSize: string) => void
   decrementQuantity: (productId: string, selectedSize: string) => void
   emptyCart: () => void
+  setOrder: () => void
 }
 
 interface CartContextProviderProps {
@@ -41,6 +38,11 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
   const [cartTotalValue, setCartTotalValue] = useState(0)
   const [savingValue, setSavingValue] = useState(0)
   const [selectedSize, setSelectedSize] = useState('')
+
+  const { currentUser } = useUserContext()
+  const { setSucessOrder } = useGlobalContext()
+
+  const currentUserRef = doc(db, 'users', currentUser?.uid || 'noUid')
 
   useEffect(() => {
     getCart()
@@ -176,6 +178,39 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
     }
   }
 
+  const setOrder = async () => {
+    const { updateDoc, arrayUnion } = await getFirestore()
+
+    try {
+      if (currentCart.products && cartTotalValue) {
+        await updateDoc(currentUserRef, {
+          orders: arrayUnion({
+            products: currentCart?.products,
+            totalValue: cartTotalValue,
+            adress:
+              currentUser?.adressList &&
+              typeof currentUser.selectedAdress === 'number' &&
+              currentUser?.adressList[currentUser.selectedAdress],
+            paymentMethod:
+              currentUser?.paymentMethodList &&
+              typeof currentUser.selectedPaymentMethod === 'number' &&
+              currentUser?.paymentMethodList[currentUser.selectedPaymentMethod],
+            timestamp: Timestamp.now()
+          })
+        })
+        toast.success(`Compra realizada com sucesso.`)
+        emptyCart()
+        setSucessOrder(true)
+      } else {
+        toast.error(`Erro na compra.`)
+      }
+    } catch (error: any) {
+      toast.error(firebaseErrorHandler(error.code))
+      console.error(error)
+      console.error(error.code)
+    }
+  }
+
   return (
     <CartContext.Provider
       value={{
@@ -188,7 +223,8 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
         removeFromCart,
         incrementQuantity,
         decrementQuantity,
-        emptyCart
+        emptyCart,
+        setOrder
       }}
     >
       {children}

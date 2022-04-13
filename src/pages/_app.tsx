@@ -40,8 +40,8 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
   return (
     <GlobalContextProvider>
-      <CartContextProvider>
-        <UserContextProvider>
+      <UserContextProvider>
+        <CartContextProvider>
           <AuthContextProvider>
             <ProductContextProvider>
               <HeaderContextProvider>
@@ -68,8 +68,8 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
               />
             </ProductContextProvider>
           </AuthContextProvider>
-        </UserContextProvider>
-      </CartContextProvider>
+        </CartContextProvider>
+      </UserContextProvider>
     </GlobalContextProvider>
   )
 }
