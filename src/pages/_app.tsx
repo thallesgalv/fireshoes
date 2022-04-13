@@ -2,8 +2,9 @@ import type { AppProps } from 'next/app'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import NProgress from 'nprogress'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
+import SplashScreen from '../components/SplashScreen'
 import { AuthContextProvider } from '../contexts/AuthContext'
 import { CartContextProvider } from '../contexts/CartContext'
 import { GlobalContextProvider } from '../contexts/GlobalContext'
@@ -16,11 +17,19 @@ import { primary } from '../utils/colorVariables'
 import showVersion from '../utils/version'
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-  const Header = dynamic(() => import('../components/Header/Header'), {ssr: false})
-  const Minicart = dynamic(() => import('../components/MiniCart'), {ssr: false})
-  const Suggestion = dynamic(() => import('../components/Suggestion'), {ssr: false})
+  const Header = dynamic(() => import('../components/Header/Header'), {
+    ssr: false
+  })
+  const Minicart = dynamic(() => import('../components/MiniCart'), {
+    ssr: false
+  })
+  const Suggestion = dynamic(() => import('../components/Suggestion'), {
+    ssr: false
+  })
 
   NProgress.configure({ showSpinner: false })
+
+  const [isLoading, setIsLoading] = useState(true)
 
   const router = useRouter()
 
@@ -30,26 +39,13 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     router.events.on('routeChangeError', () => NProgress.done())
   }, [])
 
-  // const [loadingScreen, setLoadingScreen] = useState(false)
-
-  // useEffect(() => {
-  //   router.events.on('routeChangeStart', handleStart)
-  //   router.events.on('routeChangeComplete', handleComplete)
-  //   router.events.on('routeChangeError', handleComplete)
-  // }, [router])
-
-  // const handleStart = () => {
-  //   setLoadingScreen(true)
-  //   console.log('routeChangeStart')
-  // }
-
-  // const handleComplete = () => {
-  //   setLoadingScreen(false)
-  //   console.log('routeChangeComplete')
-  // }
+  useEffect(() => {
+    setIsLoading(false)
+  }, [])
 
   showVersion()
 
+  if (isLoading) return <SplashScreen />
   return (
     <GlobalContextProvider>
       <UserContextProvider>
