@@ -57,8 +57,6 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
                 <Suggestion />
               </HeaderContextProvider>
               <Minicart />
-
-              {/* {loadingScreen ? <h1 style={{fontSize: 400}}>Loading</h1> : <Component {...pageProps} />} */}
               <Component {...pageProps} />
               <Toaster
                 position="bottom-left"

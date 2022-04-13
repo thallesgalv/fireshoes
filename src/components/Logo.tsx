@@ -1,6 +1,6 @@
 interface LogoProps {
   width: number;
-  height: number;
+  height?: number;
   fill: string;
 }
 
