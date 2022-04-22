@@ -39,7 +39,7 @@ const ZoomOnHover = ({ imageSrc, imageName }: ZoomOnHoverProps) => {
           transition: 'transform 0.3s ease-out',
           background: `no-repeat center/cover url(${imageSrc})`
         }}
-        className="object-contain origin-center rounded-sm shadow-lg w-full h-96 lg:w-[40rem] lg:h-[40rem]"
+        className="object-contain origin-center rounded-sm shadow-lg w-full h-96 md:h-[32rem] lg:w-[32rem] xl:w-[34rem] xl:h-[34rem]"
         role={`${imageName}. Image by Unspash`}
       />
     </div>

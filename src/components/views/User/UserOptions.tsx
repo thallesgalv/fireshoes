@@ -28,7 +28,7 @@ const UserOptions = () => {
   }
 
   return (
-    <aside className="flex flex-col gap-6 lg:fixed">
+    <aside className="w-80 flex flex-col gap-6 lg:fixed">
       <UserOption text="Endereço de Entrega" option="adress" />
       <UserOption text="Meios de pagamento" option="payment" />
       <UserOption text="Compras Realizadas" option="orderHistory" />

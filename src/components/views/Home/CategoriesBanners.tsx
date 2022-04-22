@@ -8,7 +8,7 @@ const CategoriesBanners = () => {
   const [bannerActive, setBannerActive] = useState<BannerType>(null)
 
   return (
-    <div className="flex flex-col lg:flex-row justify-center gap-8 my-16">
+    <div className="flex flex-col md:flex-row justify-center items-center gap-8 my-16">
       <Link href="/category/esportivo">
         <a
           onMouseEnter={() => setBannerActive('esportivo')}

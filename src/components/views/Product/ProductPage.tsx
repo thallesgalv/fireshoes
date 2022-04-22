@@ -28,7 +28,7 @@ const ProductPage = ({ product }: ProductPageProps) => {
 
   return (
     <section className="mx-auto w-11/12 lg:w-full">
-      <article className="lg:flex justify-center gap-16 mx-auto lg:mt-8 lg:h-[70vh]">
+      <article className="lg:flex justify-center gap-16 lg:gap-8 2xl:gap-16 mx-auto lg:mt-8 lg:mb-24">
         <div className="flex flex-col-reverse gap-4 lg:flex-row lg:gap-8">
           <ImagesList
             images={product.images}

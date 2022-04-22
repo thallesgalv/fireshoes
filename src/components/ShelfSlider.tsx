@@ -33,7 +33,7 @@ const ShelfSlider = ({ data, title, titleCenter }: ShelfSliderProps) => {
   return (
     <section className="relative">
       {title && <Heading text={title} small center={titleCenter || isMobile} />}
-      <div className="">
+      <div>
         <ul
           className={`
             flex gap-7

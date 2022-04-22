@@ -6,7 +6,7 @@ import PaymentMethodInterface from '../../PaymentMethod/PaymentMethodInterface'
 const UserActions = () => {
   const { userOption } = useUserOptionContext()
   const containerOptionStyle =
-    'w-full lg:w-[500px] lg:mx-auto lg:flex items-center flex-col '
+    'w-full lg:w-[500px] lg:mx-auto md:flex items-center flex-col '
 
   return (
     <div className="w-full mt-8 lg:mt-0">
@@ -24,7 +24,7 @@ const UserActions = () => {
         <div
           className={
             containerOptionStyle +
-            'h-[50vh] lg:h-[70vh] overflow-y-scroll scrollbar'
+            'h-[58vh] 3xl:h-[70vh] overflow-y-scroll scrollbar'
           }
         >
           <OrderHistory />

@@ -128,7 +128,7 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
     setCurrentCart({} as Cart)
   }
 
-  function getTotalValue() {
+  const getTotalValue = () => {
     let totalValue = 0
     let totalSaving = 0
     currentCart.products?.forEach(({ price, bestPrice, quantity }) => {

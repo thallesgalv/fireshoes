@@ -12,7 +12,7 @@ interface CategoryProps {
 
 const Category: NextPage<CategoryProps> = ({ products }) => {
   const [firstProduct] = products
-  const { category } = firstProduct
+  const { category } = firstProduct || ''
 
   return (
     <Main>
