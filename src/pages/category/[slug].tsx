@@ -3,7 +3,10 @@ import { NextPage } from 'next/types'
 import Main from '../../components/Main'
 import CategoryPage from '../../components/views/Category/CategoryPage'
 import { FilterContextProvider } from '../../contexts/FilterContext'
-import { getProductsByQuery } from '../../firebase/firebaseRequests'
+import {
+  getProductsByQuery,
+  getProductsByServer
+} from '../../firebase/firebaseRequests'
 import { Product } from '../../types/interfaces'
 
 interface CategoryProps {
@@ -30,15 +33,33 @@ const Category: NextPage<CategoryProps> = ({ products }) => {
 export default Category
 
 interface PathProps {
-  params: { id: string; slug: string }
+  params: { slug: string }
 }
 
-export const getServerSideProps = async (props: PathProps) => {
+export const getStaticProps = async (props: PathProps) => {
   const slug = props.params.slug
   const capitalize = slug.charAt(0).toUpperCase() + slug.slice(1)
   return {
     props: {
       products: await getProductsByQuery('where', 'category', capitalize)
-    }
+    },
+    revalidate: 60 * 10 // 10 minutes
+  }
+}
+
+export const getStaticPaths = async () => {
+  const allProducts = await getProductsByServer()
+
+  const uniques = new Set(
+    allProducts?.map((product: Product) => product.category)
+  )
+
+  const paths = Array.from(uniques)?.map((category) => ({
+    params: { slug: category }
+  }))
+
+  return {
+    paths,
+    fallback: 'blocking'
   }
 }

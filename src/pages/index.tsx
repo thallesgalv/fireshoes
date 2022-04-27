@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import type { GetServerSideProps, NextPage } from 'next/types'
+import type { GetStaticProps, NextPage } from 'next/types'
 import Main from '../components/Main'
 import Marquee from '../components/Marquee'
 import ShelfSlider from '../components/ShelfSlider'
@@ -91,14 +91,15 @@ const Index: NextPage<IndexProps> = ({
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
       allProducts: await getProductsByServer(),
       nikeShelfData: await getProductsByQuery('where', 'brand', 'Nike'),
       asicsShelfData: await getProductsByQuery('where', 'brand', 'Asics'),
       pinkShelfData: await getProductsByQuery('array', 'colors', 'Rosa')
-    }
+    },
+    revalidate: 60 * 10 // 10 minutes
   }
 }
 

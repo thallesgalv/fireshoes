@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { NextPage } from 'next/types'
+import { GetStaticProps, NextPage } from 'next/types'
 import Main from '../components/Main'
 import ProductsPage from '../components/views/Products/ProductsPage'
 import { FilterContextProvider } from '../contexts/FilterContext'
@@ -26,14 +26,11 @@ const Products: NextPage<ProductsProps> = ({ allProducts }) => {
 
 export default Products
 
-interface PathProps {
-  params: { id: string; slug: string }
-}
-
-export const getServerSideProps = async (props: PathProps) => {
+export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
       allProducts: await getProductsByServer()
-    }
+    },
+    revalidate: 60 * 10 // 10 minutes
   }
 }

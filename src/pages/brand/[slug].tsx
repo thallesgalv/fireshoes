@@ -3,7 +3,10 @@ import { NextPage } from 'next/types'
 import Main from '../../components/Main'
 import BrandPage from '../../components/views/Brand/BrandPage'
 import { FilterContextProvider } from '../../contexts/FilterContext'
-import { getProductsByQuery } from '../../firebase/firebaseRequests'
+import {
+  getProductsByQuery,
+  getProductsByServer
+} from '../../firebase/firebaseRequests'
 import { Product } from '../../types/interfaces'
 
 interface BrandProps {
@@ -30,15 +33,31 @@ const Brand: NextPage<BrandProps> = ({ products }) => {
 export default Brand
 
 interface PathProps {
-  params: { id: string; slug: string }
+  params: { slug: string }
 }
 
-export const getServerSideProps = async (props: PathProps) => {
+export const getStaticProps = async (props: PathProps) => {
   const slug = props.params.slug
   const capitalize = slug.charAt(0).toUpperCase() + slug.slice(1)
   return {
     props: {
       products: await getProductsByQuery('where', 'brand', capitalize)
-    }
+    },
+    revalidate: 60 * 10 // 10 minutes
+  }
+}
+
+export const getStaticPaths = async () => {
+  const allProducts = await getProductsByServer()
+
+  const uniques = new Set(allProducts?.map((product: Product) => product.brand))
+
+  const paths = Array.from(uniques)?.map((brand) => ({
+    params: { slug: brand }
+  }))
+
+  return {
+    paths,
+    fallback: 'blocking'
   }
 }
