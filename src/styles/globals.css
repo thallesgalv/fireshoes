@@ -36,4 +36,20 @@
   }
 }
 
-/* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap'); */
+::-webkit-scrollbar {
+  width: 0.5rem;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+::-webkit-scrollbar-thumb {
+  margin-top: 1rem;
+  background: #f63c3c;
+}
