@@ -43,7 +43,7 @@ export const getStaticProps = async (props: PathProps) => {
     props: {
       products: await getProductsByQuery('where', 'brand', capitalize)
     },
-    revalidate: 60 * 10 // 10 minutes
+    revalidate: 60 * 1 // 1 minute
   }
 }
 

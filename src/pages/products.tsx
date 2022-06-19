@@ -31,6 +31,6 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       allProducts: await getProductsByServer()
     },
-    revalidate: 60 * 10 // 10 minutes
+    revalidate: 60 * 1 // 1 minute
   }
 }

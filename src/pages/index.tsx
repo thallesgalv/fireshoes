@@ -25,13 +25,6 @@ const Index: NextPage<IndexProps> = ({
   asicsShelfData,
   pinkShelfData
 }) => {
-  // useEffect(() => {
-  //   getProductsByClient() // aqui os dados são gerados no cliente não por SSR
-  // }, [])
-
-  // useEffect(() => {
-  //   setCurrentProducts(allProducts) //Setando no client dados vindos obtidos via SSR
-  // }, [])
 
   const marqueeList = [
     'A loja de calçados que mais cresce no Brasil',
@@ -99,7 +92,7 @@ export const getStaticProps: GetStaticProps = async () => {
       asicsShelfData: await getProductsByQuery('where', 'brand', 'Asics'),
       pinkShelfData: await getProductsByQuery('array', 'colors', 'Rosa')
     },
-    revalidate: 60 * 10 // 10 minutes
+    revalidate: 60 * 1 // 1 minute
   }
 }
 

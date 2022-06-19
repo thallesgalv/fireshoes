@@ -45,7 +45,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
   showVersion()
 
-  if (isLoading) return <SplashScreen />
+  // if (isLoading) return <SplashScreen />
   return (
     <GlobalContextProvider>
       <UserContextProvider>

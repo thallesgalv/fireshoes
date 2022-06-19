@@ -48,16 +48,8 @@ export const getStaticProps = async (props: PathProps) => {
       product: await getProductByServer('uzZotPLyv2TyxkMsnnMK'),
       newReleases: await getProductsByQuery('where')
     },
-    revalidate: 60 * 10 // 10 minutes
+    revalidate: 60 * 1 // 1 minute
   }
 }
 
-// const Mock = () => {
-//   return (
-//     <div>
-//       <h1>specific-id Mock</h1>
-//     </div>
-//   )
-// }
 
-// export default Mock
